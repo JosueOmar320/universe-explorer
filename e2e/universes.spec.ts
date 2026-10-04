@@ -34,3 +34,36 @@ for (const universe of universes) {
     });
   });
 }
+
+test('opening a record morphs its name into the page heading', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'Same behaviour on every viewport');
+  // Records which elements carry the shared transition name when each snapshot is taken.
+  await page.addInitScript(() => {
+    const named = () =>
+      [...document.querySelectorAll('h1, h2, h3')]
+        .filter((element) => getComputedStyle(element).viewTransitionName === 'record-name')
+        .map((element) => `${element.tagName} ${element.textContent?.trim()}`);
+    const log: { before: string[]; after?: string[] }[] = [];
+    Object.assign(window, { viewTransitions: log });
+    const start = document.startViewTransition.bind(document);
+    document.startViewTransition = ((update: () => void) => {
+      const entry: { before: string[]; after?: string[] } = { before: named() };
+      log.push(entry);
+      const transition = start(update);
+      void transition.updateCallbackDone.then(() => (entry.after = named()));
+      return transition;
+    }) as typeof document.startViewTransition;
+  });
+  await page.goto('/star-wars');
+  const main = page.getByRole('main');
+
+  await main.getByRole('link', { name: 'Luke Skywalker' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Luke Skywalker' })).toBeVisible();
+
+  // Only the clicked card carries the name (names must be unique), then the detail heading.
+  await expect
+    .poll(() =>
+      page.evaluate(() => (window as unknown as { viewTransitions: unknown }).viewTransitions),
+    )
+    .toEqual([{ before: ['H3 Luke Skywalker'], after: ['H1 Luke Skywalker'] }]);
+});
