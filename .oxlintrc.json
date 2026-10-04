@@ -26,7 +26,14 @@
     ],
     "jsx-a11y/prefer-tag-over-role": "off"
   },
-  "ignorePatterns": ["dist", "dist-mock", "node_modules", "test-results", "playwright-report"],
+  "ignorePatterns": [
+    "dist",
+    "dist-mock",
+    "node_modules",
+    "test-results",
+    "playwright-report",
+    ".lighthouseci"
+  ],
   "overrides": [
     {
       "files": ["e2e/**"],

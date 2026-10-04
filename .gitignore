@@ -34,3 +34,6 @@ dist-mock
 # Playwright output
 test-results
 playwright-report
+
+# Lighthouse CI output
+.lighthouseci

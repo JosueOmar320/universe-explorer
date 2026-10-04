@@ -4,3 +4,4 @@ package-lock.json
 dist-mock
 test-results
 playwright-report
+.lighthouseci
