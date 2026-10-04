@@ -26,5 +26,5 @@
     ],
     "jsx-a11y/prefer-tag-over-role": "off"
   },
-  "ignorePatterns": ["dist", "node_modules"]
+  "ignorePatterns": ["dist", "dist-mock", "node_modules"]
 }

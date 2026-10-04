@@ -27,3 +27,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Mocked build (npm run build:mock)
+dist-mock

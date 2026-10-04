@@ -2,10 +2,11 @@
 import { fileURLToPath, URL } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { mockServiceWorker } from './build/mockServiceWorker.ts';
 import { spaEntryPoints } from './build/spaEntryPoints.ts';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   // Public path the app is served from. GitHub Pages serves project sites under
   // `/<repo>/`, so CI sets BASE_PATH; locally the app lives at `/`.
   // The router reads it back through `import.meta.env.BASE_URL`.
@@ -14,7 +15,13 @@ export default defineConfig({
     react(),
     // Every available universe gets a real entry point (HTTP 200) on static hosting.
     spaEntryPoints({ universesDir: fileURLToPath(new URL('./src/universes', import.meta.url)) }),
+    // `mock` mode serves every API from fixtures through MSW (dev:mock, end-to-end tests).
+    mode === 'mock' && mockServiceWorker(),
   ],
+  build: {
+    // Keep the mocked build away from `dist`, which is what gets deployed.
+    outDir: mode === 'mock' ? 'dist-mock' : 'dist',
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -40,4 +47,4 @@ export default defineConfig({
       },
     ],
   },
-});
+}));
