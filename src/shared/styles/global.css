@@ -82,6 +82,9 @@ p {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+  /* Never displayed: without this, its text alone makes the browser download a web font
+     (e.g. the hub font behind the loader of a universe that doesn't otherwise use it). */
+  font-family: system-ui, sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
