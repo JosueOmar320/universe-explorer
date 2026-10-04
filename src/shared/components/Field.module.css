@@ -1,6 +1,9 @@
 /* Shared by form controls (SearchField, SelectField, SegmentedControl) */
 .field {
   display: grid;
+  /* Without an explicit track, the column can't shrink below the input's intrinsic width (~20
+     characters, plus the clear button): wider than a 320px phone's filter panel */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
   min-width: 0;
   margin: 0;
