@@ -1,7 +1,8 @@
 # Validates every push to main and every pull request, then deploys main to GitHub Pages.
 #
-#   validate: npm ci → lint → format → type-check → tests → build ─┐
-#   e2e:      npm ci → Playwright + axe (mocked APIs)              ─┴→ deploy (main only)
+#   validate:   npm ci → lint → format → type-check → tests → build ─┐
+#   e2e:        npm ci → Playwright + axe (mocked APIs)              ─┼→ deploy (main only)
+#   lighthouse: npm ci → build → Lighthouse CI scores and budgets    ─┘
 name: CI/CD
 
 on:
@@ -102,9 +103,48 @@ jobs:
           path: playwright-report
           retention-days: 7
 
+  lighthouse:
+    name: Lighthouse scores and budgets
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Served from the root by Lighthouse CI, so no BASE_PATH here.
+      - name: Build
+        run: npm run build
+
+      # Audits every entry point 3 times with the real APIs (see lighthouserc.yml) and fails
+      # on a score or budget regression. Uses the runner's preinstalled Chrome.
+      - name: Lighthouse CI
+        run: npm run lighthouse
+
+      - name: Add scores to the job summary
+        if: ${{ !cancelled() }}
+        run: node scripts/lighthouseSummary.ts >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Lighthouse reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/reports
+          retention-days: 14
+
   deploy:
     name: Deploy to GitHub Pages
-    needs: [validate, e2e]
+    needs: [validate, e2e, lighthouse]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 10
