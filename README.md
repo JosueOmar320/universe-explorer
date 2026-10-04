@@ -58,8 +58,8 @@ src/
 │   └── es/
 ├── shared/                   # Universe-agnostic building blocks
 │   ├── api/                  # createApiClient, HttpError, error classification
-│   ├── components/           # Button, Pagination, form fields, StatusPanel, QueryErrorState…
-│   ├── hooks/                # usePageParam, useUrlFilters, useFocusOnPathChange
+│   ├── components/           # Button, BackLink, Pagination, form fields, QueryErrorState…
+│   ├── hooks/                # usePageParam, useUrlFilters, useResultsFocus, useFocusOnPathChange
 │   ├── icons/                # Inline SVG icons
 │   ├── styles/               # Design tokens + global styles
 │   └── utils/                # Pure helpers (cx, pagination range, pickOption)
@@ -226,7 +226,8 @@ accessible name, so they also guard accessibility.
 - [x] Architecture review: API config, i18n (EN/ES), error states, accessibility
 - [x] CI: lint, typecheck, tests and build on GitHub Actions
 - [x] CD: deploy `main` to GitHub Pages
-- [ ] Pokémon, Star Wars and Marvel universes
+- [x] Pokémon: Pokédex with local search, type filter and detail page
+- [ ] Star Wars and Marvel universes
 
 ## Disclaimer
 

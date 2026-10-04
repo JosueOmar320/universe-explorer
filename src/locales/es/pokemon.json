@@ -38,5 +38,35 @@
     "clear": "Limpiar ({{count}})",
     "clearLabel_one": "Limpiar {{count}} filtro activo",
     "clearLabel_other": "Limpiar {{count}} filtros activos"
+  },
+  "detail": {
+    "back": "Todos los Pokémon",
+    "loading": "Cargando Pokémon…",
+    "artworkAlt": "Ilustración oficial de {{name}}",
+    "generation": "Generación {{number}}",
+    "legendary": "Legendario",
+    "mythical": "Singular",
+    "height": "Altura",
+    "weight": "Peso",
+    "abilities": "Habilidades",
+    "hiddenAbility": "habilidad oculta",
+    "entry": "Entrada de la Pokédex",
+    "previous": "Pokémon anterior: {{name}}",
+    "next": "Pokémon siguiente: {{name}}",
+    "neighbours": "Pokémon vecinos en la Pokédex",
+    "notFoundTitle": "Pokémon no encontrado",
+    "notFoundDescription": "No hay ningún Pokémon con este número en la Pokédex Nacional.",
+    "browse": "Ver la Pokédex"
+  },
+  "stats": {
+    "title": "Estadísticas base",
+    "total": "Total",
+    "hp": "PS",
+    "attack": "Ataque",
+    "defense": "Defensa",
+    "special-attack": "At. Esp.",
+    "special-defense": "Def. Esp.",
+    "speed": "Velocidad",
+    "valueLabel": "{{value}} de {{max}}"
   }
 }

@@ -1,16 +1,21 @@
 import type { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { ArrowLeftIcon } from '@/shared/icons/icons';
-import { isFromListState, rickAndMortyPaths } from '../paths';
-import styles from './BackToCharactersLink.module.css';
+import { isFromListState } from '@/shared/utils/listNavigation';
+import styles from './BackLink.module.css';
+
+interface BackLinkProps {
+  /** The list to return to when there's no history to go back through. */
+  to: string;
+  label: string;
+}
 
 /**
- * When the user came from the listing, go back in history so filters, page and scroll
- * position are restored. Otherwise (direct link, new tab) it's a regular link.
+ * "Back to the list" link for detail pages. When the user came from the list (see
+ * `FROM_LIST_STATE`), it goes back in history so filters, page and scroll position are
+ * restored. Otherwise (direct link, new tab) it's a regular link.
  */
-export function BackToCharactersLink() {
-  const { t } = useTranslation('rickAndMorty');
+export function BackLink({ to, label }: BackLinkProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const cameFromList = isFromListState(location.state);
@@ -25,9 +30,9 @@ export function BackToCharactersLink() {
   };
 
   return (
-    <Link to={rickAndMortyPaths.characters} className={styles.link} onClick={handleClick}>
+    <Link to={to} className={styles.link} onClick={handleClick}>
       <ArrowLeftIcon size={18} />
-      {t('detail.back')}
+      {label}
     </Link>
   );
 }

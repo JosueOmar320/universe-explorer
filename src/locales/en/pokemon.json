@@ -38,5 +38,35 @@
     "clear": "Clear ({{count}})",
     "clearLabel_one": "Clear {{count}} active filter",
     "clearLabel_other": "Clear {{count}} active filters"
+  },
+  "detail": {
+    "back": "All Pokémon",
+    "loading": "Loading Pokémon…",
+    "artworkAlt": "Official artwork of {{name}}",
+    "generation": "Generation {{number}}",
+    "legendary": "Legendary",
+    "mythical": "Mythical",
+    "height": "Height",
+    "weight": "Weight",
+    "abilities": "Abilities",
+    "hiddenAbility": "hidden ability",
+    "entry": "Pokédex entry",
+    "previous": "Previous Pokémon: {{name}}",
+    "next": "Next Pokémon: {{name}}",
+    "neighbours": "Pokédex neighbours",
+    "notFoundTitle": "Pokémon not found",
+    "notFoundDescription": "There's no Pokémon with this number in the National Pokédex.",
+    "browse": "Browse the Pokédex"
+  },
+  "stats": {
+    "title": "Base stats",
+    "total": "Total",
+    "hp": "HP",
+    "attack": "Attack",
+    "defense": "Defense",
+    "special-attack": "Sp. Atk",
+    "special-defense": "Sp. Def",
+    "speed": "Speed",
+    "valueLabel": "{{value}} out of {{max}}"
   }
 }

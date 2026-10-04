@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import type { Character } from '../api/types';
-import { FROM_LIST_STATE, rickAndMortyPaths } from '../paths';
+import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
+import { rickAndMortyPaths } from '../paths';
 import { formatRecordId } from '../utils/format';
 import { ScannerFrame } from './ScannerFrame';
 import { StatusBadge } from './StatusBadge';

@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { isHttpError } from '@/shared/api/httpClient';
+import { BackLink } from '@/shared/components/BackLink';
 import { ButtonLink } from '@/shared/components/Button';
 import { OfflineState } from '@/shared/components/OfflineState';
 import { PageTitle } from '@/shared/components/PageTitle';
 import { QueryErrorState } from '@/shared/components/QueryErrorState';
 import { StatusPanel } from '@/shared/components/StatusPanel';
 import { SearchOffIcon } from '@/shared/icons/icons';
-import { BackToCharactersLink } from '../components/BackToCharactersLink';
 import { CharacterDetailSkeleton } from '../components/CharacterDetailSkeleton';
 import { CharacterProfile } from '../components/CharacterProfile';
 import { EpisodeLog } from '../components/EpisodeLog';
@@ -23,11 +23,12 @@ function parseCharacterId(value: string | undefined): number | undefined {
 }
 
 export function CharacterDetailPage() {
+  const { t } = useTranslation('rickAndMorty');
   const id = parseCharacterId(useParams().characterId);
 
   return (
     <>
-      <BackToCharactersLink />
+      <BackLink to={rickAndMortyPaths.characters} label={t('detail.back')} />
       {/* Invalid ids never reach the API (it would answer 500, not 404). */}
       {id === undefined ? <CharacterNotFound /> : <CharacterDetail id={id} />}
     </>

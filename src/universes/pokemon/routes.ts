@@ -14,5 +14,12 @@ export const pokemonRoute: UniverseRoute = {
         return { Component: PokedexPage };
       },
     },
+    {
+      path: ':pokemonId',
+      lazy: async () => {
+        const { PokemonDetailPage } = await import('./pages/PokemonDetailPage');
+        return { Component: PokemonDetailPage };
+      },
+    },
   ],
 };

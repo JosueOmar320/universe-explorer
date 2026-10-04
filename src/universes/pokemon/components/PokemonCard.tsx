@@ -1,8 +1,11 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 import { Skeleton } from '@/shared/components/Skeleton';
+import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import type { PokedexEntry } from '../api/models';
 import { getSpriteUrl } from '../api/pokeApi';
 import { usePokemon } from '../hooks/usePokemon';
+import { pokemonPaths } from '../paths';
 import { formatDexNumber, formatPokemonName } from '../utils/format';
 import { TypeBadge } from './TypeBadge';
 import styles from './PokemonCard.module.css';
@@ -42,7 +45,12 @@ export function PokemonCard({ entry, priority = false }: PokemonCardProps) {
 
       <div className={styles.body}>
         <span className={styles.number}>{formatDexNumber(entry.id)}</span>
-        <h3 className={styles.name}>{formatPokemonName(entry.name)}</h3>
+        <h3 className={styles.name}>
+          {/* Stretched over the card (see ::after); its accessible name is just the name. */}
+          <Link to={pokemonPaths.pokemon(entry.id)} state={FROM_LIST_STATE} className={styles.link}>
+            {formatPokemonName(entry.name)}
+          </Link>
+        </h3>
         {isPending ? (
           <div className={styles.types} aria-hidden="true">
             <Skeleton width="3.75rem" height="1.5rem" />
