@@ -5,8 +5,8 @@ export function parseLegacyPayload(payload: unknown) {
   return payload;
 }
 
-// Type error: a string where a number is expected.
-export const pageSize: number = '20';
+// Fixed type: a number, as declared.
+export const pageSize: number = 20;
 
 // Fixed formatting: run through Prettier.
 export const badlyFormatted = { a: 1, b: 2 };
