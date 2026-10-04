@@ -25,3 +25,13 @@ afterAll(() => server.close());
 // jsdom doesn't implement layout/scrolling APIs.
 Element.prototype.scrollIntoView = () => {};
 window.scrollTo = () => {};
+
+// …nor modal dialogs: enough of <dialog> for components that open and close one.
+HTMLDialogElement.prototype.showModal ??= function (this: HTMLDialogElement) {
+  this.setAttribute('open', '');
+};
+HTMLDialogElement.prototype.close ??= function (this: HTMLDialogElement) {
+  if (!this.open) return;
+  this.removeAttribute('open');
+  this.dispatchEvent(new Event('close'));
+};

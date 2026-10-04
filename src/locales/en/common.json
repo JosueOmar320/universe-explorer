@@ -59,7 +59,23 @@
     "status": "Page {{page}} of {{total}}"
   },
   "search": {
-    "clear": "Clear search"
+    "clear": "Clear search",
+    "open": "Search",
+    "title": "Search every universe",
+    "label": "Search characters in every universe",
+    "placeholder": "Rick, Pikachu, Luke, Hermione…",
+    "hint": "Find characters in the four universes at once. Type at least {{min}} characters.",
+    "close": "Close search",
+    "results": "Search results",
+    "searching": "Searching…",
+    "resultCount_one": "{{count}} result",
+    "resultCount_other": "{{count}} results",
+    "noResults": "Nothing matches “{{query}}” in any universe.",
+    "seeAll": "See all {{count}} in {{universe}}",
+    "error": "Couldn't search {{universe}}.",
+    "offline": "You're offline. The search will resume when you reconnect.",
+    "navigate": "to move",
+    "select": "to open"
   },
   "filters": {
     "all": "All"

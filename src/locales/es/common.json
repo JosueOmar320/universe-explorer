@@ -59,7 +59,23 @@
     "status": "Página {{page}} de {{total}}"
   },
   "search": {
-    "clear": "Borrar búsqueda"
+    "clear": "Borrar búsqueda",
+    "open": "Buscar",
+    "title": "Buscar en todos los universos",
+    "label": "Buscar personajes en todos los universos",
+    "placeholder": "Rick, Pikachu, Luke, Hermione…",
+    "hint": "Encuentra personajes en los cuatro universos a la vez. Escribe al menos {{min}} caracteres.",
+    "close": "Cerrar búsqueda",
+    "results": "Resultados de búsqueda",
+    "searching": "Buscando…",
+    "resultCount_one": "{{count}} resultado",
+    "resultCount_other": "{{count}} resultados",
+    "noResults": "Nada coincide con «{{query}}» en ningún universo.",
+    "seeAll": "Ver los {{count}} en {{universe}}",
+    "error": "No se pudo buscar en {{universe}}.",
+    "offline": "Sin conexión. La búsqueda continuará al reconectar.",
+    "navigate": "para moverte",
+    "select": "para abrir"
   },
   "filters": {
     "all": "Todos"

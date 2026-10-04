@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Outlet, ScrollRestoration, useNavigation } from 'react-router';
 import { LanguageSwitcher } from '@/app/components/LanguageSwitcher';
+import { SearchButton } from '@/app/components/SearchButton';
 import { UniverseSwitcher } from '@/app/components/UniverseSwitcher';
 import { useFocusOnPathChange } from '@/shared/hooks/useFocusOnPathChange';
 import { OrbitMarkIcon } from '@/shared/icons/icons';
@@ -35,6 +36,7 @@ export function AppShell() {
             </span>
           </Link>
           <UniverseSwitcher />
+          <SearchButton />
           <LanguageSwitcher />
         </div>
       </header>

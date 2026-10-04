@@ -1,0 +1,57 @@
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 2.75rem;
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.button:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.shortcut {
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+/* Icon only until there's room for the label (it stays the accessible name) */
+@media (max-width: 74.99rem) {
+  .button {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .shortcut {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .shortcut {
+    display: none;
+  }
+}

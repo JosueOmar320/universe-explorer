@@ -1,0 +1,222 @@
+/* Rendered inside the shell, so it inherits the active universe's tokens (and theme). */
+.dialog {
+  width: min(40rem, calc(100% - 2 * var(--page-gutter)));
+  max-width: none;
+  max-height: min(36rem, calc(100dvh - 8rem));
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-raised);
+  font-family: var(--font-body);
+}
+
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.inputRow:focus-within {
+  box-shadow: inset 0 -2px 0 var(--color-focus);
+}
+
+.inputIcon {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 2.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-lg);
+}
+
+.input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.dialog kbd {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  text-align: center;
+}
+
+.close {
+  flex: none;
+  min-height: 2.5rem;
+  padding: 0 var(--space-1);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.close:hover {
+  color: var(--color-text);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hint {
+  padding: var(--space-5) var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.listbox {
+  padding: var(--space-2) 0;
+}
+
+.group + .group {
+  margin-top: var(--space-2);
+}
+
+.groupHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4) var(--space-1);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Same diamond marker as the universe switcher */
+.groupHeading::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--universe-accent);
+  transform: rotate(45deg);
+}
+
+.option {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.option[aria-selected='true'] {
+  border-left-color: var(--color-accent);
+  background: var(--color-surface-raised);
+}
+
+.optionName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionDetail {
+  flex: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.option[data-see-all] {
+  align-items: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.option[data-see-all] .optionName {
+  font-weight: 400;
+}
+
+.optionArrow {
+  flex: none;
+}
+
+.error {
+  margin: var(--space-2) var(--space-4);
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 2.5rem;
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.keys {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+/* Keyboard hints mean nothing on touch screens */
+@media (hover: none) {
+  .keys,
+  .close kbd {
+    display: none;
+  }
+
+  .close::after {
+    content: '✕';
+    font-size: var(--text-lg);
+  }
+
+  /* Without key hints, an empty status would leave a blank bar. Collapsed, not hidden: the
+     live region must stay in the accessibility tree to announce its first message. */
+  .footer:has(.status:empty) {
+    min-height: 0;
+    padding: 0;
+    border-top: 0;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .dialog {
+    margin-top: var(--space-4);
+  }
+}
