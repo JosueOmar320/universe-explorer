@@ -1,0 +1,58 @@
+/*
+ * Harry Potter theme: an old registry ledger — parchment, ink and the four house colours.
+ * Original visuals (no official crests or artwork). House colours are only used as
+ * backgrounds with a paired text colour; every pairing meets WCAG AA (≥ 5:1).
+ */
+@import '@fontsource-variable/cinzel/wght.css';
+@import '@fontsource-variable/eb-garamond/wght.css';
+
+[data-universe='harry-potter'] {
+  color-scheme: light;
+
+  /* Palette */
+  --color-bg: #f2e8d2;
+  --color-surface: #fbf6ea;
+  --color-surface-raised: #e9dcbf;
+  --color-border: #d9c7a0;
+  --color-border-strong: #b89c6a;
+  --color-text: #2a1d12;
+  --color-text-muted: #5a4632;
+  --color-text-subtle: #6b5641;
+  --color-accent: #8b1e1e;
+  --color-accent-hover: #6f1414;
+  --color-accent-contrast: #ffffff;
+  --color-danger: #8b1e1e;
+
+  /* House colours, each with its paired text colour */
+  --hp-gryffindor: #7f0909;
+  --hp-gryffindor-text: #f5c518;
+  --hp-hufflepuff: #ecb939;
+  --hp-hufflepuff-text: #1f1a12;
+  --hp-ravenclaw: #1b2a5c;
+  --hp-ravenclaw-text: #c99a5b;
+  --hp-slytherin: #1a472a;
+  --hp-slytherin-text: #d9d9d9;
+  --hp-no-house: #8a7a63;
+  --hp-no-house-text: #ffffff;
+
+  --hp-shadow: 0 1px 0 rgb(42 29 18 / 0.06), 0 12px 24px -16px rgb(42 29 18 / 0.45);
+
+  /* Parchment: warm vignette and faint ruled lines */
+  --page-background:
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgb(255 250 235 / 0.7), transparent 70%),
+    repeating-linear-gradient(0deg, rgb(90 70 50 / 0.035) 0 1px, transparent 1px 34px),
+    var(--color-bg);
+  --header-background: rgb(251 246 234 / 0.9);
+  --header-border: var(--color-border);
+
+  /* Typography */
+  --font-body: 'EB Garamond Variable', Georgia, serif;
+  --font-display: 'Cinzel Variable', Georgia, serif;
+  --display-letter-spacing: 0.02em;
+  --text-md: 1.0625rem;
+
+  /* Controls */
+  --button-font: 'Cinzel Variable', Georgia, serif;
+  --button-letter-spacing: 0.06em;
+  --radius-md: 3px;
+}

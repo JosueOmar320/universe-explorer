@@ -41,7 +41,7 @@ function toCharacter({ id, attributes: a }: CharacterResource): Character {
  * filters). With ~5,400 records, downloading everything like other universes isn't viable.
  */
 export async function getCharacters(
-  { page, name, house }: CharacterListParams,
+  { page, name, house, houses }: CharacterListParams,
   signal?: AbortSignal,
 ): Promise<CharacterPage> {
   const response = await client.get<JsonApiCollection<CharacterResource>>('characters', {
@@ -51,6 +51,7 @@ export async function getCharacters(
       sort: 'name',
       'filter[name_cont]': name,
       'filter[house_eq]': house,
+      'filter[house_in][]': house ? undefined : houses,
     },
     signal,
   });

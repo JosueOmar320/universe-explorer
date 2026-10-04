@@ -1,0 +1,13 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-5) var(--space-4);
+  padding: 0;
+  list-style: none;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.updating {
+  opacity: 0.55;
+  pointer-events: none;
+}

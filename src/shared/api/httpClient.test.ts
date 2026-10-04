@@ -16,6 +16,12 @@ describe('buildUrl', () => {
     });
     expect(url.toString()).toBe(`${BASE_URL}/items?page=2&name=rick`);
   });
+
+  it('repeats the key for array values', () => {
+    const url = buildUrl(BASE_URL, 'items', { 'house[]': ['Gryffindor', 'Slytherin'], empty: [] });
+    expect(url.searchParams.getAll('house[]')).toEqual(['Gryffindor', 'Slytherin']);
+    expect(url.searchParams.has('empty')).toBe(false);
+  });
 });
 
 describe('createApiClient', () => {

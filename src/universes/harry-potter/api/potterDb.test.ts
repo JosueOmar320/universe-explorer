@@ -28,6 +28,20 @@ describe('getCharacters', () => {
     });
   });
 
+  it('restricts to several houses with a repeated `house_in[]` filter', async () => {
+    let houses: string[] = [];
+    server.use(
+      http.get(`${API}/characters`, ({ request }) => {
+        houses = new URL(request.url).searchParams.getAll('filter[house_in][]');
+        return HttpResponse.json({ data: [], meta: { pagination: { current: 1, records: 0 } } });
+      }),
+    );
+
+    await getCharacters({ page: 1, houses: ['Gryffindor', 'Slytherin'] });
+
+    expect(houses).toEqual(['Gryffindor', 'Slytherin']);
+  });
+
   it('flattens resources into models and computes the page count', async () => {
     const page = await getCharacters({ page: 1 });
 

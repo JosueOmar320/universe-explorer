@@ -20,7 +20,10 @@ export interface ApiClientConfig {
   timeoutMs: number;
 }
 
-export type QueryParams = Record<string, string | number | undefined>;
+type QueryValue = string | number;
+
+/** Arrays repeat the key (`tag[]=a&tag[]=b`), as several APIs expect for multi-value filters. */
+export type QueryParams = Record<string, QueryValue | readonly QueryValue[] | undefined>;
 
 interface RequestOptions {
   /** Query string params; `undefined` and empty values are omitted. */
@@ -32,7 +35,10 @@ interface RequestOptions {
 export function buildUrl(baseUrl: string, path: string, params: QueryParams = {}): URL {
   const url = new URL(`${baseUrl}/${path.replace(/^\/+/, '')}`);
   for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== '') url.searchParams.set(key, String(value));
+    const values: readonly QueryValue[] = Array.isArray(value) ? value : [value];
+    for (const item of values) {
+      if (item !== undefined && item !== '') url.searchParams.append(key, String(item));
+    }
   }
   return url;
 }

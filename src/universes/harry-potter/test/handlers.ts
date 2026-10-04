@@ -12,10 +12,15 @@ export const harryPotterHandlers = [
     const size = Math.min(Number(params.get('page[size]') ?? 50), 100);
     const nameQuery = params.get('filter[name_cont]')?.toLowerCase();
     const house = params.get('filter[house_eq]');
+    const houses = params.getAll('filter[house_in][]');
 
     const filtered = characters
       .filter(({ attributes }) => !nameQuery || attributes.name.toLowerCase().includes(nameQuery))
       .filter(({ attributes }) => !house || attributes.house === house)
+      .filter(
+        ({ attributes }) =>
+          houses.length === 0 || (attributes.house !== null && houses.includes(attributes.house)),
+      )
       .sort((a, b) =>
         params.get('sort') === 'name' ? a.attributes.name.localeCompare(b.attributes.name) : 0,
       );

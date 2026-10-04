@@ -40,6 +40,8 @@ export interface CharacterListParams {
   /** Matches any part of the name (server-side). */
   name?: string;
   house?: HogwartsHouse;
+  /** Restrict to any of these houses (ignored when `house` is set). */
+  houses?: readonly HogwartsHouse[];
 }
 
 export interface CharacterPage {

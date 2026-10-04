@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "eyebrow": "Registro mágico · Archivos de Hogwarts",
+    "titleLine1": "Cada bruja",
+    "titleLine2": "y cada mago.",
+    "lead": "Explora a los estudiantes de Hogwarts casa por casa: estatus de sangre, patronus, varitas y más, desde la comunidad de Potter DB.",
+    "houses": "Estudiantes por casa",
+    "students": "Estudiantes de Hogwarts",
+    "everyone": "Todos los registros",
+    "source": "Fuente"
+  },
+  "characters": {
+    "title": "Registro",
+    "loading": "Consultando el registro…",
+    "paginationLabel": "Paginación del registro",
+    "summary": "Mostrando {{from}}–{{to}} de {{total}}",
+    "updating": "Actualizando resultados…"
+  },
+  "card": {
+    "species": "Especie",
+    "bloodStatus": "Estatus de sangre",
+    "patronus": "Patronus",
+    "noHouse": "Sin casa"
+  },
+  "values": {
+    "unknown": "Desconocido"
+  },
+  "empty": {
+    "pageTitle": "Esta página del registro está en blanco",
+    "pageDescription": "La página {{page}} está más allá de la última entrada.",
+    "firstPage": "Ir a la primera página"
+  },
+  "errors": {
+    "title": "No se puede acceder al registro"
+  }
+}

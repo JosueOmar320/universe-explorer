@@ -30,7 +30,7 @@ export const UNIVERSES = [
     // Replaces Marvel: Marvel retired its public API in late 2025 (no keys can be issued).
     id: 'harry-potter',
     name: 'Harry Potter',
-    status: 'coming-soon',
+    status: 'available',
     accentColor: '#d3a625',
   },
 ] as const satisfies readonly Universe[];

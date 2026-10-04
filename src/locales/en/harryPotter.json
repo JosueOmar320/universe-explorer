@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "eyebrow": "Wizarding registry · Hogwarts records",
+    "titleLine1": "Every witch",
+    "titleLine2": "and wizard.",
+    "lead": "Browse Hogwarts students house by house: blood status, patronus, wands and more, from the community-run Potter DB.",
+    "houses": "Students per house",
+    "students": "Hogwarts students",
+    "everyone": "All records",
+    "source": "Source"
+  },
+  "characters": {
+    "title": "Registry",
+    "loading": "Consulting the registry…",
+    "paginationLabel": "Registry pagination",
+    "summary": "Showing {{from}}–{{to}} of {{total}}",
+    "updating": "Updating results…"
+  },
+  "card": {
+    "species": "Species",
+    "bloodStatus": "Blood status",
+    "patronus": "Patronus",
+    "noHouse": "No house"
+  },
+  "values": {
+    "unknown": "Unknown"
+  },
+  "empty": {
+    "pageTitle": "This page of the registry is blank",
+    "pageDescription": "Page {{page}} is beyond the last entry.",
+    "firstPage": "Go to first page"
+  },
+  "errors": {
+    "title": "The registry is unreachable"
+  }
+}

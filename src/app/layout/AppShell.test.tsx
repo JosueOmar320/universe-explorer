@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { HomePage } from '@/app/pages/HomePage';
 import { renderRoutes } from '@/test/render';
@@ -30,15 +30,14 @@ describe('AppShell', () => {
     expect(screen.getByRole('main')).toHaveAttribute('id', 'main-content');
   });
 
-  it('lists every universe and only links to the available ones', () => {
+  it('links to every available universe from the navigation', () => {
     renderShell();
     const nav = screen.getByRole('navigation', { name: 'Universes' });
 
-    expect(nav).toHaveTextContent('Harry Potter');
-    expect(screen.getAllByRole('link', { name: 'Rick and Morty' }).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole('link', { name: 'Pokémon' }).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole('link', { name: 'Star Wars' }).length).toBeGreaterThan(0);
-    expect(screen.queryByRole('link', { name: /Harry Potter/ })).not.toBeInTheDocument();
+    for (const name of ['Rick and Morty', 'Pokémon', 'Star Wars', 'Harry Potter']) {
+      expect(within(nav).getByRole('link', { name })).toBeVisible();
+    }
+    expect(within(nav).queryByText('(coming soon)')).not.toBeInTheDocument();
   });
 
   it('moves focus to the main content after navigating, so it is not lost', async () => {
