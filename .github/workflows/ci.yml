@@ -1,26 +1,31 @@
-# Validates every push to main and every pull request with the same steps as
-# `npm run validate`, each as its own step so failures are easy to spot.
-name: CI
+# Validates every push to main and every pull request, then deploys main to GitHub Pages.
+#
+#   npm ci → lint → format → type-check → tests → build → deploy (main only)
+name: CI/CD
 
 on:
   push:
     branches: [main]
   pull_request:
 
-# Least privilege: this workflow only needs to read the code.
+# Least privilege by default; the deploy job asks for what it needs.
 permissions:
   contents: read
 
-# A new push to the same branch/PR cancels the run that is now outdated.
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Cancel outdated pull request runs, but never interrupt a deployment from main.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   validate:
     name: Lint, type-check, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      # GitHub Pages serves the site under /<repo>/. Every build uses it, so the build
+      # validated in a pull request is the same one that gets deployed.
+      BASE_PATH: /${{ github.event.repository.name }}/
 
     steps:
       - name: Checkout
@@ -51,3 +56,34 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # GitHub Pages has no SPA rewrites: unknown paths (e.g. a refreshed
+      # /rick-and-morty/characters/1) serve 404.html, so it must boot the app too.
+      # `push` only fires for main (see `on`), so these steps never run for PRs.
+      - name: Add SPA fallback
+        if: github.event_name == 'push'
+        run: cp dist/index.html dist/404.html
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: validate
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write # publish the site
+      id-token: write # prove the deployment comes from this workflow (OIDC)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,6 +1,8 @@
 # Universe Explorer
 
-[![CI](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml)
+
+**Live demo:** https://josueomar320.github.io/universe-explorer/
 
 A multi-universe frontend playground. Each "universe" consumes a different public API and ships
 its own visual identity, while sharing a common shell, data layer and component foundation.
@@ -166,18 +168,31 @@ Optional environment variables are documented in `.env.example`.
 
 Each script is a separate step so the CI pipeline can run (and report) them individually.
 
-## Continuous integration
+## CI/CD
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every push to `main` and every
 pull request:
 
 ```
-npm ci → lint → format check → type-check → tests → build
+npm ci → lint → format check → type-check → tests → build → deploy (main only)
 ```
 
-- Node.js version comes from `.nvmrc`, and npm's cache is restored between runs.
-- Lint and test failures show up as inline annotations on the pull request diff.
-- Read-only permissions; a newer push cancels the outdated run.
+- **Validate** (every run): Node.js from `.nvmrc`, cached npm downloads, one step per check.
+  Lint and test failures show up as inline annotations on the pull request diff.
+- **Deploy** (pushes to `main` only): runs only if validation passed and publishes _the same
+  build_ that was validated to GitHub Pages — there is no second, unverified build.
+- Read-only permissions by default; only the deploy job gets `pages: write` / `id-token: write`.
+- Outdated pull request runs are cancelled; deployments from `main` are never interrupted.
+
+### GitHub Pages specifics
+
+- Project sites are served under `/<repo>/`, so CI builds with `BASE_PATH=/<repo>/`
+  (Vite's `base`); the router picks it up from `import.meta.env.BASE_URL`.
+- Pages has no SPA rewrites: `index.html` is copied to `404.html`, so deep links such as
+  `/rick-and-morty/characters/1` boot the app (served with a 404 status, which is fine for
+  this app but worth knowing for SEO).
+- One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+  Pages on a private repository requires a paid GitHub plan; on Free, make the repo public.
 
 ## Testing
 
@@ -202,7 +217,7 @@ accessible name, so they also guard accessibility.
 - [x] Tests (Vitest + Testing Library + MSW)
 - [x] Architecture review: API config, i18n (EN/ES), error states, accessibility
 - [x] CI: lint, typecheck, tests and build on GitHub Actions
-- [ ] CD: deploy previews / production
+- [x] CD: deploy `main` to GitHub Pages
 - [ ] Pokémon, Star Wars and Marvel universes
 
 ## Disclaimer
