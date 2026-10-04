@@ -9,12 +9,12 @@ its own visual identity, while sharing a common shell, data layer and component 
 
 > Work in progress — built incrementally, one reviewable commit at a time.
 
-| Universe       | API                                                 | Status    |
-| -------------- | --------------------------------------------------- | --------- |
-| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available |
-| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned   |
-| Star Wars      | SWAPI                                               | Planned   |
-| Marvel         | Marvel API (or alternative)                         | Planned   |
+| Universe       | API                                                 | Status      |
+| -------------- | --------------------------------------------------- | ----------- |
+| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available   |
+| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned     |
+| Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | In progress |
+| Marvel         | Marvel API (or alternative)                         | Planned     |
 
 ## Tech stack
 

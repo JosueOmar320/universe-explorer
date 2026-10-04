@@ -20,6 +20,13 @@ export const apiConfig = {
     baseUrl: resolveBaseUrl(import.meta.env.VITE_POKEAPI_URL, 'https://pokeapi.co/api/v2'),
     timeoutMs: 10_000,
   },
+  // swapi.info serves the classic SWAPI schema but returns every resource of a collection
+  // in one response, which suits a small, static dataset (82 people) far better than
+  // paginating through swapi.dev.
+  starWars: {
+    baseUrl: resolveBaseUrl(import.meta.env.VITE_SWAPI_URL, 'https://swapi.info/api'),
+    timeoutMs: 10_000,
+  },
 } as const satisfies Record<string, ApiClientConfig>;
 
 /** Static assets served outside the APIs (images are not fetched through the API client). */
