@@ -154,6 +154,9 @@ even if two universes end up with similar components. Duplicating a card is chea
   the same keys at compile time. Data coming from the APIs is never translated.
 - **Theming via design tokens.** Shared components only use CSS variables; each universe
   overrides them under `[data-universe]`.
+- **View transitions with one shared name.** Opening a record morphs its name on the card into
+  the detail heading. Transition names must be unique, so a card only takes the name while the
+  navigation to its own page runs (`useRecordNameTransition`); unsupported browsers just navigate.
 - **Global search as a contract, not a special case.** Each universe exports a small
   `UniverseSearch` (`search` + `listingHref`) built on its own queries, so the ⌘K palette
   reuses the listings' cache and strategy: the Pokédex index and Star Wars people are searched
@@ -198,7 +201,7 @@ even if two universes end up with similar components. Duplicating a card is chea
 - Text colours meet WCAG AA (≥ 4.5:1) on every surface; status is conveyed by text, not colour.
 - `<html lang>` follows the selected language; language buttons are announced in their own
   language.
-- `prefers-reduced-motion` disables animations.
+- `prefers-reduced-motion` disables animations, view transitions included.
 
 ### Adding a universe
 

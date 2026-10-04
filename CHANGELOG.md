@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- View transitions from a list to a detail page: the record's name morphs into the page heading
+  (skipped with reduced motion and in browsers without support).
+
+### Changed
+
+- Dependabot ignores major updates of `@types/node` (they follow `.nvmrc`) and, for now, of msw.
+- The Lighthouse job summary explains failed assertions and console errors.
+
 ## [1.0.0] - 2026-10-04
 
 First release: four universes, each on its own public API, inside one shell.
@@ -31,4 +43,5 @@ First release: four universes, each on its own public API, inside one shell.
   and axe accessibility tests on desktop and mobile, Lighthouse CI score and size budgets, a
   mock mode for offline development, and Dependabot.
 
+[Unreleased]: https://github.com/JosueOmar320/universe-explorer/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/JosueOmar320/universe-explorer/releases/tag/v1.0.0
