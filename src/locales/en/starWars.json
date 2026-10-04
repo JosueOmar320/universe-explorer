@@ -50,5 +50,31 @@
     "clear": "Clear ({{count}})",
     "clearLabel_one": "Clear {{count}} active filter",
     "clearLabel_other": "Clear {{count}} active filters"
+  },
+  "detail": {
+    "back": "All personnel",
+    "loading": "Loading record…",
+    "profile": "Profile",
+    "hair": "Hair",
+    "skin": "Skin",
+    "eyes": "Eyes",
+    "gender": "Gender",
+    "homeworld": "Homeworld",
+    "climate": "Climate",
+    "terrain": "Terrain",
+    "population": "Population",
+    "species": "Species",
+    "classification": "Classification",
+    "language": "Language",
+    "filmography": "Filmography",
+    "episode": "Episode {{number}}",
+    "filmMeta": "{{year}} · Directed by {{director}}",
+    "craft": "Starships & vehicles",
+    "starships": "Starships",
+    "vehicles": "Vehicles",
+    "noCraft": "None on record",
+    "notFoundTitle": "Record not found",
+    "notFoundDescription": "There's no one with this record number in the archive.",
+    "browse": "Browse the archive"
   }
 }

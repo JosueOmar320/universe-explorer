@@ -7,4 +7,5 @@ export const UNIVERSE_NAME = getUniverse('star-wars').name;
 
 export const starWarsPaths = {
   people: BASE_PATH,
+  person: (id: number) => `${BASE_PATH}/people/${id}`,
 };

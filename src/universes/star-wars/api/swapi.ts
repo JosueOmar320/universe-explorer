@@ -2,8 +2,8 @@ import { apiConfig } from '@/config/apis';
 import { createApiClient } from '@/shared/api/httpClient';
 import { getIdFromResourceUrl } from '@/shared/api/resourceUrl';
 import { parseSwapiNumber, parseSwapiText } from '../utils/swapiValues';
-import type { Film, Person, Planet, Species } from './models';
-import type { FilmDto, PersonDto, PlanetDto, SpeciesDto } from './types';
+import type { Craft, Film, Person, Planet, Species } from './models';
+import type { FilmDto, PersonDto, PlanetDto, SpeciesDto, StarshipDto, VehicleDto } from './types';
 
 const client = createApiClient(apiConfig.starWars);
 
@@ -80,4 +80,24 @@ export async function getFilms(signal?: AbortSignal): Promise<Film[]> {
       releaseDate: dto.release_date,
     }))
     .sort((a, b) => a.episode - b.episode);
+}
+
+export async function getStarships(signal?: AbortSignal): Promise<Craft[]> {
+  const dtos = await client.get<StarshipDto[]>('starships', { signal });
+  return withIds(dtos).map((dto) => ({
+    id: dto.id,
+    name: dto.name,
+    model: dto.model,
+    craftClass: parseSwapiText(dto.starship_class),
+  }));
+}
+
+export async function getVehicles(signal?: AbortSignal): Promise<Craft[]> {
+  const dtos = await client.get<VehicleDto[]>('vehicles', { signal });
+  return withIds(dtos).map((dto) => ({
+    id: dto.id,
+    name: dto.name,
+    model: dto.model,
+    craftClass: parseSwapiText(dto.vehicle_class),
+  }));
 }

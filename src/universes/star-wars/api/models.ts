@@ -43,3 +43,12 @@ export interface Film {
   director: string;
   releaseDate: string;
 }
+
+/** Starship or vehicle. */
+export interface Craft {
+  id: number;
+  name: string;
+  model: string;
+  /** e.g. "Starfighter", "wheeled". */
+  craftClass: string | null;
+}

@@ -9,12 +9,12 @@ its own visual identity, while sharing a common shell, data layer and component 
 
 > Work in progress — built incrementally, one reviewable commit at a time.
 
-| Universe       | API                                                 | Status      |
-| -------------- | --------------------------------------------------- | ----------- |
-| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available   |
-| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned     |
-| Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | In progress |
-| Marvel         | Marvel API (or alternative)                         | Planned     |
+| Universe       | API                                                 | Status    |
+| -------------- | --------------------------------------------------- | --------- |
+| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available |
+| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned   |
+| Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | Available |
+| Marvel         | Marvel API (or alternative)                         | Planned   |
 
 ## Tech stack
 
@@ -230,7 +230,8 @@ accessible name, so they also guard accessibility.
 - [x] CI: lint, typecheck, tests and build on GitHub Actions
 - [x] CD: deploy `main` to GitHub Pages
 - [x] Pokémon: Pokédex with local search, type filter and detail page
-- [ ] Star Wars and Marvel universes
+- [x] Star Wars: personnel archive with search, film/species filters and detail page
+- [ ] Marvel universe
 
 ## Disclaimer
 

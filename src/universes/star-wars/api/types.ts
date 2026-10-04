@@ -45,3 +45,17 @@ export interface FilmDto {
   release_date: string;
   url: string;
 }
+
+export interface StarshipDto {
+  name: string;
+  model: string;
+  starship_class: SwapiString;
+  url: string;
+}
+
+export interface VehicleDto {
+  name: string;
+  model: string;
+  vehicle_class: SwapiString;
+  url: string;
+}

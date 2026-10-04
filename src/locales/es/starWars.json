@@ -50,5 +50,31 @@
     "clear": "Limpiar ({{count}})",
     "clearLabel_one": "Limpiar {{count}} filtro activo",
     "clearLabel_other": "Limpiar {{count}} filtros activos"
+  },
+  "detail": {
+    "back": "Todo el personal",
+    "loading": "Cargando registro…",
+    "profile": "Perfil",
+    "hair": "Cabello",
+    "skin": "Piel",
+    "eyes": "Ojos",
+    "gender": "Género",
+    "homeworld": "Planeta natal",
+    "climate": "Clima",
+    "terrain": "Terreno",
+    "population": "Población",
+    "species": "Especie",
+    "classification": "Clasificación",
+    "language": "Idioma",
+    "filmography": "Filmografía",
+    "episode": "Episodio {{number}}",
+    "filmMeta": "{{year}} · Dirigida por {{director}}",
+    "craft": "Naves y vehículos",
+    "starships": "Naves",
+    "vehicles": "Vehículos",
+    "noCraft": "Sin registros",
+    "notFoundTitle": "Registro no encontrado",
+    "notFoundDescription": "No hay nadie con este número de registro en el archivo.",
+    "browse": "Ver el archivo"
   }
 }

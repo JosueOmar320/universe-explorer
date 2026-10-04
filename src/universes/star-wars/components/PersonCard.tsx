@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
+import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import type { Person } from '../api/models';
 import { useArchive } from '../hooks/useArchive';
+import { starWarsPaths } from '../paths';
 import { formatCentimetres, formatKilograms, formatRecordNumber } from '../utils/format';
 import { getSpeciesIds } from '../utils/people';
 import { FilmPips } from './FilmPips';
@@ -28,7 +31,12 @@ export function PersonCard({ person }: { person: Person }) {
         {films && <FilmPips films={films} filmIds={person.filmIds} />}
       </div>
 
-      <h3 className={styles.name}>{person.name}</h3>
+      <h3 className={styles.name}>
+        {/* Stretched over the card (see ::after); its accessible name is just the name. */}
+        <Link to={starWarsPaths.person(person.id)} state={FROM_LIST_STATE} className={styles.link}>
+          {person.name}
+        </Link>
+      </h3>
       <p className={styles.origin}>{origin.join(' · ')}</p>
 
       <dl className={styles.metrics}>

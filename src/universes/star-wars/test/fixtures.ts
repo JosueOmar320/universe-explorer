@@ -1,5 +1,12 @@
 import { apiConfig } from '@/config/apis';
-import type { FilmDto, PersonDto, PlanetDto, SpeciesDto } from '../api/types';
+import type {
+  FilmDto,
+  PersonDto,
+  PlanetDto,
+  SpeciesDto,
+  StarshipDto,
+  VehicleDto,
+} from '../api/types';
 
 const API = apiConfig.starWars.baseUrl;
 const url = (resource: string, id: number) => `${API}/${resource}/${id}`;
@@ -40,6 +47,7 @@ export const peopleDtos: PersonDto[] = [
   createPersonDto(1, 'Luke Skywalker', {
     films: [url('films', 1), url('films', 2)],
     starships: [url('starships', 12)],
+    vehicles: [url('vehicles', 14)],
   }),
   createPersonDto(16, 'Jabba Desilijic Tiure', {
     height: '175',
@@ -72,4 +80,12 @@ export const speciesDtos: SpeciesDto[] = [
 export const filmDtos: FilmDto[] = [
   { title: 'The Empire Strikes Back', episode_id: 5, director: 'Irvin Kershner', release_date: '1980-05-17', url: url('films', 2) },
   { title: 'A New Hope', episode_id: 4, director: 'George Lucas', release_date: '1977-05-25', url: url('films', 1) },
+]; // prettier-ignore
+
+export const starshipDtos: StarshipDto[] = [
+  { name: 'X-wing', model: 'T-65 X-wing', starship_class: 'Starfighter', url: url('starships', 12) },
+]; // prettier-ignore
+
+export const vehicleDtos: VehicleDto[] = [
+  { name: 'Snowspeeder', model: 't-47 airspeeder', vehicle_class: 'airspeeder', url: url('vehicles', 14) },
 ]; // prettier-ignore

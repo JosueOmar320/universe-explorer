@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { apiConfig } from '@/config/apis';
 import { server } from '@/test/server';
 import { createPersonDto } from '../test/fixtures';
-import { getFilms, getPeople, getPlanets, getSpecies } from './swapi';
+import { getFilms, getPeople, getPlanets, getSpecies, getStarships, getVehicles } from './swapi';
 
 const API = apiConfig.starWars.baseUrl;
 
@@ -26,7 +26,7 @@ describe('getPeople', () => {
       speciesIds: [],
       filmIds: [1, 2],
       starshipIds: [12],
-      vehicleIds: [],
+      vehicleIds: [14],
     });
   });
 
@@ -86,5 +86,14 @@ describe('getFilms', () => {
       [4, 'A New Hope'],
       [5, 'The Empire Strikes Back'],
     ]);
+  });
+});
+
+describe('getStarships / getVehicles', () => {
+  it('maps craft with their class', async () => {
+    expect(await getStarships()).toEqual([
+      { id: 12, name: 'X-wing', model: 'T-65 X-wing', craftClass: 'Starfighter' },
+    ]);
+    expect((await getVehicles())[0]).toMatchObject({ id: 14, craftClass: 'airspeeder' });
   });
 });

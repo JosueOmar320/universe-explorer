@@ -14,5 +14,12 @@ export const starWarsRoute: UniverseRoute = {
         return { Component: PeoplePage };
       },
     },
+    {
+      path: 'people/:personId',
+      lazy: async () => {
+        const { PersonDetailPage } = await import('./pages/PersonDetailPage');
+        return { Component: PersonDetailPage };
+      },
+    },
   ],
 };

@@ -63,6 +63,31 @@
   letter-spacing: 0.1em;
 }
 
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.card:has(.link:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.card:hover .link {
+  color: var(--color-accent);
+}
+
 .name {
   margin-top: var(--space-2);
   font-family: var(--font-display);
