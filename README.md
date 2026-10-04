@@ -43,11 +43,11 @@ Lighthouse on the production build (mobile, simulated slow 4G), checked on every
 
 | Page           | Performance | Accessibility | Best practices | SEO |
 | -------------- | ----------: | ------------: | -------------: | --: |
-| Home           |          98 |           100 |            100 | 100 |
-| Rick and Morty |          94 |           100 |            100 | 100 |
-| Pokémon        |          93 |           100 |            100 | 100 |
-| Star Wars      |          94 |           100 |            100 | 100 |
-| Harry Potter   |          91 |           100 |            100 | 100 |
+| Home           |          99 |           100 |            100 | 100 |
+| Rick and Morty |          96 |           100 |            100 | 100 |
+| Pokémon        |          96 |           100 |            100 | 100 |
+| Star Wars      |          96 |           100 |            100 | 100 |
+| Harry Potter   |          96 |           100 |            100 | 100 |
 
 ## Tech stack
 
@@ -153,8 +153,11 @@ even if two universes end up with similar components. Duplicating a card is chea
   overrides them under `[data-universe]`.
 - **State lives where it belongs.** Server state in TanStack Query, view state in the URL
   (`?name=&status=&page=`), the language choice in `localStorage`. No global client store.
-- **Code splitting per universe.** Universe routes are lazy, so their JS, CSS and fonts load
-  only when the user enters that universe.
+- **Code splitting per universe, without the waterfall.** Universe routes are lazy, so their
+  JS, CSS and fonts load only when the user enters that universe. Opening a universe directly
+  would then download in a chain (main bundle → route chunks and CSS → fonts), so each
+  universe's entry HTML preloads its landing chunks, CSS and the fonts its first view renders:
+  LCP on slow 4G went from 2.6–2.9 s to 2.4 s.
 - **Each API gets the fetching strategy it needs.** PokéAPI has no search and its list only
   returns names, so the app downloads the whole Pokédex index once (~9 kB gzipped) and
   searches/paginates it locally; each card then loads its own types through a cached,
@@ -247,8 +250,8 @@ lighthouse: npm ci → build → Lighthouse CI (scores + budgets)          ─�
   build; the HTML report is uploaded as an artifact when something fails.
 - **Lighthouse** (every run, in parallel): audits the five entry points of the production build
   three times each, with the real APIs, against [`lighthouserc.yml`](lighthouserc.yml):
-  accessibility, best practices and SEO must score 100, performance at least 85, and each page
-  stays within its JS (170 kB), CSS (20 kB) and font (110 kB) budgets, plus CLS and TBT limits.
+  accessibility, best practices and SEO must score 100, performance at least 90, and each page
+  stays within its JS (170 kB), CSS (20 kB) and font (90 kB) budgets, plus CLS and TBT limits.
   The scores land in the job summary and the full reports are uploaded as an artifact.
 - **Deploy** (pushes to `main` only): runs only if all three jobs passed and publishes _the same
   build_ that was validated to GitHub Pages — there is no second, unverified build.
@@ -260,6 +263,7 @@ lighthouse: npm ci → build → Lighthouse CI (scores + budgets)          ─�
 - Project sites are served under `/<repo>/`, so CI builds with `BASE_PATH=/<repo>/`
   (Vite's `base`); the router picks it up from `import.meta.env.BASE_URL`.
 - Pages has no SPA rewrites, so a build plugin ([`build/spaEntryPoints.ts`](build/spaEntryPoints.ts))
+  (which also adds the preloads described above)
   writes one `index.html` per universe — `/pokemon/` and friends answer with HTTP 200 for
   crawlers, link previews and Lighthouse — plus a `404.html` copy that boots the app for deeper
   links such as `/rick-and-morty/characters/1` (served with a 404 status).
@@ -287,6 +291,8 @@ accessible name, so they also guard accessibility.
   service worker running _the same MSW handlers_ as the unit tests, so runs are fast, offline
   and deterministic. Specs cover search → detail → back in every universe, direct links,
   universe switching and theming, the persisted language, the skip link and the 404 page.
+  They also check that each first view preloads exactly the fonts it renders, since that list
+  is maintained by hand in `vite.config.ts`.
 - **Accessibility:** [axe](https://github.com/dequelabs/axe-core) checks every page type
   (home, the four listings and detail pages, 404, Spanish) against WCAG 2.2 A/AA. Text that axe
   measures below the AA ratio but files as "needs review" (very short labels) fails too, as it
@@ -310,7 +316,7 @@ accessible name, so they also guard accessibility.
 - [x] Brand icons and link previews (favicon, apple-touch-icon, Open Graph image)
 - [x] End-to-end tests with Playwright, with automated accessibility checks (axe)
 - [x] Lighthouse CI with score budgets in the pipeline
-- [ ] Preload each universe's route chunk, theme CSS and fonts (LCP under 2.5 s everywhere)
+- [x] Preload each universe's route chunks, CSS and fonts (LCP under 2.5 s everywhere)
 - [ ] Global search across universes (⌘K command palette)
 
 ## Disclaimer
