@@ -7,7 +7,7 @@ import type {
   Episode,
 } from './types';
 
-const API_BASE_URL = 'https://rickandmortyapi.com/api';
+export const API_BASE_URL = 'https://rickandmortyapi.com/api';
 
 /** Fixed by the API; used to compute "Showing 21–40" ranges. */
 export const CHARACTERS_PAGE_SIZE = 20;

@@ -151,5 +151,6 @@ function getSummary({
   const first = (page - 1) * CHARACTERS_PAGE_SIZE + 1;
   const last = first + data.characters.length - 1;
   const total = data.totalCount.toLocaleString('en-US');
-  return `Showing ${first}–${last} of ${total}${hasFilters ? ' matches' : ''}`;
+  if (!hasFilters) return `Showing ${first}–${last} of ${total}`;
+  return `Showing ${first}–${last} of ${total} ${data.totalCount === 1 ? 'match' : 'matches'}`;
 }

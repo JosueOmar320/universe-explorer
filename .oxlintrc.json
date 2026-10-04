@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc", "jsx-a11y", "import"],
+  "plugins": ["react", "typescript", "oxc", "jsx-a11y", "import", "vitest"],
   "categories": {
     "correctness": "error",
     "suspicious": "warn"
@@ -21,7 +21,7 @@
     "import/no-unassigned-import": [
       "warn",
       {
-        "allow": ["**/*.css"]
+        "allow": ["**/*.css", "@testing-library/jest-dom/vitest"]
       }
     ],
     "jsx-a11y/prefer-tag-over-role": "off"

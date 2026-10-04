@@ -4,7 +4,7 @@ import { isHttpError } from '@/shared/api/httpClient';
 const MAX_RETRIES = 2;
 
 /** Client errors (4xx) won't succeed on retry — except rate limiting (429). */
-function shouldRetry(failureCount: number, error: unknown): boolean {
+export function shouldRetry(failureCount: number, error: unknown): boolean {
   if (isHttpError(error) && error.status >= 400 && error.status < 500 && error.status !== 429) {
     return false;
   }

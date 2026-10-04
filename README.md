@@ -19,6 +19,7 @@ its own visual identity, while sharing a common shell, data layer and component 
 - [React Router](https://reactrouter.com) (data router) — URL state, nested layouts, lazy routes, error boundaries
 - [TanStack Query](https://tanstack.com/query) — caching, request deduplication, retries, pagination, prefetching
 - CSS Modules + CSS custom properties (design tokens) — no UI kit, every component is hand-built
+- [Vitest](https://vitest.dev) + [Testing Library](https://testing-library.com) + [MSW](https://mswjs.io) for tests
 - [Oxlint](https://oxc.rs) (incl. `jsx-a11y`) and [Prettier](https://prettier.io)
 
 ## Architecture
@@ -48,11 +49,13 @@ src/
 │       ├── filters.ts        # Filter options + URL parsing
 │       ├── paths.ts          # Typed route builders for the universe
 │       ├── utils/            # Pure helpers (episode grouping, formatting)
+│       ├── test/             # Fixtures + MSW handlers mimicking the real API
 │       ├── components/       # CharacterCard, PortalHero, StatusBadge…
 │       ├── layout/           # Universe entry: loads theme + fonts
 │       ├── pages/            # Route components
 │       ├── routes.ts         # Lazy route tree for this universe
 │       └── theme.css         # Token overrides under [data-universe='rick-and-morty']
+├── test/                     # Test setup, MSW server, render helpers
 └── types/                    # Global type augmentations
 ```
 
@@ -106,9 +109,26 @@ npm run dev
 | `npm run preview`      | Serve the production build locally       |
 | `npm run typecheck`    | Run the TypeScript compiler (no emit)    |
 | `npm run lint`         | Lint with Oxlint (warnings fail the run) |
+| `npm test`             | Run the test suite once                  |
+| `npm run test:watch`   | Run tests in watch mode                  |
 | `npm run format:check` | Verify formatting with Prettier          |
 
 These scripts are intentionally granular so each one can become an independent CI step later.
+
+## Testing
+
+Tests live next to the code they cover (`*.test.ts(x)`).
+
+- **Unit tests** for pure logic: pagination range, URL filter parsing, episode grouping,
+  retry policy.
+- **API service tests** against [MSW](https://mswjs.io) handlers that reproduce the real
+  API's quirks (404 for empty results, bare object for single-id requests).
+- **Component tests**, e.g. the debounced `SearchField`, including the race between a
+  commit and further keystrokes.
+- **Integration tests** that render real pages inside a memory router and a fresh
+  QueryClient: pagination, filtering, URL state, empty/error states, list → detail → back.
+
+Queries use roles and accessible names, so the tests also guard accessibility.
 
 ## Roadmap
 
@@ -117,7 +137,7 @@ These scripts are intentionally granular so each one can become an independent C
 - [x] Rick and Morty: API layer and character listing with pagination
 - [x] Rick and Morty: search and filters (URL-synced)
 - [x] Rick and Morty: character detail page
-- [ ] Tests (Vitest + Testing Library + MSW)
+- [x] Tests (Vitest + Testing Library + MSW)
 - [ ] CI: lint, typecheck, tests and build on GitHub Actions
 - [ ] CD: deploy previews / production
 - [ ] Pokémon, Star Wars and Marvel universes
