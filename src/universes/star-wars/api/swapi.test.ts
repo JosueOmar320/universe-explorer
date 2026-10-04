@@ -11,7 +11,7 @@ describe('getPeople', () => {
   it('returns every person, sorted by id, with typed values and ids instead of URLs', async () => {
     const people = await getPeople();
 
-    expect(people.map(({ id }) => id)).toEqual([1, 2, 4, 16]);
+    expect(people.slice(0, 5).map(({ id }) => id)).toEqual([1, 2, 4, 16, 30]);
     expect(people[0]).toEqual({
       id: 1,
       name: 'Luke Skywalker',
@@ -71,6 +71,7 @@ describe('getPlanets / getSpecies', () => {
 
   it('maps species', async () => {
     expect(await getSpecies()).toEqual([
+      { id: 1, name: 'Human', classification: 'mammal', language: 'Galactic Basic' },
       { id: 2, name: 'Droid', classification: 'artificial', language: null },
       { id: 5, name: 'Hutt', classification: 'gastropod', language: 'Huttese' },
     ]);

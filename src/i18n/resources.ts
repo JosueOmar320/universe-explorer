@@ -1,9 +1,11 @@
 import enCommon from '@/locales/en/common.json';
 import enPokemon from '@/locales/en/pokemon.json';
 import enRickAndMorty from '@/locales/en/rickAndMorty.json';
+import enStarWars from '@/locales/en/starWars.json';
 import esCommon from '@/locales/es/common.json';
 import esPokemon from '@/locales/es/pokemon.json';
 import esRickAndMorty from '@/locales/es/rickAndMorty.json';
+import esStarWars from '@/locales/es/starWars.json';
 import type { Language } from './config';
 
 /**
@@ -14,6 +16,7 @@ const en = {
   common: enCommon,
   rickAndMorty: enRickAndMorty,
   pokemon: enPokemon,
+  starWars: enStarWars,
 };
 
 type Translations = typeof en;
@@ -24,6 +27,7 @@ export const resources = {
     common: esCommon,
     rickAndMorty: esRickAndMorty,
     pokemon: esPokemon,
+    starWars: esStarWars,
   } satisfies Translations,
 } satisfies Record<Language, Translations>;
 

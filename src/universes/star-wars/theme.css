@@ -1,0 +1,50 @@
+/*
+ * Star Wars theme: a holographic archive terminal — deep space, amber readouts and a cyan
+ * holo glow. No official logos, fonts or artwork. Text colours meet WCAG AA (≥ 5:1).
+ */
+@import '@fontsource-variable/oxanium/wght.css';
+@import '@fontsource/share-tech-mono/latin-400.css';
+
+[data-universe='star-wars'] {
+  /* Palette */
+  --color-bg: #05070d;
+  --color-surface: #0b111c;
+  --color-surface-raised: #121a29;
+  --color-border: #1c2638;
+  --color-border-strong: #2d3b54;
+  --color-text: #e8edf5;
+  --color-text-muted: #9aa8bd;
+  --color-text-subtle: #7d8ba1;
+  --color-accent: #f5c542;
+  --color-accent-hover: #ffd766;
+  --color-accent-contrast: #05070d;
+  --color-danger: #ff6b6b;
+
+  /* Universe-specific tokens */
+  --sw-holo: #5fd4ff;
+  --sw-holo-glow: rgb(95 212 255 / 0.35);
+  --sw-pip-off: #1f2a3d;
+
+  /* Starfield: a few layers of tiny dots over deep space */
+  --page-background:
+    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.55), transparent 60%),
+    radial-gradient(1px 1px at 72% 34%, rgb(255 255 255 / 0.45), transparent 60%),
+    radial-gradient(1.5px 1.5px at 42% 78%, rgb(255 255 255 / 0.4), transparent 60%),
+    radial-gradient(1px 1px at 88% 82%, rgb(255 255 255 / 0.5), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgb(95 212 255 / 0.08), transparent 70%),
+    var(--color-bg);
+  --header-background: rgb(5 7 13 / 0.85);
+  --header-border: var(--color-border);
+
+  /* Typography */
+  --font-display: 'Oxanium Variable', var(--font-body);
+  --font-mono: 'Share Tech Mono', ui-monospace, monospace;
+  --display-letter-spacing: 0.02em;
+  --display-text-transform: uppercase;
+
+  /* Controls */
+  --button-font: 'Oxanium Variable', var(--font-body);
+  --button-text-transform: uppercase;
+  --button-letter-spacing: 0.08em;
+  --radius-md: 2px;
+}

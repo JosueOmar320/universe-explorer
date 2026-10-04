@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "eyebrow": "Archivo galáctico · Registros de personal",
+    "titleLine1": "Cada nombre",
+    "titleLine2": "en el archivo.",
+    "lead": "Explora a los personajes de la saga: de dónde vienen, qué son y en qué películas aparecen.",
+    "records": "Registros",
+    "worlds": "Mundos",
+    "species": "Especies",
+    "films": "Películas",
+    "source": "Fuente"
+  },
+  "people": {
+    "title": "Personal",
+    "loading": "Cargando registros…",
+    "paginationLabel": "Paginación de personal",
+    "summary": "Mostrando {{from}}–{{to}} de {{total}}"
+  },
+  "card": {
+    "record": "Registro {{id}}",
+    "height": "Altura",
+    "mass": "Masa",
+    "born": "Nacimiento",
+    "films_one": "Aparece en {{count}} de {{total}} películas",
+    "films_other": "Aparece en {{count}} de {{total}} películas"
+  },
+  "values": {
+    "unknown": "Desconocido"
+  },
+  "empty": {
+    "pageTitle": "No hay registros en esta página",
+    "pageDescription": "La página {{page}} está más allá del final del archivo.",
+    "firstPage": "Ir a la primera página"
+  },
+  "errors": {
+    "title": "No se puede acceder al archivo"
+  }
+}

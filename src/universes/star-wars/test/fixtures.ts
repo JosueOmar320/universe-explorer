@@ -51,6 +51,10 @@ export const peopleDtos: PersonDto[] = [
     species: [url('species', 5)],
   }),
   createPersonDto(4, 'Darth Vader', { height: '202', mass: 'unknown', hair_color: 'none' }),
+  // Filler records so the listing has more than one page (12 per page).
+  ...Array.from({ length: 10 }, (_, index) =>
+    createPersonDto(30 + index, `Archive Record ${index + 1}`, { birth_year: 'unknown' }),
+  ),
 ];
 
 export const planetDtos: PlanetDto[] = [
@@ -60,6 +64,7 @@ export const planetDtos: PlanetDto[] = [
 ]; // prettier-ignore
 
 export const speciesDtos: SpeciesDto[] = [
+  { name: 'Human', classification: 'mammal', language: 'Galactic Basic', url: url('species', 1) },
   { name: 'Droid', classification: 'artificial', language: 'n/a', url: url('species', 2) },
   { name: 'Hutt', classification: 'gastropod', language: 'Huttese', url: url('species', 5) },
 ]; // prettier-ignore

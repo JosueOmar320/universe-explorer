@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "eyebrow": "Galactic archive · Personnel records",
+    "titleLine1": "Every name",
+    "titleLine2": "in the archive.",
+    "lead": "Browse the people of the saga: where they come from, what they are and which films they appear in.",
+    "records": "Records",
+    "worlds": "Worlds",
+    "species": "Species",
+    "films": "Films",
+    "source": "Source"
+  },
+  "people": {
+    "title": "Personnel",
+    "loading": "Loading records…",
+    "paginationLabel": "Personnel pagination",
+    "summary": "Showing {{from}}–{{to}} of {{total}}"
+  },
+  "card": {
+    "record": "Record {{id}}",
+    "height": "Height",
+    "mass": "Mass",
+    "born": "Born",
+    "films_one": "Appears in {{count}} of {{total}} films",
+    "films_other": "Appears in {{count}} of {{total}} films"
+  },
+  "values": {
+    "unknown": "Unknown"
+  },
+  "empty": {
+    "pageTitle": "No records on this page",
+    "pageDescription": "Page {{page}} is beyond the end of the archive.",
+    "firstPage": "Go to first page"
+  },
+  "errors": {
+    "title": "The archive is unreachable"
+  }
+}
