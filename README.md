@@ -5,12 +5,12 @@ its own visual identity, while sharing a common shell, data layer and component 
 
 > Work in progress — built incrementally, one reviewable commit at a time.
 
-| Universe       | API                                                 | Status      |
-| -------------- | --------------------------------------------------- | ----------- |
-| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | In progress |
-| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned     |
-| Star Wars      | SWAPI                                               | Planned     |
-| Marvel         | Marvel API (or alternative)                         | Planned     |
+| Universe       | API                                                 | Status    |
+| -------------- | --------------------------------------------------- | --------- |
+| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available |
+| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned   |
+| Star Wars      | SWAPI                                               | Planned   |
+| Marvel         | Marvel API (or alternative)                         | Planned   |
 
 ## Tech stack
 
@@ -18,6 +18,7 @@ its own visual identity, while sharing a common shell, data layer and component 
 - [Vite](https://vite.dev) for dev server and bundling
 - [React Router](https://reactrouter.com) (data router) — URL state, nested layouts, lazy routes, error boundaries
 - [TanStack Query](https://tanstack.com/query) — caching, request deduplication, retries, pagination, prefetching
+- [i18next](https://www.i18next.com) + [react-i18next](https://react.i18next.com) — English and Spanish, type-checked keys
 - CSS Modules + CSS custom properties (design tokens) — no UI kit, every component is hand-built
 - [Vitest](https://vitest.dev) + [Testing Library](https://testing-library.com) + [MSW](https://mswjs.io) for tests
 - [Oxlint](https://oxc.rs) (incl. `jsx-a11y`) and [Prettier](https://prettier.io)
@@ -25,71 +26,116 @@ its own visual identity, while sharing a common shell, data layer and component 
 ## Architecture
 
 ```
+                         App shell (router, providers)
+                                    │
+           ┌────────────────────────┼─────────────────────────┐
+     Universe registry          Universes                    i18n
+   (metadata + status)     (feature folders)          (src/locales/<lang>)
+                                    │
+                    service → queryOptions → hooks → UI
+                                    │
+                   API client (src/config/apis.ts)
+```
+
+```
 src/
-├── app/                      # Application wiring: providers, router, shell, hub pages
-│   ├── App.tsx               # QueryClientProvider + RouterProvider
-│   ├── router.tsx            # Route tree; universes plug in here
-│   ├── queryClient.ts        # Global caching/retry policy
-│   ├── layout/AppShell.tsx   # Header, universe switcher, footer, [data-universe] theming hook
-│   ├── components/           # Shell-only components (UniverseSwitcher, UniverseCard…)
+├── app/                      # Wiring: providers, router, shell, hub pages
+│   ├── App.tsx               # I18nextProvider + QueryClientProvider + RouterProvider
+│   ├── router.tsx            # Route tree (universe routes are derived from the registry)
+│   ├── queryClient.ts        # Global caching and retry policy
+│   ├── layout/AppShell.tsx   # Header, switchers, footer, [data-universe] theming hook
+│   ├── components/           # Shell-only components (UniverseSwitcher, LanguageSwitcher…)
 │   └── pages/                # Home (hub), 404, route error boundary
+├── config/
+│   └── apis.ts               # Base URL + timeout of every external API (env-overridable)
+├── i18n/                     # i18next instance, supported languages, resources
+├── locales/
+│   ├── en/                   # common.json (shell + shared UI), rickAndMorty.json, …
+│   └── es/
 ├── shared/                   # Universe-agnostic building blocks
-│   ├── api/                  # fetchJson + HttpError
-│   ├── components/           # Button, Pagination, Skeleton, StatusPanel, form fields
-│   ├── hooks/                # usePageParam (URL-synced pagination)
+│   ├── api/                  # createApiClient, HttpError, error classification
+│   ├── components/           # Button, Pagination, form fields, StatusPanel, QueryErrorState…
+│   ├── hooks/                # usePageParam, useUrlFilters, useFocusOnPathChange
 │   ├── icons/                # Inline SVG icons
 │   ├── styles/               # Design tokens + global styles
-│   └── utils/                # Pure helpers (cx, pagination range)
+│   └── utils/                # Pure helpers (cx, pagination range, pickOption)
 ├── universes/
-│   ├── registry.ts           # Metadata for every universe (name, status, accent colour)
-│   ├── types.ts
+│   ├── registry.ts           # Every universe: name, status, accent colour
+│   ├── routes.ts             # Route tree of each *available* universe (type-checked)
 │   └── rick-and-morty/       # Everything specific to one universe
 │       ├── api/              # DTO types, service, query keys/options
-│       ├── hooks/            # useCharacters, useCharacter, useEpisodes, filters…
-│       ├── filters.ts        # Filter options + URL parsing
-│       ├── paths.ts          # Typed route builders for the universe
-│       ├── utils/            # Pure helpers (episode grouping, formatting)
-│       ├── test/             # Fixtures + MSW handlers mimicking the real API
+│       ├── hooks/            # useCharacters, useCharacter, useEpisodes, useCharacterFilters
 │       ├── components/       # CharacterCard, PortalHero, StatusBadge…
 │       ├── layout/           # Universe entry: loads theme + fonts
 │       ├── pages/            # Route components
-│       ├── routes.ts         # Lazy route tree for this universe
+│       ├── test/             # Fixtures + MSW handlers mimicking the real API
+│       ├── filters.ts        # Filter options + URL parsing
+│       ├── paths.ts          # Typed route builders
+│       ├── routes.ts         # Lazy route tree
 │       └── theme.css         # Token overrides under [data-universe='rick-and-morty']
 ├── test/                     # Test setup, MSW server, render helpers
-└── types/                    # Global type augmentations
+└── types/                    # Global type augmentations (env, i18next, CSS custom props)
 ```
 
-**Dependency rule:** `app` → `universes` → `shared`. Shared code never imports from a universe,
-and universes never import from each other.
+**Dependency rule:** `app` → `universes` → `shared`. Shared code never imports from a
+universe, and universes never import from each other.
+
+### What is shared and what stays in a universe
+
+Shared code is what every universe needs _the same way_: the HTTP client, error handling,
+pagination, URL-backed filters, form controls, loading/empty/error states. Anything that
+expresses a universe's identity — cards, heroes, badges, layouts, copy — stays in its folder,
+even if two universes end up with similar components. Duplicating a card is cheaper than a
+"generic card" with a dozen props.
 
 ### Key decisions
 
-- **Feature folders per universe.** Each universe owns its API layer, hooks, components, pages
-  and theme, so a new universe is additive and can look completely different.
-- **Theming via design tokens.** Shared components only use CSS variables. The shell sets
-  `data-universe="<id>"` and each universe overrides tokens (colours, fonts, radii, backgrounds,
-  button style). Universe-specific components can go further with their own styles.
-- **Server state lives in TanStack Query**, UI state in the URL (`?name=&status=&page=`), and
-  there is no global client store — nothing in the app needs one yet. URL state makes every
-  filtered view shareable and keeps the back button meaningful.
-- **Debounced search with a local draft.** The input updates instantly; the URL (and therefore
-  the request) only changes after the user pauses typing, using `replace` to avoid flooding
-  the history.
+- **Data fetching: TanStack Query, not RTK Query.** Every API here is public and read-only,
+  so what matters is caching, deduplication, retries, pagination and prefetching — which
+  TanStack Query covers without a global store. RTK Query would add Redux (store, provider,
+  one reducer + middleware per API) to manage state the app doesn't have; its strengths
+  (tag invalidation after mutations, sharing a store with client state) don't apply yet.
+  Each universe's `queryOptions` factories keep query keys and fetchers in one place.
+- **Configuration in one place.** API base URLs and timeouts live in `src/config/apis.ts` and
+  can be overridden with `VITE_*` variables (see `.env.example`) — e.g. to route Marvel
+  through a proxy that keeps its private key off the client.
+- **Errors are classified, not just caught.** Network, timeout, rate-limit, not-found and
+  server errors get specific messages; only transient ones are retried. While offline,
+  queries pause and resume on reconnect, and the UI says so.
+- **Universe registry as the single source of truth.** Navigation, the home page and the
+  router derive from it. Marking a universe as available without registering its routes is a
+  TypeScript error.
+- **i18n by namespace.** `common` holds shell/shared copy; each universe has its own
+  namespace. English is the reference: keys are type-checked and every language must provide
+  the same keys at compile time. Data coming from the APIs is never translated.
+- **Theming via design tokens.** Shared components only use CSS variables; each universe
+  overrides them under `[data-universe]`.
+- **State lives where it belongs.** Server state in TanStack Query, view state in the URL
+  (`?name=&status=&page=`), the language choice in `localStorage`. No global client store.
 - **Code splitting per universe.** Universe routes are lazy, so their JS, CSS and fonts load
   only when the user enters that universe.
-- **Cache-seeded detail pages.** Opening a character from the listing seeds its query with
-  the data already cached for that page (`initialData`), so the profile renders instantly
-  while only the episodes are fetched. "Back" returns through history, restoring filters
-  and scroll position.
 - **API quirks are handled at the service boundary.** The Rick and Morty API returns 404 for
-  "no results"; the service maps it to an empty page so the UI shows an empty state, not an error. Likewise, `/episode/1` returns an object
-  while `/episode/1,2` returns an array; the service always returns an array.
+  "no results" (mapped to an empty page) and a bare object for single-id episode requests
+  (normalized to an array).
+
+### Accessibility
+
+- Semantic landmarks, a skip link, and focus moved to `<main>` after route changes.
+- Paging moves focus to the results heading; result counts are announced via a live region.
+- Native controls for filters (radio group, `<select>`, search input) with visible labels.
+- Text colours meet WCAG AA (≥ 4.5:1) on every surface; status is conveyed by text, not colour.
+- `<html lang>` follows the selected language; language buttons are announced in their own
+  language.
+- `prefers-reduced-motion` disables animations.
 
 ### Adding a universe
 
-1. Create `src/universes/<id>/` with `api/`, `components/`, `pages/`, `routes.ts`, `theme.css`.
-2. Mark it as `available` in `src/universes/registry.ts`.
-3. Register its route object in `src/app/router.tsx`.
+1. Create `src/universes/<id>/` (`api/`, `components/`, `pages/`, `routes.ts`, `theme.css`).
+2. Add its API to `src/config/apis.ts`.
+3. Add a `src/locales/<lang>/<namespace>.json` per language and register it in
+   `src/i18n/resources.ts`.
+4. Set `status: 'available'` in `src/universes/registry.ts` and add its route to
+   `src/universes/routes.ts` (TypeScript enforces both).
 
 ## Getting started
 
@@ -100,44 +146,46 @@ npm install
 npm run dev
 ```
 
+Optional environment variables are documented in `.env.example`.
+
 ## Scripts
 
-| Script                 | Purpose                                  |
-| ---------------------- | ---------------------------------------- |
-| `npm run dev`          | Start the Vite dev server                |
-| `npm run build`        | Type-check and build for production      |
-| `npm run preview`      | Serve the production build locally       |
-| `npm run typecheck`    | Run the TypeScript compiler (no emit)    |
-| `npm run lint`         | Lint with Oxlint (warnings fail the run) |
-| `npm test`             | Run the test suite once                  |
-| `npm run test:watch`   | Run tests in watch mode                  |
-| `npm run format:check` | Verify formatting with Prettier          |
+| Script                 | Purpose                                                   |
+| ---------------------- | --------------------------------------------------------- |
+| `npm run dev`          | Start the Vite dev server                                 |
+| `npm run build`        | Type-check and build for production                       |
+| `npm run preview`      | Serve the production build locally                        |
+| `npm run typecheck`    | Run the TypeScript compiler (no emit)                     |
+| `npm run lint`         | Lint with Oxlint (warnings fail the run)                  |
+| `npm run format:check` | Verify formatting with Prettier                           |
+| `npm test`             | Run the test suite once                                   |
+| `npm run test:watch`   | Run tests in watch mode                                   |
+| `npm run validate`     | Everything CI will run: lint, format, types, tests, build |
 
-These scripts are intentionally granular so each one can become an independent CI step later.
+Each script is a separate step so the CI pipeline can run (and report) them individually.
 
 ## Testing
 
-Tests live next to the code they cover (`*.test.ts(x)`).
+Tests live next to the code they cover (`*.test.ts(x)`) and query the DOM by role and
+accessible name, so they also guard accessibility.
 
-- **Unit tests** for pure logic: pagination range, URL filter parsing, episode grouping,
-  retry policy.
-- **API service tests** against [MSW](https://mswjs.io) handlers that reproduce the real
-  API's quirks (404 for empty results, bare object for single-id requests).
-- **Component tests**, e.g. the debounced `SearchField`, including the race between a
-  commit and further keystrokes.
-- **Integration tests** that render real pages inside a memory router and a fresh
-  QueryClient: pagination, filtering, URL state, empty/error states, list → detail → back.
-
-Queries use roles and accessible names, so the tests also guard accessibility.
+- **Unit:** pagination range, filter parsing, language detection, error classification,
+  retry policy, episode grouping.
+- **API layer:** the HTTP client (params, timeouts, cancellation) and the Rick and Morty service
+  against [MSW](https://mswjs.io) handlers that reproduce the real API's quirks.
+- **Components/hooks:** the debounced `SearchField` (including a keystroke race),
+  `Pagination`, `useUrlFilters`.
+- **Integration:** real pages in a memory router with a fresh QueryClient — pagination,
+  filters and URL state, empty/error/offline states, list → detail → back, language switching
+  and focus management.
 
 ## Roadmap
 
 - [x] Project setup and tooling
 - [x] App shell, universe registry and theming foundation
-- [x] Rick and Morty: API layer and character listing with pagination
-- [x] Rick and Morty: search and filters (URL-synced)
-- [x] Rick and Morty: character detail page
+- [x] Rick and Morty: listing, search, filters, detail page
 - [x] Tests (Vitest + Testing Library + MSW)
+- [x] Architecture review: API config, i18n (EN/ES), error states, accessibility
 - [ ] CI: lint, typecheck, tests and build on GitHub Actions
 - [ ] CD: deploy previews / production
 - [ ] Pokémon, Star Wars and Marvel universes
