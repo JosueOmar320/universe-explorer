@@ -154,7 +154,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
-          path: .lighthouseci/reports
+          path: |
+            .lighthouseci/reports
+            .lighthouseci/assertion-results.json
           retention-days: 14
 
   deploy:
