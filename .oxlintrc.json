@@ -26,5 +26,13 @@
     ],
     "jsx-a11y/prefer-tag-over-role": "off"
   },
-  "ignorePatterns": ["dist", "dist-mock", "node_modules"]
+  "ignorePatterns": ["dist", "dist-mock", "node_modules", "test-results", "playwright-report"],
+  "overrides": [
+    {
+      "files": ["e2e/**"],
+      "rules": {
+        "react/rules-of-hooks": "off"
+      }
+    }
+  ]
 }

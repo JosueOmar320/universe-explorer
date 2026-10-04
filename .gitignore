@@ -30,3 +30,7 @@ dist-ssr
 
 # Mocked build (npm run build:mock)
 dist-mock
+
+# Playwright output
+test-results
+playwright-report
