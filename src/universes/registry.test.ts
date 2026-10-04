@@ -12,6 +12,6 @@ describe('findUniverseByPathname', () => {
   it('ignores the hub, unknown paths and universes that are not available yet', () => {
     expect(findUniverseByPathname('/')).toBeUndefined();
     expect(findUniverseByPathname('/does-not-exist')).toBeUndefined();
-    expect(findUniverseByPathname('/marvel')).toBeUndefined();
+    expect(findUniverseByPathname('/harry-potter')).toBeUndefined();
   });
 });

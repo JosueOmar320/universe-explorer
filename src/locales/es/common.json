@@ -33,8 +33,8 @@
     "star-wars": {
       "tagline": "Explora personajes, planetas y naves de la galaxia."
     },
-    "marvel": {
-      "tagline": "Busca héroes, villanos y los cómics en los que aparecen."
+    "harry-potter": {
+      "tagline": "Busca brujas, magos y criaturas mágicas, casa por casa."
     }
   },
   "notFound": {
