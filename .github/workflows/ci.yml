@@ -57,13 +57,9 @@ jobs:
       - name: Build
         run: npm run build
 
-      # GitHub Pages has no SPA rewrites: unknown paths (e.g. a refreshed
-      # /rick-and-morty/characters/1) serve 404.html, so it must boot the app too.
-      # `push` only fires for main (see `on`), so these steps never run for PRs.
-      - name: Add SPA fallback
-        if: github.event_name == 'push'
-        run: cp dist/index.html dist/404.html
-
+      # The build already includes the static-hosting entry points (404.html fallback and
+      # one index.html per universe, see build/spaEntryPoints.ts). `push` only fires for
+      # main (see `on`), so the artifact is only uploaded for deployments.
       - name: Upload Pages artifact
         if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v5
