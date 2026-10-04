@@ -225,22 +225,23 @@ development and end-to-end runs: production builds don't include the mocks.
 
 ## Scripts
 
-| Script                 | Purpose                                                        |
-| ---------------------- | -------------------------------------------------------------- |
-| `npm run dev`          | Start the Vite dev server                                      |
-| `npm run dev:mock`     | Dev server with every API mocked from fixtures (works offline) |
-| `npm run build`        | Type-check and build for production                            |
-| `npm run preview`      | Serve the production build locally                             |
-| `npm run build:mock`   | Production build in mock mode, into `dist-mock/` (used by E2E) |
-| `npm run preview:mock` | Serve the mocked build                                         |
-| `npm run typecheck`    | Run the TypeScript compiler (no emit)                          |
-| `npm run lint`         | Lint with Oxlint (warnings fail the run)                       |
-| `npm run format:check` | Verify formatting with Prettier                                |
-| `npm test`             | Run the unit and integration tests once                        |
-| `npm run test:watch`   | Run tests in watch mode                                        |
-| `npm run test:e2e`     | Build in mock mode and run the Playwright + axe suite          |
-| `npm run lighthouse`   | Lighthouse CI on `dist/` (run `npm run build` first)           |
-| `npm run validate`     | The `validate` CI job: lint, format, types, tests, build       |
+| Script                  | Purpose                                                        |
+| ----------------------- | -------------------------------------------------------------- |
+| `npm run dev`           | Start the Vite dev server                                      |
+| `npm run dev:mock`      | Dev server with every API mocked from fixtures (works offline) |
+| `npm run build`         | Type-check and build for production                            |
+| `npm run preview`       | Serve the production build locally                             |
+| `npm run build:mock`    | Production build in mock mode, into `dist-mock/` (used by E2E) |
+| `npm run preview:mock`  | Serve the mocked build                                         |
+| `npm run typecheck`     | Run the TypeScript compiler (no emit)                          |
+| `npm run lint`          | Lint with Oxlint (warnings fail the run)                       |
+| `npm run format:check`  | Verify formatting with Prettier                                |
+| `npm test`              | Run the unit and integration tests once                        |
+| `npm run test:watch`    | Run tests in watch mode                                        |
+| `npm run test:coverage` | Run the tests with a coverage report (`coverage/`)             |
+| `npm run test:e2e`      | Build in mock mode and run the Playwright + axe suite          |
+| `npm run lighthouse`    | Lighthouse CI on `dist/` (run `npm run build` first)           |
+| `npm run validate`      | The `validate` CI job: lint, format, types, coverage, build    |
 
 Each script is a separate step so the CI pipeline can run (and report) them individually. The
 first `test:e2e` run needs a browser: `npx playwright install chromium`.
@@ -251,13 +252,15 @@ first `test:e2e` run needs a browser: `npx playwright install chromium`.
 pull request:
 
 ```
-validate:   npm ci → lint → format check → type-check → tests → build ─┐
-e2e:        npm ci → Playwright + axe, desktop and mobile              ─┼→ deploy (main only)
-lighthouse: npm ci → build → Lighthouse CI (scores + budgets)          ─┘
+validate:   npm ci → lint → format check → type-check → tests + coverage → build ─┐
+e2e:        npm ci → Playwright + axe, desktop and mobile                         ─┼→ deploy
+lighthouse: npm ci → build → Lighthouse CI (scores + budgets)                     ─┘ (main only)
 ```
 
 - **Validate** (every run): Node.js from `.nvmrc`, cached npm downloads, one step per check.
-  Lint and test failures show up as inline annotations on the pull request diff.
+  Every check runs even when an earlier one fails, so one run reports every problem. Lint and
+  test failures show up as inline annotations on the pull request diff; the test report and
+  the coverage totals land in the job summary.
 - **E2E** (every run, in parallel): end-to-end and accessibility tests against a mocked
   build; the HTML report is uploaded as an artifact when something fails.
 - **Lighthouse** (every run, in parallel): audits the five entry points of the production build
@@ -268,6 +271,8 @@ lighthouse: npm ci → build → Lighthouse CI (scores + budgets)          ─�
 - **Deploy** (pushes to `main` only): runs only if all three jobs passed and publishes _the same
   build_ that was validated to GitHub Pages — there is no second, unverified build.
 - Read-only permissions by default; only the deploy job gets `pages: write` / `id-token: write`.
+- [Dependabot](.github/dependabot.yml) opens a weekly pull request with minor and patch updates
+  (majors one by one) and a monthly one for the GitHub Actions; all go through this pipeline.
 - Outdated pull request runs are cancelled; deployments from `main` are never interrupted.
 
 ### GitHub Pages specifics
@@ -285,7 +290,9 @@ lighthouse: npm ci → build → Lighthouse CI (scores + budgets)          ─�
 ## Testing
 
 Tests live next to the code they cover (`*.test.ts(x)`) and query the DOM by role and
-accessible name, so they also guard accessibility.
+accessible name, so they also guard accessibility. Coverage of the app and build code is about
+92% of lines and 87% of branches; CI fails below 90% / 85% (routing and layouts are mostly
+wiring, covered end to end instead).
 
 - **Unit:** pagination range, filter parsing per universe, local search, language detection,
   error classification, retry policy and each API's data formatting (episode grouping, SWAPI
