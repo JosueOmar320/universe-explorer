@@ -1,0 +1,104 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-4) 0 var(--space-7);
+}
+
+@media (min-width: 48rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+}
+
+.eyebrow {
+  margin-bottom: var(--space-4);
+  color: var(--sw-holo);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: var(--display-letter-spacing);
+  line-height: 1;
+  text-transform: var(--display-text-transform);
+}
+
+.titleAccent {
+  color: var(--color-accent);
+}
+
+.lead {
+  max-width: 34rem;
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+/* Hologram panel: cyan glow, scanlines and a slow flicker */
+.holo {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid color-mix(in srgb, var(--sw-holo) 45%, transparent);
+  background:
+    repeating-linear-gradient(0deg, rgb(95 212 255 / 0.06) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, rgb(95 212 255 / 0.1), rgb(95 212 255 / 0.02));
+  box-shadow:
+    0 0 40px -10px var(--sw-holo-glow),
+    inset 0 0 30px -12px var(--sw-holo-glow);
+  animation: flicker 6s infinite;
+}
+
+.holo dt {
+  color: color-mix(in srgb, var(--sw-holo) 75%, white);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.holo dd {
+  margin: var(--space-1) 0 0;
+  color: var(--sw-holo);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 12px var(--sw-holo-glow);
+}
+
+.source {
+  grid-column: 1 / -1;
+  padding-top: var(--space-3);
+  border-top: 1px dashed color-mix(in srgb, var(--sw-holo) 30%, transparent);
+}
+
+.source dd {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+}
+
+@keyframes flicker {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+
+  93% {
+    opacity: 0.82;
+  }
+
+  95% {
+    opacity: 0.95;
+  }
+}

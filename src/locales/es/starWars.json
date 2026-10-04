@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "eyebrow": "Archivo galáctico · Registros de personal",
+    "titleLine1": "Cada nombre",
+    "titleLine2": "en el archivo.",
+    "lead": "Explora a los personajes de la saga: de dónde vienen, qué son y en qué películas aparecen.",
+    "records": "Registros",
+    "worlds": "Mundos",
+    "species": "Especies",
+    "films": "Películas",
+    "source": "Fuente"
+  },
+  "people": {
+    "title": "Personal",
+    "loading": "Cargando registros…",
+    "paginationLabel": "Paginación de personal",
+    "summary": "Mostrando {{from}}–{{to}} de {{total}}",
+    "summaryFiltered_one": "Mostrando {{from}}–{{to}} de {{total}} resultado",
+    "summaryFiltered_other": "Mostrando {{from}}–{{to}} de {{total}} resultados",
+    "noMatches": "Sin resultados"
+  },
+  "card": {
+    "record": "Registro {{id}}",
+    "height": "Altura",
+    "mass": "Masa",
+    "born": "Nacimiento",
+    "films_one": "Aparece en {{count}} de {{total}} películas",
+    "films_other": "Aparece en {{count}} de {{total}} películas"
+  },
+  "values": {
+    "unknown": "Desconocido"
+  },
+  "empty": {
+    "pageTitle": "No hay registros en esta página",
+    "pageDescription": "La página {{page}} está más allá del final del archivo.",
+    "firstPage": "Ir a la primera página",
+    "filteredTitle": "Ningún registro coincide",
+    "filteredDescription": "Nadie en el archivo coincide con tu búsqueda y filtros.",
+    "clearFilters": "Limpiar filtros"
+  },
+  "errors": {
+    "title": "No se puede acceder al archivo"
+  },
+  "filters": {
+    "search": "Buscar por nombre",
+    "searchPlaceholder": "Luke, Leia, R2-D2…",
+    "episode": "Película",
+    "episodeOption": "Episodio {{number}}: {{title}}",
+    "species": "Especie",
+    "clear": "Limpiar ({{count}})",
+    "clearLabel_one": "Limpiar {{count}} filtro activo",
+    "clearLabel_other": "Limpiar {{count}} filtros activos"
+  },
+  "detail": {
+    "back": "Todo el personal",
+    "loading": "Cargando registro…",
+    "profile": "Perfil",
+    "hair": "Cabello",
+    "skin": "Piel",
+    "eyes": "Ojos",
+    "gender": "Género",
+    "homeworld": "Planeta natal",
+    "climate": "Clima",
+    "terrain": "Terreno",
+    "population": "Población",
+    "species": "Especie",
+    "classification": "Clasificación",
+    "language": "Idioma",
+    "filmography": "Filmografía",
+    "episode": "Episodio {{number}}",
+    "filmMeta": "{{year}} · Dirigida por {{director}}",
+    "craft": "Naves y vehículos",
+    "starships": "Naves",
+    "vehicles": "Vehículos",
+    "noCraft": "Sin registros",
+    "notFoundTitle": "Registro no encontrado",
+    "notFoundDescription": "No hay nadie con este número de registro en el archivo.",
+    "browse": "Ver el archivo"
+  }
+}

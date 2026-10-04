@@ -34,10 +34,11 @@ describe('AppShell', () => {
     renderShell();
     const nav = screen.getByRole('navigation', { name: 'Universes' });
 
-    expect(nav).toHaveTextContent('Star Wars');
+    expect(nav).toHaveTextContent('Marvel');
     expect(screen.getAllByRole('link', { name: 'Rick and Morty' }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: 'Pokémon' }).length).toBeGreaterThan(0);
-    expect(screen.queryByRole('link', { name: /Star Wars/ })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: 'Star Wars' }).length).toBeGreaterThan(0);
+    expect(screen.queryByRole('link', { name: /Marvel/ })).not.toBeInTheDocument();
   });
 
   it('moves focus to the main content after navigating, so it is not lost', async () => {

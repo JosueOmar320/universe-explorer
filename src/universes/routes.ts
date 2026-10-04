@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router';
 import type { AvailableUniverseId } from './registry';
 import { pokemonRoute } from './pokemon/routes';
 import { rickAndMortyRoute } from './rick-and-morty/routes';
+import { starWarsRoute } from './star-wars/routes';
 import type { UniverseRoute } from './types';
 
 /**
@@ -11,6 +12,7 @@ import type { UniverseRoute } from './types';
 const routesByUniverse: Record<AvailableUniverseId, UniverseRoute> = {
   'rick-and-morty': rickAndMortyRoute,
   pokemon: pokemonRoute,
+  'star-wars': starWarsRoute,
 };
 
 export const universeRoutes: RouteObject[] = Object.entries(routesByUniverse).map(

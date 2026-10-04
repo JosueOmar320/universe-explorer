@@ -13,7 +13,7 @@ its own visual identity, while sharing a common shell, data layer and component 
 | -------------- | --------------------------------------------------- | --------- |
 | Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available |
 | Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned   |
-| Star Wars      | SWAPI                                               | Planned   |
+| Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | Available |
 | Marvel         | Marvel API (or alternative)                         | Planned   |
 
 ## Tech stack
@@ -123,6 +123,9 @@ even if two universes end up with similar components. Duplicating a card is chea
   searches/paginates it locally; each card then loads its own types through a cached,
   deduplicated query. Cards use 96px pixel sprites (~1–7 kB) instead of the official artwork
   (100–200 kB each), which would add several megabytes per page.
+- **No borrowed artwork.** SWAPI has no images, and the ones other projects use come from
+  copyrighted wikis, so the Star Wars universe is purely typographic: data readouts and
+  film "pips" instead of photos.
 - **API-provided translations over our own.** PokéAPI ships official names in many
   languages (types, categories, Pokédex entries); those are shown in the selected language
   instead of being translated by the app.
@@ -227,7 +230,8 @@ accessible name, so they also guard accessibility.
 - [x] CI: lint, typecheck, tests and build on GitHub Actions
 - [x] CD: deploy `main` to GitHub Pages
 - [x] Pokémon: Pokédex with local search, type filter and detail page
-- [ ] Star Wars and Marvel universes
+- [x] Star Wars: personnel archive with search, film/species filters and detail page
+- [ ] Marvel universe
 
 ## Disclaimer
 

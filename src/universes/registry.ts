@@ -23,7 +23,7 @@ export const UNIVERSES = [
   {
     id: 'star-wars',
     name: 'Star Wars',
-    status: 'coming-soon',
+    status: 'available',
     accentColor: '#ffe81f',
   },
   {

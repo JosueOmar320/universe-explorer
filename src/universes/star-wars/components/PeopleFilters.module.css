@@ -1,0 +1,46 @@
+.panel {
+  display: grid;
+  grid-template-areas:
+    'search'
+    'species'
+    'episode'
+    'clear';
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-top: 2px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+}
+
+.search {
+  grid-area: search;
+}
+
+.species {
+  grid-area: species;
+}
+
+.episode {
+  grid-area: episode;
+}
+
+.clear {
+  grid-area: clear;
+  justify-self: start;
+}
+
+@media (min-width: 48rem) {
+  .panel {
+    grid-template-areas:
+      'search species'
+      'episode clear';
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: end;
+    padding: var(--space-5);
+  }
+
+  .clear {
+    justify-self: end;
+  }
+}

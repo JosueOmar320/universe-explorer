@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_RICK_AND_MORTY_API_URL?: string;
   readonly VITE_POKEAPI_URL?: string;
   readonly VITE_POKEMON_SPRITES_URL?: string;
+  readonly VITE_SWAPI_URL?: string;
 }
 
 interface ImportMeta {

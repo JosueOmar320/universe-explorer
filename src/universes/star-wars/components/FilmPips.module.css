@@ -1,0 +1,22 @@
+.pips {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.pip {
+  display: grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.125rem;
+  padding: 0 2px;
+  background: var(--sw-pip-off);
+  color: var(--color-text-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+}
+
+.pip[data-on='true'] {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
