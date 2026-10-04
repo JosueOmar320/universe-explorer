@@ -6,11 +6,36 @@
     <!-- iOS home screen: SVG icons are ignored and transparency turns black -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d0e11" />
     <meta
       name="description"
-      content="Universe Explorer — a multi-universe frontend playground built with React and TypeScript."
+      content="Four public APIs, four themed interfaces, one React + TypeScript shell: browse Rick and Morty, Pokémon, Star Wars and Harry Potter in English or Spanish."
     />
     <title>Universe Explorer</title>
+
+    <!--
+      Link previews (LinkedIn, Slack, X…). Crawlers don't run JavaScript, so every page shares
+      these tags, and they need an absolute image URL: it points at the deployed site.
+      No og:url/canonical on purpose: all pages serve this same HTML.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Universe Explorer" />
+    <meta property="og:title" content="Universe Explorer — One shell. Many universes." />
+    <meta
+      property="og:description"
+      content="Four public APIs, four themed interfaces, one React + TypeScript shell. Search, filters and detail pages, in English or Spanish."
+    />
+    <meta
+      property="og:image"
+      content="https://josueomar320.github.io/universe-explorer/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Universe Explorer: One shell. Many universes. Cards for Rick and Morty, Pokémon, Star Wars and Harry Potter."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="root"></div>
