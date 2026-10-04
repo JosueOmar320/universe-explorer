@@ -4,7 +4,7 @@ import { HomePage } from '@/app/pages/HomePage';
 import { NotFoundPage } from '@/app/pages/NotFoundPage';
 import { RouteErrorPage } from '@/app/pages/RouteErrorPage';
 import { PageLoader } from '@/app/components/PageLoader';
-import { rickAndMortyRoute } from '@/universes/rick-and-morty/routes';
+import { universeRoutes } from '@/universes/routes';
 
 export const router = createBrowserRouter(
   [
@@ -20,8 +20,8 @@ export const router = createBrowserRouter(
           ErrorBoundary: RouteErrorPage,
           children: [
             { index: true, Component: HomePage },
-            // Universe routes (lazy-loaded)
-            rickAndMortyRoute,
+            // One lazy-loaded route tree per available universe (see src/universes/routes.ts)
+            ...universeRoutes,
             { path: '*', Component: NotFoundPage },
           ],
         },

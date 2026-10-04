@@ -1,8 +1,8 @@
 import { UniverseCard } from '@/app/components/UniverseCard';
-import { UNIVERSES } from '@/universes/registry';
+import { isUniverseAvailable, UNIVERSES } from '@/universes/registry';
 import styles from './HomePage.module.css';
 
-const availableCount = UNIVERSES.filter((universe) => universe.status === 'available').length;
+const availableCount = UNIVERSES.filter(isUniverseAvailable).length;
 
 export function HomePage() {
   return (

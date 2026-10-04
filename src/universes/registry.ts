@@ -1,10 +1,13 @@
 import type { Universe, UniverseId } from './types';
 
 /**
- * Single source of truth for the universes the shell knows about.
- * Adding a universe = add an entry here + register its routes in `src/app/router.tsx`.
+ * Single source of truth for the universes the shell knows about. Navigation, the home
+ * page and the router are all derived from this list.
+ *
+ * To enable a universe: set `status: 'available'` and register its routes in
+ * `src/universes/routes.ts` — TypeScript reports an error until both are done.
  */
-export const UNIVERSES: readonly Universe[] = [
+export const UNIVERSES = [
   {
     id: 'rick-and-morty',
     name: 'Rick and Morty',
@@ -33,7 +36,17 @@ export const UNIVERSES: readonly Universe[] = [
     status: 'coming-soon',
     accentColor: '#ec1d24',
   },
-];
+] as const satisfies readonly Universe[];
+
+/** Ids of the universes users can currently enter (derived at compile time). */
+export type AvailableUniverseId = Extract<
+  (typeof UNIVERSES)[number],
+  { status: 'available' }
+>['id'];
+
+export function isUniverseAvailable(universe: Universe): boolean {
+  return universe.status === 'available';
+}
 
 export function getUniversePath(id: UniverseId): string {
   return `/${id}`;
@@ -43,6 +56,6 @@ export function getUniversePath(id: UniverseId): string {
 export function findUniverseByPathname(pathname: string): Universe | undefined {
   const [, firstSegment] = pathname.split('/');
   return UNIVERSES.find(
-    (universe) => universe.status === 'available' && universe.id === firstSegment,
+    (universe) => isUniverseAvailable(universe) && universe.id === firstSegment,
   );
 }

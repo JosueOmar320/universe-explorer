@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { ArrowRightIcon } from '@/shared/icons/icons';
 import { cx } from '@/shared/utils/cx';
-import { getUniversePath } from '@/universes/registry';
+import { getUniversePath, isUniverseAvailable } from '@/universes/registry';
 import type { Universe } from '@/universes/types';
 import styles from './UniverseCard.module.css';
 
@@ -11,7 +11,7 @@ interface UniverseCardProps {
 }
 
 export function UniverseCard({ universe, position }: UniverseCardProps) {
-  const isAvailable = universe.status === 'available';
+  const isAvailable = isUniverseAvailable(universe);
   const content = (
     <>
       <span className={styles.index} aria-hidden="true">

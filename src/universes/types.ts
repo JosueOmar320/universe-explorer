@@ -1,3 +1,5 @@
+import type { NonIndexRouteObject } from 'react-router';
+
 export type UniverseId = 'rick-and-morty' | 'pokemon' | 'star-wars' | 'marvel';
 
 export type UniverseStatus = 'available' | 'coming-soon';
@@ -14,3 +16,6 @@ export interface Universe {
   /** Signature colour used by the shell to preview the universe before entering it. */
   accentColor: string;
 }
+
+/** A universe's route tree. Its path is derived from the universe id by the router. */
+export type UniverseRoute = Omit<NonIndexRouteObject, 'path'>;

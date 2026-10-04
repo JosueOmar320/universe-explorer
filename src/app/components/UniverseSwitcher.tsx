@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router';
 import { cx } from '@/shared/utils/cx';
-import { getUniversePath, UNIVERSES } from '@/universes/registry';
+import { getUniversePath, isUniverseAvailable, UNIVERSES } from '@/universes/registry';
 import styles from './UniverseSwitcher.module.css';
 
 /** Compact universe navigation rendered in the global header. */
@@ -10,7 +10,7 @@ export function UniverseSwitcher() {
       <ul className={styles.list}>
         {UNIVERSES.map((universe) => (
           <li key={universe.id} style={{ '--item-accent': universe.accentColor }}>
-            {universe.status === 'available' ? (
+            {isUniverseAvailable(universe) ? (
               <NavLink
                 to={getUniversePath(universe.id)}
                 className={({ isActive }) => cx(styles.item, isActive && styles.active)}
