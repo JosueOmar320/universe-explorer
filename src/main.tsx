@@ -1,7 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from '@/App';
-import './index.css';
+import { App } from '@/app/App';
+import '@fontsource-variable/space-grotesk/index.css';
+import '@/shared/styles/global.css';
 
 const rootElement = document.getElementById('root');
 

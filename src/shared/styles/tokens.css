@@ -1,0 +1,84 @@
+/*
+ * Design tokens.
+ *
+ * These are the defaults used by the "hub" (the universe selector). Every universe overrides
+ * a subset of them under `[data-universe='<id>']`, so shared components re-skin themselves
+ * without knowing which universe they are rendered in.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Palette */
+  --color-bg: #0d0e11;
+  --color-bg-accent: #14161b;
+  --color-surface: #16181d;
+  --color-surface-raised: #1d2027;
+  --color-border: #2a2e37;
+  --color-border-strong: #424855;
+  --color-text: #f1eee8;
+  --color-text-muted: #a3a8b3;
+  --color-text-subtle: #727885;
+  --color-accent: #ff6a3d;
+  --color-accent-hover: #ff8a63;
+  --color-accent-contrast: #0d0e11;
+  --color-success: #5ee08a;
+  --color-danger: #ff6b6b;
+  --color-warning: #ffc857;
+  --color-focus: var(--color-accent);
+
+  /* Page background (can be a gradient/pattern per universe) */
+  --page-background: var(--color-bg);
+
+  /* Header */
+  --header-background: rgb(13 14 17 / 0.82);
+  --header-border: var(--color-border);
+
+  /* Typography */
+  --font-body: 'Space Grotesk Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-body);
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, monospace;
+  --display-letter-spacing: -0.03em;
+  --display-text-transform: none;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  --text-3xl: clamp(2.25rem, 1.4rem + 3.6vw, 4.25rem);
+
+  /* Spacing (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Shape — intentionally tight radii */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Elevation */
+  --shadow-raised: 0 12px 32px -16px rgb(0 0 0 / 0.6);
+
+  /* Layout */
+  --content-max-width: 80rem;
+  --page-gutter: clamp(1rem, 4vw, 2.5rem);
+  --header-height: 4rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}
