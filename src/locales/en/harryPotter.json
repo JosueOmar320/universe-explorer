@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "eyebrow": "Wizarding registry · Hogwarts records",
+    "titleLine1": "Every witch",
+    "titleLine2": "and wizard.",
+    "lead": "Browse Hogwarts students house by house: blood status, patronus, wands and more, from the community-run Potter DB.",
+    "houses": "Students per house",
+    "students": "Hogwarts students",
+    "everyone": "All records",
+    "source": "Source"
+  },
+  "characters": {
+    "title": "Registry",
+    "loading": "Consulting the registry…",
+    "paginationLabel": "Registry pagination",
+    "summary": "Showing {{from}}–{{to}} of {{total}}",
+    "updating": "Updating results…",
+    "summaryFiltered_one": "Showing {{from}}–{{to}} of {{total}} match",
+    "summaryFiltered_other": "Showing {{from}}–{{to}} of {{total}} matches",
+    "noMatches": "No matches"
+  },
+  "card": {
+    "species": "Species",
+    "bloodStatus": "Blood status",
+    "patronus": "Patronus",
+    "noHouse": "No house"
+  },
+  "values": {
+    "unknown": "Unknown"
+  },
+  "empty": {
+    "pageTitle": "This page of the registry is blank",
+    "pageDescription": "Page {{page}} is beyond the last entry.",
+    "firstPage": "Go to first page",
+    "filteredTitle": "No entries match",
+    "filteredDescription": "Nobody in the registry matches your search. Try another name or show everyone.",
+    "clearFilters": "Clear filters"
+  },
+  "errors": {
+    "title": "The registry is unreachable"
+  },
+  "filters": {
+    "search": "Search by name",
+    "searchPlaceholder": "Hermione, Weasley, Dumbledore…",
+    "scope": "Show",
+    "students": "Hogwarts students",
+    "everyone": "Everyone",
+    "clear": "Clear ({{count}})",
+    "clearLabel_one": "Clear {{count}} active filter",
+    "clearLabel_other": "Clear {{count}} active filters"
+  },
+  "detail": {
+    "back": "All records",
+    "loading": "Opening the file…",
+    "particulars": "Particulars",
+    "gender": "Gender",
+    "nationality": "Nationality",
+    "born": "Born",
+    "died": "Died",
+    "maritalStatus": "Marital status",
+    "eyes": "Eyes",
+    "hair": "Hair",
+    "skin": "Skin",
+    "height": "Height",
+    "weight": "Weight",
+    "animagus": "Animagus",
+    "boggart": "Boggart",
+    "wands": "Wands",
+    "aliases": "Also known as",
+    "titles": "Titles",
+    "jobs": "Occupations",
+    "family": "Family",
+    "romances": "Romances",
+    "notFoundTitle": "No such entry",
+    "notFoundDescription": "The registry has no record under this name.",
+    "browse": "Browse the registry",
+    "showAll": "Show all ({{count}})",
+    "showLess": "Show fewer"
+  }
+}

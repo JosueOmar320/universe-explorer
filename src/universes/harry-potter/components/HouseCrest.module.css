@@ -1,0 +1,23 @@
+.crest {
+  flex: none;
+  filter: drop-shadow(0 2px 2px rgb(42 29 18 / 0.25));
+}
+
+.shield {
+  fill: var(--house-color);
+  stroke: var(--color-text);
+  stroke-width: 1.5;
+}
+
+.band {
+  stroke: var(--house-text);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+
+.initial {
+  fill: var(--house-text);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+}

@@ -1,6 +1,6 @@
 import type { NonIndexRouteObject } from 'react-router';
 
-export type UniverseId = 'rick-and-morty' | 'pokemon' | 'star-wars' | 'marvel';
+export type UniverseId = 'rick-and-morty' | 'pokemon' | 'star-wars' | 'harry-potter';
 
 export type UniverseStatus = 'available' | 'coming-soon';
 

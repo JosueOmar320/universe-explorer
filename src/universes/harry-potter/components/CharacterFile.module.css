@@ -1,0 +1,131 @@
+.file {
+  margin-top: var(--space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--house-color);
+  color: var(--house-text);
+  box-shadow: var(--hp-shadow);
+}
+
+.house {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin-top: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 56rem) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.lists {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* Ledger page: ruled paper */
+.page {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-strong);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 31px, rgb(90 70 50 / 0.1) 31px 32px),
+    var(--color-surface);
+  box-shadow: var(--hp-shadow);
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 3px double var(--color-border-strong);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.count {
+  color: var(--color-text-subtle);
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.particulars {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.particulars > div {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+}
+
+.particulars dt {
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+
+.particulars dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.items {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-5);
+}
+
+.items li::marker {
+  color: var(--color-accent);
+}
+
+.toggle {
+  min-height: 2.75rem;
+  margin-top: var(--space-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.toggle:hover {
+  color: var(--color-accent-hover);
+}
+
+@media (max-width: 35.99rem) {
+  .particulars > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}

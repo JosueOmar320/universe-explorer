@@ -1,0 +1,27 @@
+.panel {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  box-shadow: var(--hp-shadow);
+}
+
+.searchRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3);
+}
+
+.search {
+  flex: 1 1 18rem;
+  max-width: 32rem;
+}
+
+@media (min-width: 48rem) {
+  .panel {
+    padding: var(--space-5);
+  }
+}

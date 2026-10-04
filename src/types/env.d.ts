@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_POKEAPI_URL?: string;
   readonly VITE_POKEMON_SPRITES_URL?: string;
   readonly VITE_SWAPI_URL?: string;
+  readonly VITE_POTTERDB_URL?: string;
 }
 
 interface ImportMeta {

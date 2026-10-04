@@ -6,12 +6,12 @@ describe('findUniverseByPathname', () => {
     expect(findUniverseByPathname('/rick-and-morty')?.id).toBe('rick-and-morty');
     expect(findUniverseByPathname('/pokemon')?.id).toBe('pokemon');
     expect(findUniverseByPathname('/star-wars')?.id).toBe('star-wars');
+    expect(findUniverseByPathname('/harry-potter')?.id).toBe('harry-potter');
     expect(findUniverseByPathname('/rick-and-morty/characters/1')?.id).toBe('rick-and-morty');
   });
 
-  it('ignores the hub, unknown paths and universes that are not available yet', () => {
+  it('ignores the hub and unknown paths', () => {
     expect(findUniverseByPathname('/')).toBeUndefined();
     expect(findUniverseByPathname('/does-not-exist')).toBeUndefined();
-    expect(findUniverseByPathname('/marvel')).toBeUndefined();
   });
 });
