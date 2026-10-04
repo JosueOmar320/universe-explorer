@@ -102,4 +102,72 @@ describe('PokedexPage', () => {
     expect(await screen.findByRole('heading', { level: 3, name: 'Bulbasaur' })).toBeVisible();
     expect(router.state.location.search).toBe('');
   });
+
+  describe('search and type filter', () => {
+    const cardNames = () =>
+      screen.getAllByRole('article').map((card) => within(card).getByRole('heading').textContent);
+
+    it('searches by name locally and keeps the search in the URL', async () => {
+      const { user, router } = renderPage();
+      await screen.findByRole('heading', { level: 3, name: 'Bulbasaur' });
+
+      await user.type(screen.getByRole('searchbox', { name: 'Search by name or number' }), 'char');
+
+      expect(await screen.findByText('Showing 1–3 of 3 matches')).toBeInTheDocument();
+      expect(cardNames()).toEqual(['Charmander', 'Charmeleon', 'Charizard']);
+      expect(router.state.location.search).toBe('?q=char');
+    });
+
+    it('searches by Pokédex number', async () => {
+      renderPage('/pokemon?q=%2325');
+
+      expect(await screen.findByText('Showing 1–1 of 1 match')).toBeInTheDocument();
+      expect(cardNames()).toEqual(['Pikachu']);
+    });
+
+    it('filters by type, combines it with the search and resets the page', async () => {
+      const { user, router } = renderPage('/pokemon?page=2');
+      await screen.findByRole('heading', { level: 3, name: 'Pikachu' });
+
+      await user.click(screen.getByRole('radio', { name: 'Fire' }));
+
+      expect(await screen.findByText('Showing 1–3 of 3 matches')).toBeInTheDocument();
+      expect(cardNames()).toEqual(['Charmander', 'Charmeleon', 'Charizard']);
+      expect(router.state.location.search).toBe('?type=fire');
+
+      await user.type(screen.getByRole('searchbox', { name: 'Search by name or number' }), 'iza');
+
+      expect(await screen.findByText('Showing 1–1 of 1 match')).toBeInTheDocument();
+      expect(cardNames()).toEqual(['Charizard']);
+    });
+
+    it('restores filters from a shared URL', async () => {
+      renderPage('/pokemon?type=electric&q=rai');
+
+      expect(await screen.findByRole('heading', { level: 3, name: 'Raichu' })).toBeVisible();
+      expect(screen.getByRole('radio', { name: 'Electric' })).toBeChecked();
+      expect(screen.getByRole('searchbox', { name: 'Search by name or number' })).toHaveValue(
+        'rai',
+      );
+    });
+
+    it('shows an empty state that clears every filter', async () => {
+      const { user, router } = renderPage('/pokemon?q=zzz&type=fire');
+
+      expect(await screen.findByRole('heading', { name: 'No Pokémon match' })).toBeVisible();
+      await user.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+      expect(await screen.findByRole('heading', { level: 3, name: 'Bulbasaur' })).toBeVisible();
+      expect(router.state.location.search).toBe('');
+      expect(screen.getByRole('radio', { name: 'All' })).toBeChecked();
+    });
+
+    it('labels types with the official names in the selected language', async () => {
+      await i18n.changeLanguage('es');
+      renderPage();
+
+      expect(await screen.findByRole('radio', { name: 'Fuego' })).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Todos' })).toBeChecked();
+    });
+  });
 });

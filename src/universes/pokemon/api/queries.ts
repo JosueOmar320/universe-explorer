@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { queryOptions, skipToken } from '@tanstack/react-query';
 import type { PokemonType } from './models';
 import { getPokedexIndex, getPokemon, getPokemonSpecies, getPokemonType } from './pokeApi';
 
@@ -13,7 +13,7 @@ export const pokemonKeys = {
   index: () => [...pokemonKeys.all, 'index'] as const,
   detail: (id: number) => [...pokemonKeys.all, 'detail', id] as const,
   species: (id: number) => [...pokemonKeys.all, 'species', id] as const,
-  type: (type: PokemonType) => [...pokemonKeys.all, 'type', type] as const,
+  type: (type: PokemonType | undefined) => [...pokemonKeys.all, 'type', type] as const,
 };
 
 export function pokedexIndexQueryOptions() {
@@ -40,10 +40,11 @@ export function pokemonSpeciesQueryOptions(id: number) {
   });
 }
 
-export function pokemonTypeQueryOptions(type: PokemonType) {
+/** Without a type the query is skipped (e.g. no type filter selected). */
+export function pokemonTypeQueryOptions(type: PokemonType | undefined) {
   return queryOptions({
     queryKey: pokemonKeys.type(type),
-    queryFn: ({ signal }) => getPokemonType(type, signal),
+    queryFn: type ? ({ signal }) => getPokemonType(type, signal) : skipToken,
     ...STATIC_DATA,
   });
 }

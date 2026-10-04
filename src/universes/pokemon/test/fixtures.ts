@@ -1,5 +1,5 @@
 import { apiConfig } from '@/config/apis';
-import type { PokemonType } from '../api/models';
+import { POKEMON_TYPES, type PokemonType } from '../api/models';
 import type { NamedApiResource, PokemonDto, PokemonSpeciesDto, PokemonTypeDto } from '../api/types';
 
 const API = apiConfig.pokemon.baseUrl;
@@ -55,9 +55,14 @@ export function createPokemonDto(
 
 const TYPES_BY_ID: Partial<Record<number, PokemonType[]>> = {
   1: ['grass', 'poison'],
+  2: ['grass', 'poison'],
+  3: ['grass', 'poison'],
   4: ['fire'],
+  5: ['fire'],
+  6: ['fire', 'flying'],
   7: ['water'],
   25: ['electric'],
+  26: ['electric'],
 };
 
 /** Every species of the index has battle data; types default to `normal`. */
@@ -92,18 +97,34 @@ export const speciesDtos: Record<number, PokemonSpeciesDto> = {
   },
 }; // prettier-ignore
 
-export const typeDtos: Partial<Record<PokemonType, PokemonTypeDto>> = {
-  electric: {
-    name: 'electric',
-    names: [
-      { name: 'Electric', language: language('en') },
-      { name: 'Eléctrico', language: language('es') },
-    ],
-    pokemon: [
-      { slot: 1, pokemon: resource('pokemon/26', 'raichu') },
-      { slot: 1, pokemon: resource('pokemon/25', 'pikachu') },
-      // Alternate form: must not be listed as a separate species.
-      { slot: 1, pokemon: resource('pokemon/10080', 'pikachu-rock-star') },
-    ],
-  },
+const SPANISH_TYPE_NAMES: Partial<Record<PokemonType, string>> = {
+  electric: 'Eléctrico',
+  fire: 'Fuego',
 };
+
+/** Every type, with members derived from the Pokémon fixtures (so both always agree). */
+export const typeDtos: Partial<Record<PokemonType, PokemonTypeDto>> = Object.fromEntries(
+  POKEMON_TYPES.map((type) => {
+    const members = Object.values(pokemonDtos).filter((dto) =>
+      dto.types.some((slot) => slot.type.name === type),
+    );
+    const spanishName = SPANISH_TYPE_NAMES[type];
+    return [
+      type,
+      {
+        name: type,
+        names: [
+          { name: type.charAt(0).toUpperCase() + type.slice(1), language: language('en') },
+          ...(spanishName ? [{ name: spanishName, language: language('es') }] : []),
+        ],
+        pokemon: [
+          ...members.map((dto) => ({ slot: 1, pokemon: resource(`pokemon/${dto.id}`, dto.name) })),
+          // Alternate form: must not be listed as a separate species.
+          ...(type === 'electric'
+            ? [{ slot: 1, pokemon: resource('pokemon/10080', 'pikachu-rock-star') }]
+            : []),
+        ],
+      },
+    ];
+  }),
+);

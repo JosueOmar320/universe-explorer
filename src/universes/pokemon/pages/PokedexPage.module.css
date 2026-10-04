@@ -36,3 +36,12 @@
 .pagination {
   margin-top: var(--space-6);
 }
+
+.grid {
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.updating {
+  opacity: 0.55;
+  pointer-events: none;
+}

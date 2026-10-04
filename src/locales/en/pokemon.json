@@ -12,7 +12,10 @@
     "loading": "Loading Pokédex…",
     "paginationLabel": "Pokédex pagination",
     "summary": "Showing {{from}}–{{to}} of {{total}}",
-    "updating": "Updating results…"
+    "updating": "Updating results…",
+    "summaryFiltered_one": "Showing {{from}}–{{to}} of {{total}} match",
+    "summaryFiltered_other": "Showing {{from}}–{{to}} of {{total}} matches",
+    "noMatches": "No matches"
   },
   "card": {
     "types": "Types"
@@ -20,9 +23,20 @@
   "empty": {
     "pageTitle": "No Pokémon on this page",
     "pageDescription": "Page {{page}} is beyond the end of the Pokédex.",
-    "firstPage": "Go to first page"
+    "firstPage": "Go to first page",
+    "filteredTitle": "No Pokémon match",
+    "filteredDescription": "Nothing matches your search and type. Try another name, number or type.",
+    "clearFilters": "Clear filters"
   },
   "errors": {
     "title": "The Pokédex isn't responding"
+  },
+  "filters": {
+    "search": "Search by name or number",
+    "searchPlaceholder": "Pikachu, 25…",
+    "type": "Type",
+    "clear": "Clear ({{count}})",
+    "clearLabel_one": "Clear {{count}} active filter",
+    "clearLabel_other": "Clear {{count}} active filters"
   }
 }

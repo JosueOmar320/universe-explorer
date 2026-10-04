@@ -1,109 +1,15 @@
 .badge {
-  --type-color: var(--color-border-strong);
-  --type-text: var(--color-text);
-
   display: inline-flex;
   align-items: center;
   min-height: 1.5rem;
   padding: 0 var(--space-2);
   border-radius: var(--radius-sm);
-  background: var(--type-color);
-  color: var(--type-text);
+  background: var(--type-color, var(--color-border-strong));
+  color: var(--type-text, var(--color-text));
   font-family: var(--font-display);
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1;
   white-space: nowrap;
-}
-
-/* Background per type; text colour picked for ≥ 4.5:1 contrast on each one */
-.badge[data-type='normal'] {
-  --type-color: var(--pk-type-normal);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='fire'] {
-  --type-color: var(--pk-type-fire);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='water'] {
-  --type-color: var(--pk-type-water);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='grass'] {
-  --type-color: var(--pk-type-grass);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='electric'] {
-  --type-color: var(--pk-type-electric);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='ice'] {
-  --type-color: var(--pk-type-ice);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='fighting'] {
-  --type-color: var(--pk-type-fighting);
-  --type-text: #ffffff;
-}
-
-.badge[data-type='poison'] {
-  --type-color: var(--pk-type-poison);
-  --type-text: #ffffff;
-}
-
-.badge[data-type='ground'] {
-  --type-color: var(--pk-type-ground);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='flying'] {
-  --type-color: var(--pk-type-flying);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='psychic'] {
-  --type-color: var(--pk-type-psychic);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='bug'] {
-  --type-color: var(--pk-type-bug);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='rock'] {
-  --type-color: var(--pk-type-rock);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='ghost'] {
-  --type-color: var(--pk-type-ghost);
-  --type-text: #ffffff;
-}
-
-.badge[data-type='dragon'] {
-  --type-color: var(--pk-type-dragon);
-  --type-text: #ffffff;
-}
-
-.badge[data-type='dark'] {
-  --type-color: var(--pk-type-dark);
-  --type-text: #ffffff;
-}
-
-.badge[data-type='steel'] {
-  --type-color: var(--pk-type-steel);
-  --type-text: #1b1d26;
-}
-
-.badge[data-type='fairy'] {
-  --type-color: var(--pk-type-fairy);
-  --type-text: #1b1d26;
 }

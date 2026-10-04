@@ -44,23 +44,41 @@
   --button-font: 'Rubik Variable', var(--font-body);
   --radius-md: 6px;
 
-  /* Type colours (text colour chosen per type for AA contrast) */
+  /* Type colours, each with the text colour that reaches ≥ 4.5:1 on it */
   --pk-type-normal: #a8a77a;
+  --pk-type-normal-text: #1b1d26;
   --pk-type-fire: #ee8130;
+  --pk-type-fire-text: #1b1d26;
   --pk-type-water: #6390f0;
-  --pk-type-electric: #f7d02c;
+  --pk-type-water-text: #1b1d26;
   --pk-type-grass: #7ac74c;
+  --pk-type-grass-text: #1b1d26;
+  --pk-type-electric: #f7d02c;
+  --pk-type-electric-text: #1b1d26;
   --pk-type-ice: #96d9d6;
+  --pk-type-ice-text: #1b1d26;
   --pk-type-fighting: #c22e28;
+  --pk-type-fighting-text: #ffffff;
   --pk-type-poison: #a33ea1;
+  --pk-type-poison-text: #ffffff;
   --pk-type-ground: #e2bf65;
+  --pk-type-ground-text: #1b1d26;
   --pk-type-flying: #a98ff3;
+  --pk-type-flying-text: #1b1d26;
   --pk-type-psychic: #f95587;
+  --pk-type-psychic-text: #1b1d26;
   --pk-type-bug: #a6b91a;
+  --pk-type-bug-text: #1b1d26;
   --pk-type-rock: #b6a136;
+  --pk-type-rock-text: #1b1d26;
   --pk-type-ghost: #735797;
+  --pk-type-ghost-text: #ffffff;
   --pk-type-dragon: #6f35fc;
+  --pk-type-dragon-text: #ffffff;
   --pk-type-dark: #705746;
+  --pk-type-dark-text: #ffffff;
   --pk-type-steel: #b7b7ce;
+  --pk-type-steel-text: #1b1d26;
   --pk-type-fairy: #d685ad;
+  --pk-type-fairy-text: #1b1d26;
 }

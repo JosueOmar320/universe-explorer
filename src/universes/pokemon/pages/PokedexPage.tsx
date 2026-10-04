@@ -8,18 +8,23 @@ import { StatusPanel } from '@/shared/components/StatusPanel';
 import { usePageParam } from '@/shared/hooks/usePageParam';
 import { useResultsFocus } from '@/shared/hooks/useResultsFocus';
 import { SearchOffIcon } from '@/shared/icons/icons';
+import { cx } from '@/shared/utils/cx';
 import { PokedexHero } from '../components/PokedexHero';
+import { PokemonFilters } from '../components/PokemonFilters';
 import { PokemonGrid } from '../components/PokemonGrid';
 import { PokemonGridSkeleton } from '../components/PokemonGridSkeleton';
-import { POKEDEX_PAGE_SIZE, usePokedexPage } from '../hooks/usePokedexPage';
+import { POKEDEX_PAGE_SIZE, usePokedexResults } from '../hooks/usePokedexResults';
+import { usePokemonFilters } from '../hooks/usePokemonFilters';
 import { UNIVERSE_NAME } from '../paths';
 import styles from './PokedexPage.module.css';
 
 export function PokedexPage() {
   const { t, i18n } = useTranslation(['pokemon', 'common']);
   const { page, setPage } = usePageParam();
-  const { data, error, fetchStatus, isPending, isError, isFetching, refetch } =
-    usePokedexPage(page);
+  const { filters, activeFilterCount, setFilter, clearFilters } = usePokemonFilters();
+  const hasFilters = activeFilterCount > 0;
+  const { results, totalSpecies, isPending, isPaused, error, isRetrying, retry, isUpdating } =
+    usePokedexResults({ page, ...filters });
   const { resultsRef, focusResults } = useResultsFocus();
 
   const handlePageChange = (nextPage: number) => {
@@ -28,39 +33,53 @@ export function PokedexPage() {
   };
 
   const renderResults = () => {
-    if (isPending) {
-      return fetchStatus === 'paused' ? <OfflineState /> : <PokemonGridSkeleton />;
-    }
+    if (isPending) return isPaused ? <OfflineState /> : <PokemonGridSkeleton />;
 
-    if (isError) {
+    if (!results) {
       return (
         <QueryErrorState
           error={error}
-          onRetry={() => void refetch()}
-          isRetrying={isFetching}
+          onRetry={retry}
+          isRetrying={isRetrying}
           title={t('errors.title')}
         />
       );
     }
 
-    if (data.items.length === 0) {
+    if (results.items.length === 0) {
       return (
         <StatusPanel
           icon={<SearchOffIcon size={24} />}
-          title={t('empty.pageTitle')}
-          description={t('empty.pageDescription', { page })}
-          actions={<Button onClick={() => handlePageChange(1)}>{t('empty.firstPage')}</Button>}
+          title={hasFilters ? t('empty.filteredTitle') : t('empty.pageTitle')}
+          description={
+            hasFilters ? t('empty.filteredDescription') : t('empty.pageDescription', { page })
+          }
+          actions={
+            <>
+              {hasFilters && <Button onClick={clearFilters}>{t('empty.clearFilters')}</Button>}
+              {page > 1 && (
+                <Button
+                  variant={hasFilters ? 'secondary' : 'primary'}
+                  onClick={() => handlePageChange(1)}
+                >
+                  {t('empty.firstPage')}
+                </Button>
+              )}
+            </>
+          }
         />
       );
     }
 
     return (
       <>
-        <PokemonGrid entries={data.items} />
+        <div className={cx(styles.grid, isUpdating && styles.updating)} aria-busy={isUpdating}>
+          <PokemonGrid entries={results.items} />
+        </div>
         <Pagination
           className={styles.pagination}
           currentPage={page}
-          totalPages={data.totalPages}
+          totalPages={results.totalPages}
           onPageChange={handlePageChange}
           label={t('pokedex.paginationLabel')}
         />
@@ -69,11 +88,16 @@ export function PokedexPage() {
   };
 
   const getSummary = (): string => {
-    if (!data || data.items.length === 0) return '';
+    if (isUpdating) return t('pokedex.updating');
+    if (!results) return '';
+    if (results.items.length === 0) return hasFilters ? t('pokedex.noMatches') : '';
+
     const from = (page - 1) * POKEDEX_PAGE_SIZE + 1;
-    const to = from + data.items.length - 1;
-    const total = data.totalCount.toLocaleString(i18n.resolvedLanguage);
-    return t('pokedex.summary', { from, to, total });
+    const to = from + results.items.length - 1;
+    const total = results.totalCount.toLocaleString(i18n.resolvedLanguage);
+    return hasFilters
+      ? t('pokedex.summaryFiltered', { from, to, total, count: results.totalCount })
+      : t('pokedex.summary', { from, to, total });
   };
 
   return (
@@ -86,7 +110,7 @@ export function PokedexPage() {
         ]}
       />
 
-      <PokedexHero totalSpecies={data?.totalCount} />
+      <PokedexHero totalSpecies={totalSpecies} />
 
       <section aria-labelledby="pk-results-title" className={styles.results}>
         <header className={styles.resultsHeader}>
@@ -97,6 +121,13 @@ export function PokedexPage() {
             {getSummary()}
           </p>
         </header>
+
+        <PokemonFilters
+          filters={filters}
+          activeFilterCount={activeFilterCount}
+          onFilterChange={setFilter}
+          onClear={clearFilters}
+        />
 
         {renderResults()}
       </section>
