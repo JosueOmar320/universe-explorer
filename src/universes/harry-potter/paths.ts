@@ -7,4 +7,5 @@ export const UNIVERSE_NAME = getUniverse('harry-potter').name;
 
 export const harryPotterPaths = {
   characters: BASE_PATH,
+  character: (slug: string) => `${BASE_PATH}/${encodeURIComponent(slug)}`,
 };

@@ -48,5 +48,33 @@
     "clear": "Limpiar ({{count}})",
     "clearLabel_one": "Limpiar {{count}} filtro activo",
     "clearLabel_other": "Limpiar {{count}} filtros activos"
+  },
+  "detail": {
+    "back": "Todos los registros",
+    "loading": "Abriendo el expediente…",
+    "particulars": "Datos personales",
+    "gender": "Género",
+    "nationality": "Nacionalidad",
+    "born": "Nacimiento",
+    "died": "Fallecimiento",
+    "maritalStatus": "Estado civil",
+    "eyes": "Ojos",
+    "hair": "Cabello",
+    "skin": "Piel",
+    "height": "Altura",
+    "weight": "Peso",
+    "animagus": "Animago",
+    "boggart": "Boggart",
+    "wands": "Varitas",
+    "aliases": "También conocido como",
+    "titles": "Títulos",
+    "jobs": "Ocupaciones",
+    "family": "Familia",
+    "romances": "Relaciones",
+    "notFoundTitle": "No existe esa entrada",
+    "notFoundDescription": "El registro no tiene ninguna entrada con este nombre.",
+    "browse": "Ver el registro",
+    "showAll": "Mostrar todos ({{count}})",
+    "showLess": "Mostrar menos"
   }
 }

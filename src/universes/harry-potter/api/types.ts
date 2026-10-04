@@ -40,6 +40,7 @@ export interface CharacterAttributes {
   marital_status: string | null;
   eye_color: string | null;
   hair_color: string | null;
+  skin_color: string | null;
   height: string | null;
   weight: string | null;
   alias_names: string[];

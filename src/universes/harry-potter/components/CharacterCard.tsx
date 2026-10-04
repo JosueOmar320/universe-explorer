@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
+import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import type { Character } from '../api/models';
+import { harryPotterPaths } from '../paths';
 import { houseColorVars } from '../utils/houses';
 import { HouseCrest } from './HouseCrest';
 import styles from './CharacterCard.module.css';
@@ -15,7 +18,16 @@ export function CharacterCard({ character }: { character: Character }) {
         <span className={styles.house}>{character.house ?? t('card.noHouse')}</span>
       </div>
 
-      <h3 className={styles.name}>{character.name}</h3>
+      <h3 className={styles.name}>
+        {/* Stretched over the card (see ::after); its accessible name is just the name. */}
+        <Link
+          to={harryPotterPaths.character(character.slug)}
+          state={FROM_LIST_STATE}
+          className={styles.link}
+        >
+          {character.name}
+        </Link>
+      </h3>
 
       <dl className={styles.facts}>
         <div>

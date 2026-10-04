@@ -25,6 +25,7 @@ export interface Character {
   maritalStatus: string | null;
   eyeColor: string | null;
   hairColor: string | null;
+  skinColor: string | null;
   height: string | null;
   weight: string | null;
   aliases: string[];

@@ -14,6 +14,7 @@ const EMPTY_ATTRIBUTES: Omit<CharacterAttributes, 'slug' | 'name'> = {
   marital_status: null,
   eye_color: null,
   hair_color: null,
+  skin_color: null,
   height: null,
   weight: null,
   alias_names: [],
@@ -50,6 +51,7 @@ export const characters: CharacterResource[] = [
     eye_color: 'Bright green',
     alias_names: ['The Boy Who Lived', 'The Chosen One'],
     jobs: ['Head of the Auror Office'],
+    family_members: Array.from({ length: 10 }, (_, index) => `Relative ${index + 1}`),
     wands: ["11', Holly, phoenix feather"],
   }),
   createCharacter('hermione-granger', 'Hermione Jean Granger', {

@@ -14,5 +14,12 @@ export const harryPotterRoute: UniverseRoute = {
         return { Component: CharactersPage };
       },
     },
+    {
+      path: ':slug',
+      lazy: async () => {
+        const { CharacterDetailPage } = await import('./pages/CharacterDetailPage');
+        return { Component: CharacterDetailPage };
+      },
+    },
   ],
 };

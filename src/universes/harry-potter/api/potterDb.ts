@@ -25,6 +25,7 @@ function toCharacter({ id, attributes: a }: CharacterResource): Character {
     maritalStatus: a.marital_status,
     eyeColor: a.eye_color,
     hairColor: a.hair_color,
+    skinColor: a.skin_color,
     height: a.height,
     weight: a.weight,
     aliases: a.alias_names ?? [],
