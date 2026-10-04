@@ -52,9 +52,3 @@ export async function getEpisodes(
   const response = await client.get<Episode | Episode[]>(`episode/${ids.join(',')}`, { signal });
   return Array.isArray(response) ? response : [response];
 }
-
-/** Extracts the numeric id from a resource URL such as `.../api/episode/28`. */
-export function getIdFromResourceUrl(url: string): number | undefined {
-  const id = Number(url.split('/').at(-1));
-  return Number.isInteger(id) && id > 0 ? id : undefined;
-}

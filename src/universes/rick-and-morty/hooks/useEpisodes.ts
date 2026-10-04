@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { getIdFromResourceUrl } from '@/shared/api/resourceUrl';
 import { episodesQueryOptions } from '../api/queries';
-import { getIdFromResourceUrl } from '../api/rickAndMortyApi';
 
 /** Episodes referenced by a character (`character.episode` holds resource URLs). */
 export function useEpisodes(episodeUrls: readonly string[] | undefined) {
