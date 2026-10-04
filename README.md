@@ -34,7 +34,7 @@ src/
 │   └── pages/                # Home (hub), 404, route error boundary
 ├── shared/                   # Universe-agnostic building blocks
 │   ├── api/                  # fetchJson + HttpError
-│   ├── components/           # Button, Pagination, Skeleton, StatusPanel
+│   ├── components/           # Button, Pagination, Skeleton, StatusPanel, form fields
 │   ├── hooks/                # usePageParam (URL-synced pagination)
 │   ├── icons/                # Inline SVG icons
 │   ├── styles/               # Design tokens + global styles
@@ -44,7 +44,8 @@ src/
 │   ├── types.ts
 │   └── rick-and-morty/       # Everything specific to one universe
 │       ├── api/              # DTO types, service, query keys/options
-│       ├── hooks/            # useCharacters
+│       ├── hooks/            # useCharacters, useCharacterFilters, useCharacterTotal
+│       ├── filters.ts        # Filter options + URL parsing
 │       ├── components/       # CharacterCard, PortalHero, StatusBadge…
 │       ├── layout/           # Universe entry: loads theme + fonts
 │       ├── pages/            # Route components
@@ -63,8 +64,12 @@ and universes never import from each other.
 - **Theming via design tokens.** Shared components only use CSS variables. The shell sets
   `data-universe="<id>"` and each universe overrides tokens (colours, fonts, radii, backgrounds,
   button style). Universe-specific components can go further with their own styles.
-- **Server state lives in TanStack Query**, UI state in the URL (`?page=`), and there is no
-  global client store — nothing in the app needs one yet.
+- **Server state lives in TanStack Query**, UI state in the URL (`?name=&status=&page=`), and
+  there is no global client store — nothing in the app needs one yet. URL state makes every
+  filtered view shareable and keeps the back button meaningful.
+- **Debounced search with a local draft.** The input updates instantly; the URL (and therefore
+  the request) only changes after the user pauses typing, using `replace` to avoid flooding
+  the history.
 - **Code splitting per universe.** Universe routes are lazy, so their JS, CSS and fonts load
   only when the user enters that universe.
 - **API quirks are handled at the service boundary.** The Rick and Morty API returns 404 for
@@ -103,7 +108,7 @@ These scripts are intentionally granular so each one can become an independent C
 - [x] Project setup and tooling
 - [x] App shell, universe registry and theming foundation
 - [x] Rick and Morty: API layer and character listing with pagination
-- [ ] Rick and Morty: search and filters (URL-synced)
+- [x] Rick and Morty: search and filters (URL-synced)
 - [ ] Rick and Morty: character detail page
 - [ ] Tests (Vitest + Testing Library + MSW)
 - [ ] CI: lint, typecheck, tests and build on GitHub Actions

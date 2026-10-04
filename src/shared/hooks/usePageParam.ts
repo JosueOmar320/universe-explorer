@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
-const PAGE_PARAM = 'page';
+export const PAGE_PARAM = 'page';
 
 function parsePage(value: string | null): number {
   const page = Number(value);

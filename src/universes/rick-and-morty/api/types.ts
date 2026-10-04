@@ -37,13 +37,24 @@ export interface ApiPaginatedResponse<T> {
   results: T[];
 }
 
-/** Query parameters supported by `GET /character`. */
-export interface CharacterListParams {
-  page: number;
+/** Filter values accepted by `GET /character` (matching is case-insensitive). */
+export type StatusFilter = 'alive' | 'dead' | 'unknown';
+
+export type GenderFilter = 'female' | 'male' | 'genderless' | 'unknown';
+
+/**
+ * Filters supported by `GET /character`. Note that `name` and `species` are partial
+ * matches on the API side (e.g. species "human" also returns "Humanoid").
+ */
+export interface CharacterFilters {
   name?: string;
-  status?: CharacterStatus;
+  status?: StatusFilter;
+  gender?: GenderFilter;
   species?: string;
-  gender?: CharacterGender;
+}
+
+export interface CharacterListParams extends CharacterFilters {
+  page: number;
 }
 
 /** UI-friendly page of characters (we navigate by page number, not by `next` URLs). */
