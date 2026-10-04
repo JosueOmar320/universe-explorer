@@ -121,7 +121,8 @@
   text-align: center;
 }
 
-@media (max-width: 47.99rem) {
+/* Below ~900px the brand, four universes and the language switcher don't fit in one row */
+@media (max-width: 55.99rem) {
   .headerInner {
     padding-top: var(--space-3);
     padding-bottom: 0;
