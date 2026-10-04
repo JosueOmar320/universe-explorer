@@ -27,6 +27,11 @@ export const apiConfig = {
     baseUrl: resolveBaseUrl(import.meta.env.VITE_SWAPI_URL, 'https://swapi.info/api'),
     timeoutMs: 10_000,
   },
+  // PotterDB: JSON:API with server-side filtering, sorting and pagination (~5,400 characters).
+  harryPotter: {
+    baseUrl: resolveBaseUrl(import.meta.env.VITE_POTTERDB_URL, 'https://api.potterdb.com/v1'),
+    timeoutMs: 10_000,
+  },
 } as const satisfies Record<string, ApiClientConfig>;
 
 /** Static assets served outside the APIs (images are not fetched through the API client). */
