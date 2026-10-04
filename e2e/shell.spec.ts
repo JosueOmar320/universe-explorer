@@ -71,3 +71,30 @@ test('unknown addresses show a way back home', async ({ page }) => {
 
   await expect(page).toHaveURL('/');
 });
+
+test('the global search finds records in any universe', async ({ page, isMobile }) => {
+  await page.goto('/pokemon');
+  const search = page.getByRole('button', { name: 'Search' });
+  await expect(search).toBeVisible();
+
+  // Escape (handled natively by <dialog>) dismisses it and gives focus back.
+  if (!isMobile) {
+    await search.focus();
+    await page.keyboard.press('ControlOrMeta+k');
+    await expect(page.getByRole('dialog', { name: 'Search every universe' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog')).toBeHidden();
+    await expect(search).toBeFocused();
+  }
+
+  await search.click();
+  const combobox = page.getByRole('combobox', { name: 'Search characters in every universe' });
+  await expect(combobox).toBeFocused();
+  await combobox.fill('hermione');
+  await page.getByRole('option', { name: /Hermione Jean Granger/ }).click();
+
+  await expect(page).toHaveURL('/harry-potter/hermione-granger');
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Hermione Jean Granger' }),
+  ).toBeVisible();
+});

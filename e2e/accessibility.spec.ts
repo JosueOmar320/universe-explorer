@@ -18,6 +18,15 @@ test.describe('axe finds no WCAG A/AA violations', () => {
     await expectAccessible();
   });
 
+  test('with the global search open', async ({ page, expectAccessible }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Search' }).click();
+    await page.getByRole('combobox').fill('lu');
+    await expect(page.getByRole('option').first()).toBeVisible();
+
+    await expectAccessible();
+  });
+
   test('on the not-found page', async ({ page, expectAccessible }) => {
     await page.goto('/nowhere');
     await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();
