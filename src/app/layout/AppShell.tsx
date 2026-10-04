@@ -1,7 +1,9 @@
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Outlet, ScrollRestoration, useNavigation } from 'react-router';
 import { LanguageSwitcher } from '@/app/components/LanguageSwitcher';
 import { UniverseSwitcher } from '@/app/components/UniverseSwitcher';
+import { useFocusOnPathChange } from '@/shared/hooks/useFocusOnPathChange';
 import { OrbitMarkIcon } from '@/shared/icons/icons';
 import { useActiveUniverse } from '@/universes/useActiveUniverse';
 import styles from './AppShell.module.css';
@@ -14,6 +16,8 @@ export function AppShell() {
   const { t } = useTranslation();
   const activeUniverse = useActiveUniverse();
   const isNavigating = useNavigation().state === 'loading';
+  const mainRef = useRef<HTMLElement>(null);
+  useFocusOnPathChange(mainRef);
 
   return (
     <div className={styles.shell} data-universe={activeUniverse?.id ?? 'hub'}>
@@ -35,7 +39,7 @@ export function AppShell() {
         </div>
       </header>
 
-      <main id="main-content" tabIndex={-1} className={styles.main}>
+      <main id="main-content" ref={mainRef} tabIndex={-1} className={styles.main}>
         <Outlet />
       </main>
 

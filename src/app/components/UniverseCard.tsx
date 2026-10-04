@@ -14,33 +14,32 @@ interface UniverseCardProps {
 export function UniverseCard({ universe, position }: UniverseCardProps) {
   const { t } = useTranslation();
   const isAvailable = isUniverseAvailable(universe);
-  const content = (
-    <>
+
+  return (
+    <article
+      className={cx(styles.card, isAvailable ? styles.available : styles.upcoming)}
+      style={{ '--card-accent': universe.accentColor }}
+    >
       <span className={styles.index} aria-hidden="true">
         {String(position).padStart(2, '0')}
       </span>
-      <h3 className={styles.name}>{universe.name}</h3>
-      <p className={styles.tagline}>{t(`universes.${universe.id}.tagline`)}</p>
-      <span className={styles.footer}>
+      <h3 className={styles.name}>
         {isAvailable ? (
-          <>
-            {t('home.enterUniverse')} <ArrowRightIcon size={18} className={styles.arrow} />
-          </>
+          // Stretched over the card (see ::after) so the link's name is just the universe name.
+          <Link to={getUniversePath(universe.id)} className={styles.link}>
+            {universe.name}
+          </Link>
         ) : (
-          t('home.comingSoon')
+          universe.name
         )}
-      </span>
-    </>
-  );
-
-  return (
-    <article className={styles.card} style={{ '--card-accent': universe.accentColor }}>
+      </h3>
+      <p className={styles.tagline}>{t(`universes.${universe.id}.tagline`)}</p>
       {isAvailable ? (
-        <Link to={getUniversePath(universe.id)} className={styles.surface}>
-          {content}
-        </Link>
+        <span className={styles.footer} aria-hidden="true">
+          {t('home.enterUniverse')} <ArrowRightIcon size={18} className={styles.arrow} />
+        </span>
       ) : (
-        <div className={cx(styles.surface, styles.upcoming)}>{content}</div>
+        <span className={styles.footer}>{t('home.comingSoon')}</span>
       )}
     </article>
   );

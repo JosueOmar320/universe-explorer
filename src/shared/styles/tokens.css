@@ -17,7 +17,7 @@
   --color-border-strong: #424855;
   --color-text: #f1eee8;
   --color-text-muted: #a3a8b3;
-  --color-text-subtle: #727885;
+  --color-text-subtle: #848a95; /* ≥ 4.5:1 on every surface (WCAG AA) */
   --color-accent: #ff6a3d;
   --color-accent-hover: #ff8a63;
   --color-accent-contrast: #0d0e11;
