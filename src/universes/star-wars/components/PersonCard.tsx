@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import type { Person } from '../api/models';
-import { HUMAN_SPECIES_ID, useArchive } from '../hooks/useArchive';
+import { useArchive } from '../hooks/useArchive';
 import { formatCentimetres, formatKilograms, formatRecordNumber } from '../utils/format';
+import { getSpeciesIds } from '../utils/people';
 import { FilmPips } from './FilmPips';
 import styles from './PersonCard.module.css';
 
@@ -11,9 +12,9 @@ export function PersonCard({ person }: { person: Person }) {
   const language = i18n.resolvedLanguage;
   const unknown = t('values.unknown');
 
-  const speciesId = person.speciesIds[0] ?? HUMAN_SPECIES_ID;
+  const [speciesId] = getSpeciesIds(person);
   const origin = [
-    speciesById?.get(speciesId)?.name,
+    speciesId === undefined ? undefined : speciesById?.get(speciesId)?.name,
     person.homeworldId === null ? undefined : planetsById?.get(person.homeworldId)?.name,
   ].filter(Boolean);
 

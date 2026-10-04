@@ -100,4 +100,66 @@ describe('PeoplePage', () => {
 
     expect(await screen.findByRole('heading', { level: 3, name: 'Luke Skywalker' })).toBeVisible();
   });
+
+  describe('search and filters', () => {
+    const cardNames = () =>
+      screen.getAllByRole('article').map((card) => within(card).getByRole('heading').textContent);
+
+    it('searches by name locally and keeps the search in the URL', async () => {
+      const { user, router } = renderPage();
+      await screen.findByRole('heading', { level: 3, name: 'Luke Skywalker' });
+
+      await user.type(screen.getByRole('searchbox', { name: 'Search by name' }), 'c3po');
+
+      expect(await screen.findByText('Showing 1–1 of 1 match')).toBeVisible();
+      expect(cardNames()).toEqual(['C-3PO']);
+      expect(router.state.location.search).toBe('?q=c3po');
+    });
+
+    it('filters by film, announcing each option by its full title', async () => {
+      const { user, router } = renderPage('/star-wars?page=2');
+      await screen.findByText('Showing 13–14 of 14');
+
+      await user.click(
+        await screen.findByRole('radio', { name: 'Episode V: The Empire Strikes Back' }),
+      );
+
+      expect(await screen.findByText('Showing 1–1 of 1 match')).toBeVisible();
+      expect(cardNames()).toEqual(['Luke Skywalker']);
+      expect(router.state.location.search).toBe('?episode=5');
+    });
+
+    it('filters by species with the API names, counting implicit humans as Human', async () => {
+      const { user } = renderPage();
+      await screen.findByRole('heading', { level: 3, name: 'Luke Skywalker' });
+
+      const species = screen.getByRole('combobox', { name: 'Species' });
+      await user.selectOptions(species, 'Droid');
+      expect(await screen.findByText('Showing 1–1 of 1 match')).toBeVisible();
+      expect(cardNames()).toEqual(['C-3PO']);
+
+      await user.selectOptions(species, 'Human');
+      expect(await screen.findByText('Showing 1–12 of 12 matches')).toBeVisible();
+      expect(cardNames()).toContain('Luke Skywalker');
+      expect(cardNames()).not.toContain('C-3PO');
+    });
+
+    it('ignores ids from the URL that do not exist in the archive', async () => {
+      renderPage('/star-wars?episode=42');
+
+      // The unknown episode doesn't empty the list: every record is still listed.
+      expect(await screen.findByText(/^Showing 1–12 of 14/)).toBeVisible();
+      expect(screen.getAllByRole('article')).toHaveLength(12);
+    });
+
+    it('shows an empty state that clears every filter', async () => {
+      const { user, router } = renderPage('/star-wars?q=yoda&species=2');
+
+      expect(await screen.findByRole('heading', { name: 'No records match' })).toBeVisible();
+      await user.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+      expect(await screen.findByText('Showing 1–12 of 14')).toBeVisible();
+      expect(router.state.location.search).toBe('');
+    });
+  });
 });

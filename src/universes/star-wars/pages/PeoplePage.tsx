@@ -9,9 +9,11 @@ import { usePageParam } from '@/shared/hooks/usePageParam';
 import { useResultsFocus } from '@/shared/hooks/useResultsFocus';
 import { SearchOffIcon } from '@/shared/icons/icons';
 import { HoloHero } from '../components/HoloHero';
+import { PeopleFilters } from '../components/PeopleFilters';
 import { PeopleGrid } from '../components/PeopleGrid';
 import { PeopleGridSkeleton } from '../components/PeopleGridSkeleton';
 import { useArchive } from '../hooks/useArchive';
+import { usePeopleFilters } from '../hooks/usePeopleFilters';
 import { PEOPLE_PAGE_SIZE, usePeopleResults } from '../hooks/usePeopleResults';
 import { UNIVERSE_NAME } from '../paths';
 import styles from './PeoplePage.module.css';
@@ -19,8 +21,11 @@ import styles from './PeoplePage.module.css';
 export function PeoplePage() {
   const { t, i18n } = useTranslation(['starWars', 'common']);
   const { page, setPage } = usePageParam();
+  const { filters, activeFilterCount, setFilter, clearFilters } = usePeopleFilters();
+  const hasFilters = activeFilterCount > 0;
   const { results, totalPeople, isPending, isPaused, error, isRetrying, retry } = usePeopleResults({
     page,
+    ...filters,
   });
   const { planetsById, speciesById, films } = useArchive();
   const { resultsRef, focusResults } = useResultsFocus();
@@ -48,9 +53,23 @@ export function PeoplePage() {
       return (
         <StatusPanel
           icon={<SearchOffIcon size={24} />}
-          title={t('empty.pageTitle')}
-          description={t('empty.pageDescription', { page })}
-          actions={<Button onClick={() => handlePageChange(1)}>{t('empty.firstPage')}</Button>}
+          title={hasFilters ? t('empty.filteredTitle') : t('empty.pageTitle')}
+          description={
+            hasFilters ? t('empty.filteredDescription') : t('empty.pageDescription', { page })
+          }
+          actions={
+            <>
+              {hasFilters && <Button onClick={clearFilters}>{t('empty.clearFilters')}</Button>}
+              {page > 1 && (
+                <Button
+                  variant={hasFilters ? 'secondary' : 'primary'}
+                  onClick={() => handlePageChange(1)}
+                >
+                  {t('empty.firstPage')}
+                </Button>
+              )}
+            </>
+          }
         />
       );
     }
@@ -70,11 +89,14 @@ export function PeoplePage() {
   };
 
   const getSummary = (): string => {
-    if (!results || results.items.length === 0) return '';
+    if (!results) return '';
+    if (results.items.length === 0) return hasFilters ? t('people.noMatches') : '';
     const from = (page - 1) * PEOPLE_PAGE_SIZE + 1;
     const to = from + results.items.length - 1;
     const total = results.totalCount.toLocaleString(i18n.resolvedLanguage);
-    return t('people.summary', { from, to, total });
+    return hasFilters
+      ? t('people.summaryFiltered', { from, to, total, count: results.totalCount })
+      : t('people.summary', { from, to, total });
   };
 
   return (
@@ -103,6 +125,15 @@ export function PeoplePage() {
             {getSummary()}
           </p>
         </header>
+
+        <PeopleFilters
+          filters={filters}
+          activeFilterCount={activeFilterCount}
+          onFilterChange={setFilter}
+          onClear={clearFilters}
+          films={films}
+          species={speciesById ? [...speciesById.values()] : undefined}
+        />
 
         {renderResults()}
       </section>

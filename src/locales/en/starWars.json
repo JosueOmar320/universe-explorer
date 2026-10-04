@@ -14,7 +14,10 @@
     "title": "Personnel",
     "loading": "Loading records…",
     "paginationLabel": "Personnel pagination",
-    "summary": "Showing {{from}}–{{to}} of {{total}}"
+    "summary": "Showing {{from}}–{{to}} of {{total}}",
+    "summaryFiltered_one": "Showing {{from}}–{{to}} of {{total}} match",
+    "summaryFiltered_other": "Showing {{from}}–{{to}} of {{total}} matches",
+    "noMatches": "No matches"
   },
   "card": {
     "record": "Record {{id}}",
@@ -30,9 +33,22 @@
   "empty": {
     "pageTitle": "No records on this page",
     "pageDescription": "Page {{page}} is beyond the end of the archive.",
-    "firstPage": "Go to first page"
+    "firstPage": "Go to first page",
+    "filteredTitle": "No records match",
+    "filteredDescription": "No one in the archive matches your search and filters.",
+    "clearFilters": "Clear filters"
   },
   "errors": {
     "title": "The archive is unreachable"
+  },
+  "filters": {
+    "search": "Search by name",
+    "searchPlaceholder": "Luke, Leia, R2-D2…",
+    "episode": "Film",
+    "episodeOption": "Episode {{number}}: {{title}}",
+    "species": "Species",
+    "clear": "Clear ({{count}})",
+    "clearLabel_one": "Clear {{count}} active filter",
+    "clearLabel_other": "Clear {{count}} active filters"
   }
 }

@@ -14,7 +14,10 @@
     "title": "Personal",
     "loading": "Cargando registros…",
     "paginationLabel": "Paginación de personal",
-    "summary": "Mostrando {{from}}–{{to}} de {{total}}"
+    "summary": "Mostrando {{from}}–{{to}} de {{total}}",
+    "summaryFiltered_one": "Mostrando {{from}}–{{to}} de {{total}} resultado",
+    "summaryFiltered_other": "Mostrando {{from}}–{{to}} de {{total}} resultados",
+    "noMatches": "Sin resultados"
   },
   "card": {
     "record": "Registro {{id}}",
@@ -30,9 +33,22 @@
   "empty": {
     "pageTitle": "No hay registros en esta página",
     "pageDescription": "La página {{page}} está más allá del final del archivo.",
-    "firstPage": "Ir a la primera página"
+    "firstPage": "Ir a la primera página",
+    "filteredTitle": "Ningún registro coincide",
+    "filteredDescription": "Nadie en el archivo coincide con tu búsqueda y filtros.",
+    "clearFilters": "Limpiar filtros"
   },
   "errors": {
     "title": "No se puede acceder al archivo"
+  },
+  "filters": {
+    "search": "Buscar por nombre",
+    "searchPlaceholder": "Luke, Leia, R2-D2…",
+    "episode": "Película",
+    "episodeOption": "Episodio {{number}}: {{title}}",
+    "species": "Especie",
+    "clear": "Limpiar ({{count}})",
+    "clearLabel_one": "Limpiar {{count}} filtro activo",
+    "clearLabel_other": "Limpiar {{count}} filtros activos"
   }
 }

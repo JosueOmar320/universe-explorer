@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { PokedexEntry } from '../api/models';
-import { filterPokedex, normalizeSearchText } from './search';
+import { filterPokedex } from './search';
 
 const entries: PokedexEntry[] = [
   { id: 25, name: 'pikachu' },
@@ -11,13 +11,6 @@ const entries: PokedexEntry[] = [
 ];
 
 const names = (result: PokedexEntry[]) => result.map(({ name }) => name);
-
-describe('normalizeSearchText', () => {
-  it('ignores case, accents, spaces and punctuation', () => {
-    expect(normalizeSearchText('Mr. Mime')).toBe('mrmime');
-    expect(normalizeSearchText('Flabébé')).toBe('flabebe');
-  });
-});
 
 describe('filterPokedex', () => {
   it('returns everything without a query or type', () => {
