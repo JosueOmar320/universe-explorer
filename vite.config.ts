@@ -13,8 +13,29 @@ export default defineConfig(({ mode }) => ({
   base: process.env.BASE_PATH ?? '/',
   plugins: [
     react(),
-    // Every available universe gets a real entry point (HTTP 200) on static hosting.
-    spaEntryPoints({ universesDir: fileURLToPath(new URL('./src/universes', import.meta.url)) }),
+    // Every available universe gets a real entry point (HTTP 200) on static hosting, which
+    // preloads what its first view needs.
+    spaEntryPoints({
+      universesDir: fileURLToPath(new URL('./src/universes', import.meta.url)),
+      criticalFonts: {
+        home: ['space-grotesk-latin-wght-normal'],
+        universes: {
+          'rick-and-morty': [
+            'space-grotesk-latin-wght-normal',
+            'chakra-petch-latin-700-normal',
+            'ibm-plex-mono-latin-400-normal',
+            'ibm-plex-mono-latin-500-normal',
+          ],
+          pokemon: ['space-grotesk-latin-wght-normal', 'rubik-latin-wght-normal'],
+          'star-wars': [
+            'space-grotesk-latin-wght-normal',
+            'oxanium-latin-wght-normal',
+            'share-tech-mono-latin-400-normal',
+          ],
+          'harry-potter': ['cinzel-latin-wght-normal', 'eb-garamond-latin-wght-normal'],
+        },
+      },
+    }),
     // `mock` mode serves every API from fixtures through MSW (dev:mock, end-to-end tests).
     mode === 'mock' && mockServiceWorker(),
   ],
