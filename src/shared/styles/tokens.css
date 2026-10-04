@@ -82,3 +82,13 @@
     --duration-base: 0ms;
   }
 }
+
+/*
+ * A var() resolves where the property is declared: on :root alone, the focus colour would keep
+ * the hub's orange inside every universe (2.3:1 on Harry Potter's parchment, below the 3:1 a
+ * focus indicator needs). Declaring it again on the themed element makes it follow the
+ * universe's accent. Universe themes load later, so they can still override it.
+ */
+[data-universe] {
+  --color-focus: var(--color-accent);
+}
