@@ -11,6 +11,14 @@ All notable changes to this project are documented here. The format follows
 - View transitions from a list to a detail page: the record's name morphs into the page heading
   (skipped with reduced motion and in browsers without support).
 
+### Fixed
+
+- The pagination of every list wrapped on narrow phones in Spanish ("Página 1 / 3"), squeezing
+  its arrows away; below 480px the buttons now show only their arrows.
+- Filter fields could not shrink below their input's intrinsic width, so a search with text
+  overflowed a 320px screen.
+- Tests waiting on the debounced search failed at random on loaded CI runners.
+
 ### Changed
 
 - Dependabot ignores major updates of `@types/node` (they follow `.nvmrc`) and, for now, of msw.

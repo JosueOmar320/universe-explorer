@@ -316,7 +316,8 @@ wiring, covered end to end instead).
   universe switching and theming, the persisted language, the global search, the skip link and
   the 404 page.
   They also check that each first view preloads exactly the fonts it renders, since that list
-  is maintained by hand in `vite.config.ts`.
+  is maintained by hand in `vite.config.ts`, and that no page scrolls sideways on a 320px phone
+  in Spanish (the longest translations).
 - **Accessibility:** [axe](https://github.com/dequelabs/axe-core) checks every page type
   (home, the four listings and detail pages, 404, Spanish) against WCAG 2.2 A/AA. Text that axe
   measures below the AA ratio but files as "needs review" (very short labels) fails too, as it
