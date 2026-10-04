@@ -9,7 +9,7 @@ export const UNIVERSES: readonly Universe[] = [
     id: 'rick-and-morty',
     name: 'Rick and Morty',
     tagline: 'Browse every character across infinite dimensions.',
-    status: 'coming-soon',
+    status: 'available',
     accentColor: '#97ce4c',
   },
   {

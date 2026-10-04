@@ -1,0 +1,44 @@
+.badge {
+  --status-color: var(--rm-status-unknown);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid color-mix(in srgb, var(--status-color) 45%, transparent);
+  background: rgb(4 8 10 / 0.78);
+  backdrop-filter: blur(6px);
+  color: var(--status-color);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.badge[data-status='Alive'] {
+  --status-color: var(--rm-status-alive);
+}
+
+.badge[data-status='Dead'] {
+  --status-color: var(--rm-status-dead);
+}
+
+.indicator {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--status-color);
+  box-shadow: 0 0 8px var(--status-color);
+}
+
+.badge[data-status='Alive'] .indicator {
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}

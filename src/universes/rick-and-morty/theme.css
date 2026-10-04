@@ -1,0 +1,55 @@
+/*
+ * Rick and Morty theme: a lab-terminal / sci-fi archive look.
+ * Only token overrides live here — components consume tokens, never hard-coded colours.
+ * Fonts are loaded with this (lazy) universe chunk, latin subset only.
+ */
+@import '@fontsource/chakra-petch/latin-500.css';
+@import '@fontsource/chakra-petch/latin-600.css';
+@import '@fontsource/chakra-petch/latin-700.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+
+[data-universe='rick-and-morty'] {
+  /* Palette */
+  --color-bg: #070b0f;
+  --color-surface: #0c1419;
+  --color-surface-raised: #122028;
+  --color-border: #1b2c35;
+  --color-border-strong: #2b4652;
+  --color-text: #e4f3e6;
+  --color-text-muted: #93acae;
+  --color-text-subtle: #5f7c80;
+  --color-accent: #97ce4c;
+  --color-accent-hover: #b4e872;
+  --color-accent-contrast: #061005;
+  --color-danger: #ff6b57;
+
+  /* Universe-specific tokens */
+  --rm-portal-glow: rgb(151 206 76 / 0.35);
+  --rm-cyan: #3fd0d4;
+  --rm-status-alive: #97ce4c;
+  --rm-status-dead: #ff6b57;
+  --rm-status-unknown: #8a9ca0;
+
+  /* Deep space + faint lab grid */
+  --page-background:
+    radial-gradient(ellipse 70% 50% at 90% -10%, rgb(151 206 76 / 0.14), transparent 60%),
+    radial-gradient(ellipse 60% 50% at -10% 110%, rgb(63 208 212 / 0.08), transparent 60%),
+    linear-gradient(rgb(151 206 76 / 0.03) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgb(151 206 76 / 0.03) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--color-bg);
+  --header-background: rgb(7 11 15 / 0.82);
+  --header-border: color-mix(in srgb, var(--color-accent) 18%, var(--color-border));
+
+  /* Typography */
+  --font-display: 'Chakra Petch', var(--font-body);
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --display-text-transform: uppercase;
+  --display-letter-spacing: 0.01em;
+
+  /* Controls */
+  --button-font: 'Chakra Petch', var(--font-body);
+  --button-text-transform: uppercase;
+  --button-letter-spacing: 0.08em;
+  --radius-md: 2px;
+}

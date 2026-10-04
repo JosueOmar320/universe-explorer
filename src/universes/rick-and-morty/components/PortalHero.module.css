@@ -1,0 +1,147 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-4) 0 var(--space-7);
+}
+
+@media (min-width: 48rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+}
+
+.eyebrow {
+  margin-bottom: var(--space-4);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: '>';
+  margin-right: var(--space-2);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: var(--display-letter-spacing);
+  line-height: 0.95;
+  text-transform: var(--display-text-transform);
+}
+
+.titleAccent {
+  color: var(--color-accent);
+  text-shadow: 0 0 32px var(--rm-portal-glow);
+}
+
+.lead {
+  max-width: 34rem;
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.stats > div {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-left: 3px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent);
+}
+
+.stats dt {
+  color: var(--color-text-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stats dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Decorative portal: layered gradients, no image assets */
+.portal {
+  position: relative;
+  justify-self: center;
+  width: clamp(11rem, 30vw, 19rem);
+  aspect-ratio: 1;
+}
+
+.portal > span {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.portalRing {
+  inset: 0;
+  background: conic-gradient(from 0deg, #2c8a35, #b8f05a, #49b23e, #e1ff9a, #2c8a35);
+  box-shadow:
+    0 0 48px 8px var(--rm-portal-glow),
+    0 0 120px 30px rgb(151 206 76 / 0.15);
+  filter: blur(2px);
+  animation: spin 14s linear infinite;
+}
+
+.portalSwirl {
+  inset: 6%;
+  background: conic-gradient(
+    from 0deg,
+    #12401a,
+    #9be05a,
+    #1d5a22,
+    #c6f57a,
+    #12401a,
+    #7fcf45,
+    #1d5a22,
+    #b0ec66,
+    #12401a
+  );
+  mask: radial-gradient(circle, transparent 14%, #000 72%);
+  filter: blur(6px);
+  animation: spin 6s linear infinite reverse;
+}
+
+.portalCore {
+  inset: 22%;
+  background: radial-gradient(circle, #f4ffe0 0%, #b8f05a 28%, #3f9b34 62%, transparent 72%);
+  filter: blur(4px);
+  animation: pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .portal {
+    grid-row: 1;
+    width: 9rem;
+    justify-self: start;
+  }
+}

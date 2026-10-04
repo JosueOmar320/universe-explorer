@@ -1,4 +1,4 @@
-import { Link, Outlet, ScrollRestoration } from 'react-router';
+import { Link, Outlet, ScrollRestoration, useNavigation } from 'react-router';
 import { UniverseSwitcher } from '@/app/components/UniverseSwitcher';
 import { OrbitMarkIcon } from '@/shared/icons/icons';
 import { useActiveUniverse } from '@/universes/useActiveUniverse';
@@ -10,6 +10,7 @@ import styles from './AppShell.module.css';
  */
 export function AppShell() {
   const activeUniverse = useActiveUniverse();
+  const isNavigating = useNavigation().state === 'loading';
 
   return (
     <div className={styles.shell} data-universe={activeUniverse?.id ?? 'hub'}>
@@ -18,6 +19,7 @@ export function AppShell() {
       </a>
 
       <header className={styles.header}>
+        <div className={styles.progress} data-active={isNavigating} aria-hidden="true" />
         <div className={styles.headerInner}>
           <Link to="/" className={styles.brand}>
             <OrbitMarkIcon size={26} className={styles.brandMark} />

@@ -3,11 +3,15 @@ import { AppShell } from '@/app/layout/AppShell';
 import { HomePage } from '@/app/pages/HomePage';
 import { NotFoundPage } from '@/app/pages/NotFoundPage';
 import { RouteErrorPage } from '@/app/pages/RouteErrorPage';
+import { PageLoader } from '@/app/components/PageLoader';
+import { rickAndMortyRoute } from '@/universes/rick-and-morty/routes';
 
 export const router = createBrowserRouter(
   [
     {
       Component: AppShell,
+      // Shown on first load while lazy universe routes are being downloaded.
+      HydrateFallback: PageLoader,
       // Last-resort boundary in case the shell itself fails to render.
       ErrorBoundary: RouteErrorPage,
       children: [
@@ -16,7 +20,8 @@ export const router = createBrowserRouter(
           ErrorBoundary: RouteErrorPage,
           children: [
             { index: true, Component: HomePage },
-            // Universe routes are registered here.
+            // Universe routes (lazy-loaded)
+            rickAndMortyRoute,
             { path: '*', Component: NotFoundPage },
           ],
         },

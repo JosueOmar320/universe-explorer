@@ -23,7 +23,8 @@
       {
         "allow": ["**/*.css"]
       }
-    ]
+    ],
+    "jsx-a11y/prefer-tag-over-role": "off"
   },
   "ignorePatterns": ["dist", "node_modules"]
 }

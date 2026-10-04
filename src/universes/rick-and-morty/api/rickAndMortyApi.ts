@@ -3,6 +3,9 @@ import type { ApiPaginatedResponse, Character, CharacterListParams, CharacterPag
 
 const API_BASE_URL = 'https://rickandmortyapi.com/api';
 
+/** Fixed by the API; used to compute "Showing 21–40" ranges. */
+export const CHARACTERS_PAGE_SIZE = 20;
+
 const EMPTY_PAGE: CharacterPage = { characters: [], totalCount: 0, totalPages: 0 };
 
 export async function getCharacters(

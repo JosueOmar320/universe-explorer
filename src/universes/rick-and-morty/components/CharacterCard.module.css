@@ -1,0 +1,190 @@
+.card {
+  --card-cut: 14px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--color-border);
+  background: linear-gradient(180deg, var(--color-surface-raised), var(--color-surface) 40%);
+  /* Chamfered corner: a sci-fi file tab instead of rounded corners */
+  clip-path: polygon(0 0, calc(100% - var(--card-cut)) 0, 100% var(--card-cut), 100% 100%, 0 100%);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-border));
+  transform: translateY(-3px);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--color-surface-raised);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92);
+  transition:
+    transform 400ms var(--ease-out),
+    filter 400ms var(--ease-out);
+}
+
+.card:hover .image {
+  transform: scale(1.04);
+  filter: saturate(1.1);
+}
+
+/* Scanner overlay: scanlines + viewfinder corners */
+.frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.12) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, transparent 55%, rgb(7 11 15 / 0.75));
+}
+
+.frame::before,
+.frame::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.frame::before {
+  top: 10px;
+  left: 10px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.frame::after {
+  right: 10px;
+  bottom: 10px;
+  border-top: 0;
+  border-left: 0;
+}
+
+.card:hover .frame::before,
+.card:hover .frame::after {
+  opacity: 1;
+}
+
+.recordId {
+  position: absolute;
+  right: var(--space-3);
+  top: var(--space-3);
+  color: rgb(228 243 230 / 0.75);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.8);
+}
+
+.status {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: var(--display-letter-spacing);
+  line-height: 1.15;
+  text-transform: var(--display-text-transform);
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: baseline;
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--color-border);
+  font-size: var(--text-sm);
+}
+
+.fact dt {
+  color: var(--color-text-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fact dd {
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Small screens: horizontal "file row" layout keeps the list scannable */
+@media (max-width: 35.99rem) {
+  .card {
+    --card-cut: 10px;
+
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+  }
+
+  .media {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+
+  .recordId {
+    display: none;
+  }
+
+  .status {
+    left: var(--space-2);
+    bottom: var(--space-2);
+  }
+
+  .body {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .name {
+    font-size: var(--text-md);
+  }
+
+  .fact {
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+    padding-top: var(--space-1);
+    font-size: var(--text-xs);
+  }
+
+  .fact dt {
+    font-size: 0.625rem;
+  }
+}
