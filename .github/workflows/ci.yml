@@ -1,0 +1,53 @@
+# Validates every push to main and every pull request with the same steps as
+# `npm run validate`, each as its own step so failures are easy to spot.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: this workflow only needs to read the code.
+permissions:
+  contents: read
+
+# A new push to the same branch/PR cancels the run that is now outdated.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, type-check, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The github formatter turns lint errors into inline annotations on the PR diff.
+      - name: Lint
+        run: npm run lint -- --format github
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Type-check
+        run: npm run typecheck
+
+      # Vitest adds GitHub annotations for failing tests automatically on Actions.
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build

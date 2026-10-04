@@ -1,5 +1,7 @@
 # Universe Explorer
 
+[![CI](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml)
+
 A multi-universe frontend playground. Each "universe" consumes a different public API and ships
 its own visual identity, while sharing a common shell, data layer and component foundation.
 
@@ -164,6 +166,19 @@ Optional environment variables are documented in `.env.example`.
 
 Each script is a separate step so the CI pipeline can run (and report) them individually.
 
+## Continuous integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every push to `main` and every
+pull request:
+
+```
+npm ci → lint → format check → type-check → tests → build
+```
+
+- Node.js version comes from `.nvmrc`, and npm's cache is restored between runs.
+- Lint and test failures show up as inline annotations on the pull request diff.
+- Read-only permissions; a newer push cancels the outdated run.
+
 ## Testing
 
 Tests live next to the code they cover (`*.test.ts(x)`) and query the DOM by role and
@@ -186,7 +201,7 @@ accessible name, so they also guard accessibility.
 - [x] Rick and Morty: listing, search, filters, detail page
 - [x] Tests (Vitest + Testing Library + MSW)
 - [x] Architecture review: API config, i18n (EN/ES), error states, accessibility
-- [ ] CI: lint, typecheck, tests and build on GitHub Actions
+- [x] CI: lint, typecheck, tests and build on GitHub Actions
 - [ ] CD: deploy previews / production
 - [ ] Pokémon, Star Wars and Marvel universes
 
