@@ -10,7 +10,8 @@
   height: 1.125rem;
   padding: 0 2px;
   background: var(--sw-pip-off);
-  color: var(--color-text-subtle);
+  /* Muted rather than subtle: on the pip background subtle text is only 4.2:1 */
+  color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: 0.625rem;
   line-height: 1;
