@@ -50,6 +50,16 @@ export default defineConfig(({ mode }) => ({
   },
   test: {
     restoreMocks: true,
+    coverage: {
+      provider: 'v8',
+      // App and build code only: tests, fixtures and mocks would inflate the numbers.
+      include: ['src/**/*.{ts,tsx}', 'build/**/*.ts'],
+      exclude: ['**/*.test.{ts,tsx}', '**/test/**', 'src/types/**', 'src/main.tsx'],
+      reporter: ['text-summary', 'json-summary', 'html'],
+      // Just under today's numbers (92% lines, 87% branches): a drop fails CI. Routing and
+      // layouts are mostly wiring, covered by the end-to-end tests instead.
+      thresholds: { statements: 90, lines: 90, functions: 90, branches: 85 },
+    },
     projects: [
       {
         // The app: browser-like environment with MSW, i18n and Testing Library set up.

@@ -37,3 +37,6 @@ playwright-report
 
 # Lighthouse CI output
 .lighthouseci
+
+# Test coverage report
+coverage

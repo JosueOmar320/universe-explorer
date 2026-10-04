@@ -5,3 +5,4 @@ dist-mock
 test-results
 playwright-report
 .lighthouseci
+coverage

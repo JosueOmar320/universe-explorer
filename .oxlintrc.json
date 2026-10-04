@@ -32,7 +32,8 @@
     "node_modules",
     "test-results",
     "playwright-report",
-    ".lighthouseci"
+    ".lighthouseci",
+    "coverage"
   ],
   "overrides": [
     {
