@@ -1,0 +1,26 @@
+# Keeps dependencies current through pull requests, which go through the full CI pipeline
+# (tests, end-to-end, Lighthouse) before anything is merged.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # One pull request for every minor/patch update; majors arrive one by one, since they're
+    # the ones that need reading the changelog.
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore(deps)
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
+    commit-message:
+      prefix: ci
