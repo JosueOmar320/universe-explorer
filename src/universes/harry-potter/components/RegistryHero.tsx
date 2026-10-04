@@ -6,9 +6,9 @@ import styles from './RegistryHero.module.css';
 
 const API_HOST = new URL(apiConfig.harryPotter.baseUrl).host;
 
-export function RegistryHero({ students }: { students?: number }) {
+export function RegistryHero() {
   const { t, i18n } = useTranslation('harryPotter');
-  const { houses, everyone } = useRegistryCounts();
+  const { houses, students, everyone } = useRegistryCounts();
   const format = (value?: number) => value?.toLocaleString(i18n.resolvedLanguage) ?? '—';
 
   return (

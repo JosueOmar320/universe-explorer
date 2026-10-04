@@ -103,4 +103,67 @@ describe('CharactersPage (Harry Potter)', () => {
 
     expect(await screen.findByText('Showing 1–24 of 29')).toBeVisible();
   });
+
+  describe('search and house filter', () => {
+    const cardNames = () =>
+      screen.getAllByRole('article').map((card) => within(card).getByRole('heading').textContent);
+
+    it('searches by name on the server and keeps the search in the URL', async () => {
+      const { user, router } = renderPage();
+      await screen.findByText('Showing 1–24 of 29');
+
+      await user.type(screen.getByRole('searchbox', { name: 'Search by name' }), 'potter');
+
+      expect(await screen.findByText('Showing 1–1 of 1 match')).toBeVisible();
+      expect(cardNames()).toEqual(['Harry James Potter']);
+      expect(router.state.location.search).toBe('?q=potter');
+    });
+
+    it('filters by house instantly, reusing the page cached by the hero', async () => {
+      let ravenclawRequests = 0;
+      server.events.on('request:start', ({ request }) => {
+        if (new URL(request.url).searchParams.get('filter[house_eq]') === 'Ravenclaw') {
+          ravenclawRequests++;
+        }
+      });
+      const { user, router } = renderPage();
+      await screen.findByText('Showing 1–24 of 29');
+      await waitFor(() => expect(ravenclawRequests).toBe(1));
+
+      await user.click(screen.getByRole('radio', { name: 'Ravenclaw' }));
+
+      expect(await screen.findByText('Showing 1–7 of 7 matches')).toBeVisible();
+      expect(cardNames()[0]).toBe('Hogwarts student 03');
+      expect(router.state.location.search).toBe('?house=ravenclaw');
+      expect(ravenclawRequests).toBe(1);
+      server.events.removeAllListeners();
+    });
+
+    it('finds characters without a house only when showing everyone', async () => {
+      const { user } = renderPage('/harry-potter?q=hedwig');
+
+      expect(await screen.findByRole('heading', { name: 'No entries match' })).toBeVisible();
+
+      await user.click(screen.getByRole('radio', { name: 'Everyone' }));
+
+      expect(await screen.findByRole('heading', { level: 3, name: 'Hedwig' })).toBeVisible();
+      expect(within(cardFor('Hedwig')).getByText('No house')).toBeVisible();
+    });
+
+    it('restores filters from a shared URL and clears them', async () => {
+      const { user, router } = renderPage('/harry-potter?house=slytherin&q=malfoy');
+
+      expect(
+        await screen.findByRole('heading', { level: 3, name: 'Draco Lucius Malfoy' }),
+      ).toBeVisible();
+      expect(screen.getByRole('radio', { name: 'Slytherin' })).toBeChecked();
+      expect(screen.getByRole('searchbox', { name: 'Search by name' })).toHaveValue('malfoy');
+
+      await user.click(screen.getByRole('button', { name: 'Clear 2 active filters' }));
+
+      expect(await screen.findByText('Showing 1–24 of 29')).toBeVisible();
+      expect(router.state.location.search).toBe('');
+      expect(screen.getByRole('radio', { name: 'Hogwarts students' })).toBeChecked();
+    });
+  });
 });

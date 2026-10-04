@@ -14,7 +14,10 @@
     "loading": "Consultando el registro…",
     "paginationLabel": "Paginación del registro",
     "summary": "Mostrando {{from}}–{{to}} de {{total}}",
-    "updating": "Actualizando resultados…"
+    "updating": "Actualizando resultados…",
+    "summaryFiltered_one": "Mostrando {{from}}–{{to}} de {{total}} resultado",
+    "summaryFiltered_other": "Mostrando {{from}}–{{to}} de {{total}} resultados",
+    "noMatches": "Sin resultados"
   },
   "card": {
     "species": "Especie",
@@ -28,9 +31,22 @@
   "empty": {
     "pageTitle": "Esta página del registro está en blanco",
     "pageDescription": "La página {{page}} está más allá de la última entrada.",
-    "firstPage": "Ir a la primera página"
+    "firstPage": "Ir a la primera página",
+    "filteredTitle": "Ninguna entrada coincide",
+    "filteredDescription": "Nadie en el registro coincide con tu búsqueda. Prueba otro nombre o muestra a todos.",
+    "clearFilters": "Limpiar filtros"
   },
   "errors": {
     "title": "No se puede acceder al registro"
+  },
+  "filters": {
+    "search": "Buscar por nombre",
+    "searchPlaceholder": "Hermione, Weasley, Dumbledore…",
+    "scope": "Mostrar",
+    "students": "Estudiantes de Hogwarts",
+    "everyone": "Todos",
+    "clear": "Limpiar ({{count}})",
+    "clearLabel_one": "Limpiar {{count}} filtro activo",
+    "clearLabel_other": "Limpiar {{count}} filtros activos"
   }
 }
