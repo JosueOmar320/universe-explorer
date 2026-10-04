@@ -23,6 +23,8 @@ data layer and component foundation. Built incrementally, one reviewable commit 
   JSON:API filters with next-page prefetching (Harry Potter) — each chosen for its API.
 - **One architecture, enforced by types.** A universe registry drives navigation, routing and
   the home page; marking a universe as available without registering its routes doesn't compile.
+- **One search for four APIs.** ⌘K / Ctrl+K searches every universe at once, each with its own
+  strategy, in an accessible command palette that takes on the current universe's theme.
 - **Every state is designed.** Loading skeletons, empty results, classified errors (network,
   timeout, rate limit, not found) with retry, and an offline state that resumes on reconnect.
 - **Accessible and bilingual.** Keyboard and screen-reader friendly (focus management, live
@@ -99,6 +101,7 @@ src/
 ├── universes/
 │   ├── registry.ts           # Every universe: name, status, accent colour
 │   ├── routes.ts             # Route tree of each *available* universe (type-checked)
+│   ├── search.ts             # Each universe's part in the global search (type-checked)
 │   ├── pokemon/, star-wars/, harry-potter/   # Same layout as the folder below
 │   └── rick-and-morty/       # Everything specific to one universe
 │       ├── api/              # DTO types, service, query keys/options
@@ -151,6 +154,11 @@ even if two universes end up with similar components. Duplicating a card is chea
   the same keys at compile time. Data coming from the APIs is never translated.
 - **Theming via design tokens.** Shared components only use CSS variables; each universe
   overrides them under `[data-universe]`.
+- **Global search as a contract, not a special case.** Each universe exports a small
+  `UniverseSearch` (`search` + `listingHref`) built on its own queries, so the ⌘K palette
+  reuses the listings' cache and strategy: the Pokédex index and Star Wars people are searched
+  in memory, Rick and Morty and PotterDB on the server. A `Record` keyed by available universes
+  makes a missing one a compile error. The palette and every provider load on first use.
 - **State lives where it belongs.** Server state in TanStack Query, view state in the URL
   (`?name=&status=&page=`), the language choice in `localStorage`. No global client store.
 - **Code splitting per universe, without the waterfall.** Universe routes are lazy, so their
@@ -182,6 +190,9 @@ even if two universes end up with similar components. Duplicating a card is chea
 
 - Semantic landmarks, a skip link, and focus moved to `<main>` after route changes.
 - Paging moves focus to the results heading; result counts are announced via a live region.
+- The global search is a native modal `<dialog>` with the ARIA combobox pattern: focus stays in
+  the input, arrow keys move `aria-activedescendant`, Enter opens, Escape closes and gives focus
+  back, and a live region announces the number of results.
 - Native controls for filters (radio group, `<select>`, search input) with visible labels.
 - Text colours meet WCAG AA (≥ 4.5:1) on every surface; status is conveyed by text, not colour.
 - `<html lang>` follows the selected language; language buttons are announced in their own
@@ -291,7 +302,8 @@ accessible name, so they also guard accessibility.
   production bundle in Chromium, on a desktop and a mobile viewport. The APIs are served by a
   service worker running _the same MSW handlers_ as the unit tests, so runs are fast, offline
   and deterministic. Specs cover search → detail → back in every universe, direct links,
-  universe switching and theming, the persisted language, the skip link and the 404 page.
+  universe switching and theming, the persisted language, the global search, the skip link and
+  the 404 page.
   They also check that each first view preloads exactly the fonts it renders, since that list
   is maintained by hand in `vite.config.ts`.
 - **Accessibility:** [axe](https://github.com/dequelabs/axe-core) checks every page type
@@ -318,7 +330,7 @@ accessible name, so they also guard accessibility.
 - [x] End-to-end tests with Playwright, with automated accessibility checks (axe)
 - [x] Lighthouse CI with score budgets in the pipeline
 - [x] Preload each universe's route chunks, CSS and fonts (LCP under 2.5 s everywhere)
-- [ ] Global search across universes (⌘K command palette)
+- [x] Global search across universes (⌘K command palette)
 
 ## Disclaimer
 
