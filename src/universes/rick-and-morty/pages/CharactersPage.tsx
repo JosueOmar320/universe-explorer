@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components/Button';
 import { OfflineState } from '@/shared/components/OfflineState';
@@ -7,6 +6,7 @@ import { Pagination } from '@/shared/components/Pagination';
 import { QueryErrorState } from '@/shared/components/QueryErrorState';
 import { StatusPanel } from '@/shared/components/StatusPanel';
 import { usePageParam } from '@/shared/hooks/usePageParam';
+import { useResultsFocus } from '@/shared/hooks/useResultsFocus';
 import { SearchOffIcon } from '@/shared/icons/icons';
 import { CHARACTERS_PAGE_SIZE } from '../api/rickAndMortyApi';
 import type { CharacterPage } from '../api/types';
@@ -31,14 +31,11 @@ export function CharactersPage() {
       ...filters,
     });
   const totalCharacters = useCharacterTotal();
-  const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
+  const { resultsRef, focusResults } = useResultsFocus();
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
-    // Bring the new results into view and move focus there for keyboard/screen reader users.
-    const heading = resultsHeadingRef.current;
-    heading?.focus({ preventScroll: true });
-    heading?.scrollIntoView({ block: 'start' });
+    focusResults();
   };
 
   const renderResults = () => {
@@ -111,12 +108,7 @@ export function CharactersPage() {
 
       <section aria-labelledby="rm-results-title" className={styles.results}>
         <header className={styles.resultsHeader}>
-          <h2
-            id="rm-results-title"
-            ref={resultsHeadingRef}
-            tabIndex={-1}
-            className={styles.resultsTitle}
-          >
+          <h2 id="rm-results-title" ref={resultsRef} tabIndex={-1} className={styles.resultsTitle}>
             {t('characters.title')}
           </h2>
           <ResultsSummary

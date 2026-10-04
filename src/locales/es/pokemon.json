@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "eyebrow": "Pokédex Nacional · Guía de campo",
+    "titleLine1": "Cada especie,",
+    "titleLine2": "una guía de campo.",
+    "lead": "Explora todos los Pokémon registrados en la Pokédex Nacional, con sus tipos, estadísticas y entradas oficiales de la Pokédex.",
+    "species": "Especies",
+    "source": "Fuente"
+  },
+  "pokedex": {
+    "title": "Pokédex",
+    "loading": "Cargando Pokédex…",
+    "paginationLabel": "Paginación de la Pokédex",
+    "summary": "Mostrando {{from}}–{{to}} de {{total}}",
+    "updating": "Actualizando resultados…"
+  },
+  "card": {
+    "types": "Tipos"
+  },
+  "empty": {
+    "pageTitle": "No hay Pokémon en esta página",
+    "pageDescription": "La página {{page}} está más allá del final de la Pokédex.",
+    "firstPage": "Ir a la primera página"
+  },
+  "errors": {
+    "title": "La Pokédex no responde"
+  }
+}

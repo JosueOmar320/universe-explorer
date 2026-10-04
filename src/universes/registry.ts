@@ -17,7 +17,7 @@ export const UNIVERSES = [
   {
     id: 'pokemon',
     name: 'Pokémon',
-    status: 'coming-soon',
+    status: 'available',
     accentColor: '#ffcb05',
   },
   {

@@ -1,0 +1,66 @@
+/*
+ * Pokémon theme: a light "field guide" look with a red handheld-device accent.
+ * The only light theme so far: shared components adapt through tokens alone.
+ * Text colours meet WCAG AA (≥ 4.5:1) on every surface.
+ */
+@import '@fontsource-variable/rubik/wght.css';
+
+[data-universe='pokemon'] {
+  color-scheme: light;
+
+  /* Palette */
+  --color-bg: #f6f3ec;
+  --color-surface: #ffffff;
+  --color-surface-raised: #efeae0;
+  --color-border: #e1dbcf;
+  --color-border-strong: #c9c1b2;
+  --color-text: #1b1d26;
+  --color-text-muted: #4f5361;
+  --color-text-subtle: #5f636e;
+  --color-accent: #c92a1e;
+  --color-accent-hover: #a8231a;
+  --color-accent-contrast: #ffffff;
+  --color-danger: #b42318;
+
+  /* Universe-specific tokens */
+  --pk-device: #c92a1e;
+  --pk-device-dark: #8f1c14;
+  --pk-screen: #1f2a24;
+  --pk-screen-text: #b8f0a0;
+  --pk-shadow: 0 1px 0 rgb(27 29 38 / 0.04), 0 10px 24px -14px rgb(27 29 38 / 0.25);
+
+  /* Dotted field-guide paper */
+  --page-background:
+    radial-gradient(circle at 1px 1px, rgb(27 29 38 / 0.07) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--color-bg);
+  --header-background: rgb(255 255 255 / 0.86);
+  --header-border: var(--color-border);
+
+  /* Typography */
+  --font-display: 'Rubik Variable', var(--font-body);
+  --display-letter-spacing: -0.02em;
+
+  /* Controls */
+  --button-font: 'Rubik Variable', var(--font-body);
+  --radius-md: 6px;
+
+  /* Type colours (text colour chosen per type for AA contrast) */
+  --pk-type-normal: #a8a77a;
+  --pk-type-fire: #ee8130;
+  --pk-type-water: #6390f0;
+  --pk-type-electric: #f7d02c;
+  --pk-type-grass: #7ac74c;
+  --pk-type-ice: #96d9d6;
+  --pk-type-fighting: #c22e28;
+  --pk-type-poison: #a33ea1;
+  --pk-type-ground: #e2bf65;
+  --pk-type-flying: #a98ff3;
+  --pk-type-psychic: #f95587;
+  --pk-type-bug: #a6b91a;
+  --pk-type-rock: #b6a136;
+  --pk-type-ghost: #735797;
+  --pk-type-dragon: #6f35fc;
+  --pk-type-dark: #705746;
+  --pk-type-steel: #b7b7ce;
+  --pk-type-fairy: #d685ad;
+}

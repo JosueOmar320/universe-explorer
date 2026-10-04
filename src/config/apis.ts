@@ -24,9 +24,12 @@ export const apiConfig = {
 
 /** Static assets served outside the APIs (images are not fetched through the API client). */
 export const assetConfig = {
-  /** PokéAPI's sprite repository; artwork URLs can be derived from a Pokédex number. */
-  pokemonArtworkBaseUrl: resolveBaseUrl(
-    import.meta.env.VITE_POKEMON_ARTWORK_URL,
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork',
+  /**
+   * PokéAPI's sprite repository. Image URLs are derived from a Pokédex number:
+   * `<base>/<id>.png` (96px pixel sprite) and `<base>/other/official-artwork/<id>.png`.
+   */
+  pokemonSpritesBaseUrl: resolveBaseUrl(
+    import.meta.env.VITE_POKEMON_SPRITES_URL,
+    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon',
   ),
 } as const;

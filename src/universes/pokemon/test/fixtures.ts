@@ -53,12 +53,20 @@ export function createPokemonDto(
   };
 }
 
-export const pokemonDtos: Record<number, PokemonDto> = {
-  1: createPokemonDto(1, 'bulbasaur', ['grass', 'poison']),
-  4: createPokemonDto(4, 'charmander', ['fire']),
-  7: createPokemonDto(7, 'squirtle', ['water']),
-  25: createPokemonDto(25, 'pikachu', ['electric']),
+const TYPES_BY_ID: Partial<Record<number, PokemonType[]>> = {
+  1: ['grass', 'poison'],
+  4: ['fire'],
+  7: ['water'],
+  25: ['electric'],
 };
+
+/** Every species of the index has battle data; types default to `normal`. */
+export const pokemonDtos: Record<number, PokemonDto> = Object.fromEntries(
+  SPECIES_NAMES.map((name, index) => {
+    const id = index + 1;
+    return [id, createPokemonDto(id, name, TYPES_BY_ID[id] ?? ['normal'])];
+  }),
+);
 
 export const speciesDtos: Record<number, PokemonSpeciesDto> = {
   25: {

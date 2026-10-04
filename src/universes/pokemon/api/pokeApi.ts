@@ -29,8 +29,17 @@ const INDEX_LIMIT = 10_000;
 /** Alternate forms (Mega, Gigantamax, regional…) use ids from 10001 up. */
 const FIRST_ALTERNATE_FORM_ID = 10_001;
 
+/**
+ * 96px pixel sprite (~1–7 kB). Used in lists: the official artwork weighs 100–200 kB per
+ * image, which would mean several megabytes per page of results.
+ */
+export function getSpriteUrl(pokedexId: number): string {
+  return `${assetConfig.pokemonSpritesBaseUrl}/${pokedexId}.png`;
+}
+
+/** High-resolution official artwork, for single-Pokémon views. */
 export function getArtworkUrl(pokedexId: number): string {
-  return `${assetConfig.pokemonArtworkBaseUrl}/${pokedexId}.png`;
+  return `${assetConfig.pokemonSpritesBaseUrl}/other/official-artwork/${pokedexId}.png`;
 }
 
 function toLocalizedText<T extends { language: NamedApiResource }>(

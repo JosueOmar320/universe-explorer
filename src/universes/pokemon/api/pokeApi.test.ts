@@ -78,7 +78,9 @@ describe('getPokemon', () => {
     const pokemon = await getPokemon(132);
 
     expect(pokemon.types).toEqual(['normal']);
-    expect(pokemon.artworkUrl).toBe(`${assetConfig.pokemonArtworkBaseUrl}/132.png`);
+    expect(pokemon.artworkUrl).toBe(
+      `${assetConfig.pokemonSpritesBaseUrl}/other/official-artwork/132.png`,
+    );
   });
 
   it('throws a 404 HttpError for unknown Pokémon', async () => {

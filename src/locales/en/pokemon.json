@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "eyebrow": "National Pokédex · Field guide",
+    "titleLine1": "Every species,",
+    "titleLine2": "one field guide.",
+    "lead": "Browse every Pokémon recorded in the National Pokédex, with their types, stats and official Pokédex entries.",
+    "species": "Species",
+    "source": "Source"
+  },
+  "pokedex": {
+    "title": "Pokédex",
+    "loading": "Loading Pokédex…",
+    "paginationLabel": "Pokédex pagination",
+    "summary": "Showing {{from}}–{{to}} of {{total}}",
+    "updating": "Updating results…"
+  },
+  "card": {
+    "types": "Types"
+  },
+  "empty": {
+    "pageTitle": "No Pokémon on this page",
+    "pageDescription": "Page {{page}} is beyond the end of the Pokédex.",
+    "firstPage": "Go to first page"
+  },
+  "errors": {
+    "title": "The Pokédex isn't responding"
+  }
+}

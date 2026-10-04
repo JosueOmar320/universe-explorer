@@ -118,6 +118,14 @@ even if two universes end up with similar components. Duplicating a card is chea
   (`?name=&status=&page=`), the language choice in `localStorage`. No global client store.
 - **Code splitting per universe.** Universe routes are lazy, so their JS, CSS and fonts load
   only when the user enters that universe.
+- **Each API gets the fetching strategy it needs.** PokéAPI has no search and its list only
+  returns names, so the app downloads the whole Pokédex index once (~9 kB gzipped) and
+  searches/paginates it locally; each card then loads its own types through a cached,
+  deduplicated query. Cards use 96px pixel sprites (~1–7 kB) instead of the official artwork
+  (100–200 kB each), which would add several megabytes per page.
+- **API-provided translations over our own.** PokéAPI ships official names in many
+  languages (types, categories, Pokédex entries); those are shown in the selected language
+  instead of being translated by the app.
 - **API quirks are handled at the service boundary.** The Rick and Morty API returns 404 for
   "no results" (mapped to an empty page) and a bare object for single-id episode requests
   (normalized to an array).
