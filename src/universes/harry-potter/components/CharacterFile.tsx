@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Character } from '../api/models';
 import { houseColorVars } from '../utils/houses';
 import { HouseCrest } from './HouseCrest';
@@ -50,7 +51,7 @@ export function CharacterFile({ character }: { character: Character }) {
         <HouseCrest house={character.house} size={64} />
         <div>
           <p className={styles.house}>{character.house ?? t('card.noHouse')}</p>
-          <h1 id="hp-character-name" className={styles.name}>
+          <h1 id="hp-character-name" className={styles.name} style={recordNameTransition}>
             {character.name}
           </h1>
         </div>

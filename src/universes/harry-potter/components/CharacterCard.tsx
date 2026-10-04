@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
+import { useRecordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import type { Character } from '../api/models';
 import { harryPotterPaths } from '../paths';
@@ -10,6 +11,8 @@ import styles from './CharacterCard.module.css';
 export function CharacterCard({ character }: { character: Character }) {
   const { t } = useTranslation('harryPotter');
   const unknown = t('values.unknown');
+  const href = harryPotterPaths.character(character.slug);
+  const nameTransition = useRecordNameTransition(href);
 
   return (
     <article className={styles.card} style={houseColorVars(character.house)}>
@@ -18,13 +21,9 @@ export function CharacterCard({ character }: { character: Character }) {
         <span className={styles.house}>{character.house ?? t('card.noHouse')}</span>
       </div>
 
-      <h3 className={styles.name}>
+      <h3 className={styles.name} style={nameTransition}>
         {/* Stretched over the card (see ::after); its accessible name is just the name. */}
-        <Link
-          to={harryPotterPaths.character(character.slug)}
-          state={FROM_LIST_STATE}
-          className={styles.link}
-        >
+        <Link to={href} state={FROM_LIST_STATE} viewTransition className={styles.link}>
           {character.name}
         </Link>
       </h3>

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import type { Character } from '../api/types';
+import { useRecordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import { rickAndMortyPaths } from '../paths';
 import { formatRecordId } from '../utils/format';
@@ -17,6 +18,8 @@ interface CharacterCardProps {
 export function CharacterCard({ character, priority = false }: CharacterCardProps) {
   const { t } = useTranslation('rickAndMorty');
   const { id, name, image, status, species, gender, origin, location } = character;
+  const href = rickAndMortyPaths.character(id);
+  const nameTransition = useRecordNameTransition(href);
 
   return (
     <article className={styles.card}>
@@ -41,13 +44,9 @@ export function CharacterCard({ character, priority = false }: CharacterCardProp
       </div>
 
       <div className={styles.body}>
-        <h3 className={styles.name}>
+        <h3 className={styles.name} style={nameTransition}>
           {/* The link covers the whole card (see ::after) while its accessible name stays short. */}
-          <Link
-            to={rickAndMortyPaths.character(id)}
-            state={FROM_LIST_STATE}
-            className={styles.link}
-          >
+          <Link to={href} state={FROM_LIST_STATE} viewTransition className={styles.link}>
             {name}
           </Link>
         </h3>

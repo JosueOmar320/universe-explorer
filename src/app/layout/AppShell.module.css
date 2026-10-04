@@ -29,6 +29,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  /* Its own layer in view transitions: it stays put instead of cross-fading with the page */
+  view-transition-name: site-header;
   border-bottom: 1px solid var(--header-border);
   background: var(--header-background);
   backdrop-filter: blur(12px);

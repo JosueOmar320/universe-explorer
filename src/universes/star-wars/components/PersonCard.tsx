@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
+import { useRecordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import type { Person } from '../api/models';
 import { useArchive } from '../hooks/useArchive';
@@ -14,6 +15,8 @@ export function PersonCard({ person }: { person: Person }) {
   const { planetsById, speciesById, films } = useArchive();
   const language = i18n.resolvedLanguage;
   const unknown = t('values.unknown');
+  const href = starWarsPaths.person(person.id);
+  const nameTransition = useRecordNameTransition(href);
 
   const [speciesId] = getSpeciesIds(person);
   const origin = [
@@ -31,9 +34,9 @@ export function PersonCard({ person }: { person: Person }) {
         {films && <FilmPips films={films} filmIds={person.filmIds} />}
       </div>
 
-      <h3 className={styles.name}>
+      <h3 className={styles.name} style={nameTransition}>
         {/* Stretched over the card (see ::after); its accessible name is just the name. */}
-        <Link to={starWarsPaths.person(person.id)} state={FROM_LIST_STATE} className={styles.link}>
+        <Link to={href} state={FROM_LIST_STATE} viewTransition className={styles.link}>
           {person.name}
         </Link>
       </h3>

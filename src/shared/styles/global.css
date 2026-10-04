@@ -87,7 +87,25 @@ p {
   font-family: system-ui, sans-serif;
 }
 
+/*
+ * View transitions (list → detail): a short cross-fade of the page while the record's name
+ * morphs into the detail heading (see useRecordNameTransition). Unsupported browsers just
+ * navigate.
+ */
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-group(record-name) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--ease-out);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {

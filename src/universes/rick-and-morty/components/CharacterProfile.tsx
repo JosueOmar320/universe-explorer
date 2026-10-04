@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Character, Episode } from '../api/types';
 import { formatRecordId } from '../utils/format';
 import { ScannerFrame } from './ScannerFrame';
@@ -45,7 +46,7 @@ export function CharacterProfile({ character, episodes }: CharacterProfileProps)
 
       <div className={styles.info}>
         <p className={styles.recordId}>{t('detail.record', { id: formatRecordId(id) })}</p>
-        <h1 id="rm-character-name" className={styles.name}>
+        <h1 id="rm-character-name" className={styles.name} style={recordNameTransition}>
           {name}
         </h1>
 

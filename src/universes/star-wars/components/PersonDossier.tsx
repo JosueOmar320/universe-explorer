@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Craft, Person } from '../api/models';
 import { useArchive } from '../hooks/useArchive';
 import { useCraft } from '../hooks/useCraft';
@@ -29,7 +30,7 @@ export function PersonDossier({ person }: { person: Person }) {
     <article className={styles.dossier} aria-labelledby="sw-person-name">
       <header className={styles.header}>
         <p className={styles.record}>REC·{formatRecordNumber(person.id)}</p>
-        <h1 id="sw-person-name" className={styles.name}>
+        <h1 id="sw-person-name" className={styles.name} style={recordNameTransition}>
           {person.name}
         </h1>
         <p className={styles.origin}>

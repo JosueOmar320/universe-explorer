@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { Skeleton } from '@/shared/components/Skeleton';
+import { useRecordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
 import type { PokedexEntry, PokemonType } from '../api/models';
 import { getSpriteUrl } from '../api/pokeApi';
@@ -21,6 +22,8 @@ interface PokemonCardProps {
 export function PokemonCard({ entry, types, priority = false }: PokemonCardProps) {
   const { t } = useTranslation('pokemon');
   const primaryType = types?.[0];
+  const href = pokemonPaths.pokemon(entry.id);
+  const nameTransition = useRecordNameTransition(href);
 
   return (
     <article
@@ -42,9 +45,9 @@ export function PokemonCard({ entry, types, priority = false }: PokemonCardProps
 
       <div className={styles.body}>
         <span className={styles.number}>{formatDexNumber(entry.id)}</span>
-        <h3 className={styles.name}>
+        <h3 className={styles.name} style={nameTransition}>
           {/* Stretched over the card (see ::after); its accessible name is just the name. */}
-          <Link to={pokemonPaths.pokemon(entry.id)} state={FROM_LIST_STATE} className={styles.link}>
+          <Link to={href} state={FROM_LIST_STATE} viewTransition className={styles.link}>
             {formatPokemonName(entry.name)}
           </Link>
         </h3>

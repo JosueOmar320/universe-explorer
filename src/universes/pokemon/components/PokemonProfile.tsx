@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Pokemon, PokemonSpecies } from '../api/models';
 import {
   formatDexNumber,
@@ -51,7 +52,7 @@ export function PokemonProfile({ pokemon, species }: PokemonProfileProps) {
           {species?.isLegendary && <span className={styles.tag}>{t('detail.legendary')}</span>}
           {species?.isMythical && <span className={styles.tag}>{t('detail.mythical')}</span>}
         </p>
-        <h1 id="pk-pokemon-name" className={styles.name}>
+        <h1 id="pk-pokemon-name" className={styles.name} style={recordNameTransition}>
           {name}
         </h1>
         {genus && <p className={styles.genus}>{genus}</p>}
