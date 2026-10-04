@@ -1,4 +1,8 @@
+import { Link } from 'react-router';
 import type { Character } from '../api/types';
+import { FROM_LIST_STATE, rickAndMortyPaths } from '../paths';
+import { formatRecordId } from '../utils/format';
+import { ScannerFrame } from './ScannerFrame';
 import { StatusBadge } from './StatusBadge';
 import styles from './CharacterCard.module.css';
 
@@ -24,9 +28,9 @@ export function CharacterCard({ character, priority = false }: CharacterCardProp
           decoding="async"
           className={styles.image}
         />
-        <span className={styles.frame} aria-hidden="true" />
+        <ScannerFrame corners="hover" />
         <span className={styles.recordId} aria-hidden="true">
-          #{String(id).padStart(4, '0')}
+          {formatRecordId(id)}
         </span>
         <span className={styles.status}>
           <StatusBadge status={status} />
@@ -34,7 +38,16 @@ export function CharacterCard({ character, priority = false }: CharacterCardProp
       </div>
 
       <div className={styles.body}>
-        <h3 className={styles.name}>{name}</h3>
+        <h3 className={styles.name}>
+          {/* The link covers the whole card (see ::after) while its accessible name stays short. */}
+          <Link
+            to={rickAndMortyPaths.character(id)}
+            state={FROM_LIST_STATE}
+            className={styles.link}
+          >
+            {name}
+          </Link>
+        </h3>
         <dl className={styles.facts}>
           <Fact label="Species" value={species} />
           <Fact label="Gender" value={gender} />

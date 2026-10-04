@@ -27,6 +27,19 @@ export interface Character {
   created: string;
 }
 
+export interface Episode {
+  id: number;
+  name: string;
+  /** Human-readable date, e.g. "December 2, 2013". */
+  air_date: string;
+  /** Episode code, e.g. "S01E01". */
+  episode: string;
+  /** Character resource URLs. */
+  characters: string[];
+  url: string;
+  created: string;
+}
+
 export interface ApiPaginatedResponse<T> {
   info: {
     count: number;

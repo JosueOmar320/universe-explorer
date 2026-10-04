@@ -44,8 +44,10 @@ src/
 │   ├── types.ts
 │   └── rick-and-morty/       # Everything specific to one universe
 │       ├── api/              # DTO types, service, query keys/options
-│       ├── hooks/            # useCharacters, useCharacterFilters, useCharacterTotal
+│       ├── hooks/            # useCharacters, useCharacter, useEpisodes, filters…
 │       ├── filters.ts        # Filter options + URL parsing
+│       ├── paths.ts          # Typed route builders for the universe
+│       ├── utils/            # Pure helpers (episode grouping, formatting)
 │       ├── components/       # CharacterCard, PortalHero, StatusBadge…
 │       ├── layout/           # Universe entry: loads theme + fonts
 │       ├── pages/            # Route components
@@ -72,8 +74,13 @@ and universes never import from each other.
   the history.
 - **Code splitting per universe.** Universe routes are lazy, so their JS, CSS and fonts load
   only when the user enters that universe.
+- **Cache-seeded detail pages.** Opening a character from the listing seeds its query with
+  the data already cached for that page (`initialData`), so the profile renders instantly
+  while only the episodes are fetched. "Back" returns through history, restoring filters
+  and scroll position.
 - **API quirks are handled at the service boundary.** The Rick and Morty API returns 404 for
-  "no results"; the service maps it to an empty page so the UI shows an empty state, not an error.
+  "no results"; the service maps it to an empty page so the UI shows an empty state, not an error. Likewise, `/episode/1` returns an object
+  while `/episode/1,2` returns an array; the service always returns an array.
 
 ### Adding a universe
 
@@ -109,7 +116,7 @@ These scripts are intentionally granular so each one can become an independent C
 - [x] App shell, universe registry and theming foundation
 - [x] Rick and Morty: API layer and character listing with pagination
 - [x] Rick and Morty: search and filters (URL-synced)
-- [ ] Rick and Morty: character detail page
+- [x] Rick and Morty: character detail page
 - [ ] Tests (Vitest + Testing Library + MSW)
 - [ ] CI: lint, typecheck, tests and build on GitHub Actions
 - [ ] CD: deploy previews / production

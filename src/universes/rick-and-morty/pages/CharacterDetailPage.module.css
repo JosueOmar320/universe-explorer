@@ -1,0 +1,15 @@
+.sectionTitle {
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  letter-spacing: var(--display-letter-spacing);
+  text-transform: var(--display-text-transform);
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}

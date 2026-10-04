@@ -19,5 +19,12 @@ export const rickAndMortyRoute: RouteObject = {
         return { Component: CharactersPage };
       },
     },
+    {
+      path: 'characters/:characterId',
+      lazy: async () => {
+        const { CharacterDetailPage } = await import('./pages/CharacterDetailPage');
+        return { Component: CharacterDetailPage };
+      },
+    },
   ],
 };
