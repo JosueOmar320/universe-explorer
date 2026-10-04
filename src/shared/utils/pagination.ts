@@ -21,7 +21,7 @@ export function getPaginationRange(
   const rightSibling = Math.min(currentPage + siblingCount, totalPages);
   const showStartEllipsis = leftSibling > 2;
   const showEndEllipsis = rightSibling < totalPages - 1;
-  const edgeRangeLength = totalSlots - 2; // slots left after one ellipsis + one boundary page
+  const edgeRangeLength = totalSlots - 3; // slots left after one ellipsis + one boundary page
 
   if (!showStartEllipsis) {
     return [...range(1, edgeRangeLength), 'ellipsis-end', totalPages];
