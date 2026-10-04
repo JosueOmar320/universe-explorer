@@ -340,6 +340,11 @@ wiring, covered end to end instead).
 - [x] Preload each universe's route chunks, CSS and fonts (LCP under 2.5 s everywhere)
 - [x] Global search across universes (⌘K command palette)
 
+## Changelog and license
+
+Releases are listed in [CHANGELOG.md](CHANGELOG.md). The code is available under the
+[MIT License](LICENSE); it doesn't cover the names, characters and trademarks below.
+
 ## Disclaimer
 
 Fan-made portfolio project. Characters, names and trademarks belong to their respective owners.

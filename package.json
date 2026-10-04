@@ -1,8 +1,10 @@
 {
   "name": "universe-explorer",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "A multi-universe frontend playground: each public API gets its own themed experience.",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "dev:mock": "vite --mode mock",
@@ -58,7 +60,6 @@
     "vite": "^8.3.0",
     "vitest": "^5.0.3"
   },
-  "description": "A multi-universe frontend playground: each public API gets its own themed experience.",
   "engines": {
     "node": ">=22.22.0"
   }
