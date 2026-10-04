@@ -1,10 +1,13 @@
+import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@/shared/components/Skeleton';
 import styles from './CharacterProfile.module.css';
 
 export function CharacterDetailSkeleton() {
+  const { t } = useTranslation('rickAndMorty');
+
   return (
     <div role="status">
-      <span className="visually-hidden">Loading character…</span>
+      <span className="visually-hidden">{t('detail.loading')}</span>
       <div className={styles.profile} aria-hidden="true">
         <Skeleton className={styles.portrait} />
         <div className={styles.info}>

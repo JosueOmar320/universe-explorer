@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Character, Episode } from '../api/types';
 import { formatRecordId } from '../utils/format';
 import { ScannerFrame } from './ScannerFrame';
@@ -21,15 +22,16 @@ function formatEpisode(episode: Episode | undefined): ReactNode {
 }
 
 export function CharacterProfile({ character, episodes }: CharacterProfileProps) {
+  const { t } = useTranslation(['rickAndMorty', 'common']);
   const { id, name, image, status, species, type, gender, origin, location } = character;
-  const loading = <span className={styles.pending}>Loading…</span>;
+  const loading = <span className={styles.pending}>{t('common:app.loading')}</span>;
 
   return (
     <section className={styles.profile} aria-labelledby="rm-character-name">
       <div className={styles.portrait}>
         <img
           src={image}
-          alt={`Portrait of ${name}`}
+          alt={t('detail.portraitAlt', { name })}
           width={300}
           height={300}
           fetchPriority="high"
@@ -42,19 +44,21 @@ export function CharacterProfile({ character, episodes }: CharacterProfileProps)
       </div>
 
       <div className={styles.info}>
-        <p className={styles.recordId}>Record {formatRecordId(id)}</p>
+        <p className={styles.recordId}>{t('detail.record', { id: formatRecordId(id) })}</p>
         <h1 id="rm-character-name" className={styles.name}>
           {name}
         </h1>
 
         <dl className={styles.facts}>
-          <Fact label="Gender">{gender}</Fact>
-          <Fact label="Species">{type ? `${species} (${type})` : species}</Fact>
-          <Fact label="Origin">{origin.name}</Fact>
-          <Fact label="Last known location">{location.name}</Fact>
-          <Fact label="First seen in">{episodes ? formatEpisode(episodes[0]) : loading}</Fact>
-          <Fact label="Appearances">
-            {character.episode.length} {character.episode.length === 1 ? 'episode' : 'episodes'}
+          <Fact label={t('fields.gender')}>{gender}</Fact>
+          <Fact label={t('fields.species')}>{type ? `${species} (${type})` : species}</Fact>
+          <Fact label={t('fields.origin')}>{origin.name}</Fact>
+          <Fact label={t('fields.lastLocation')}>{location.name}</Fact>
+          <Fact label={t('fields.firstSeen')}>
+            {episodes ? formatEpisode(episodes[0]) : loading}
+          </Fact>
+          <Fact label={t('fields.appearances')}>
+            {t('detail.episodeCount', { count: character.episode.length })}
           </Fact>
         </dl>
       </div>

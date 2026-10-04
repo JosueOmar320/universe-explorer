@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cx } from '@/shared/utils/cx';
 import type { FieldOption } from './fieldOption';
 import fieldStyles from './Field.module.css';
@@ -9,7 +10,7 @@ interface SegmentedControlProps<T extends string> {
   value: T | undefined;
   options: readonly FieldOption<T>[];
   onChange: (value: T | undefined) => void;
-  /** Label of the leading option that clears the selection. */
+  /** Label of the leading option that clears the selection (defaults to "All"). */
   emptyLabel?: string;
   className?: string;
 }
@@ -23,12 +24,13 @@ export function SegmentedControl<T extends string>({
   value,
   options,
   onChange,
-  emptyLabel = 'All',
+  emptyLabel,
   className,
 }: SegmentedControlProps<T>) {
+  const { t } = useTranslation();
   const name = useId();
   const choices: { value: T | undefined; label: string }[] = [
-    { value: undefined, label: emptyLabel },
+    { value: undefined, label: emptyLabel ?? t('filters.all') },
     ...options,
   ];
 

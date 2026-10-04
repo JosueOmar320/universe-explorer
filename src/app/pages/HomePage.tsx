@@ -1,33 +1,34 @@
+import { useTranslation } from 'react-i18next';
 import { UniverseCard } from '@/app/components/UniverseCard';
+import { PageTitle } from '@/shared/components/PageTitle';
 import { isUniverseAvailable, UNIVERSES } from '@/universes/registry';
 import styles from './HomePage.module.css';
 
 const availableCount = UNIVERSES.filter(isUniverseAvailable).length;
 
 export function HomePage() {
+  const { t } = useTranslation();
+
   return (
     <>
-      <title>Universe Explorer</title>
+      <PageTitle />
 
       <section className={styles.hero} aria-labelledby="home-title">
         <p className={styles.eyebrow}>
           <span className={styles.signal} aria-hidden="true" />
-          {availableCount} of {UNIVERSES.length} universes online
+          {t('home.online', { available: availableCount, total: UNIVERSES.length })}
         </p>
         <h1 id="home-title" className={styles.title}>
-          One shell.
+          {t('home.titleLine1')}
           <br />
-          <span className={styles.titleAccent}>Many universes.</span>
+          <span className={styles.titleAccent}>{t('home.titleLine2')}</span>
         </h1>
-        <p className={styles.lead}>
-          Pick a universe to explore. Each one is powered by a different public API and has its own
-          interface, typography and personality.
-        </p>
+        <p className={styles.lead}>{t('home.lead')}</p>
       </section>
 
       <section aria-labelledby="universes-title">
         <h2 id="universes-title" className="visually-hidden">
-          Universes
+          {t('home.universesHeading')}
         </h2>
         <ul className={styles.grid}>
           {UNIVERSES.map((universe, index) => (

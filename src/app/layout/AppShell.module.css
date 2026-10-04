@@ -73,6 +73,8 @@
 }
 
 .brand {
+  /* Pushes the navigation and language switcher to the right */
+  margin-right: auto;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);

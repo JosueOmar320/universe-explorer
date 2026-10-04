@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { ArrowRightIcon } from '@/shared/icons/icons';
 import { cx } from '@/shared/utils/cx';
@@ -11,6 +12,7 @@ interface UniverseCardProps {
 }
 
 export function UniverseCard({ universe, position }: UniverseCardProps) {
+  const { t } = useTranslation();
   const isAvailable = isUniverseAvailable(universe);
   const content = (
     <>
@@ -18,14 +20,14 @@ export function UniverseCard({ universe, position }: UniverseCardProps) {
         {String(position).padStart(2, '0')}
       </span>
       <h3 className={styles.name}>{universe.name}</h3>
-      <p className={styles.tagline}>{universe.tagline}</p>
+      <p className={styles.tagline}>{t(`universes.${universe.id}.tagline`)}</p>
       <span className={styles.footer}>
         {isAvailable ? (
           <>
-            Enter universe <ArrowRightIcon size={18} className={styles.arrow} />
+            {t('home.enterUniverse')} <ArrowRightIcon size={18} className={styles.arrow} />
           </>
         ) : (
-          'Coming soon'
+          t('home.comingSoon')
         )}
       </span>
     </>

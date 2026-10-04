@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ChevronLeftIcon, ChevronRightIcon } from '@/shared/icons/icons';
 import { cx } from '@/shared/utils/cx';
 import { getPaginationRange } from '@/shared/utils/pagination';
@@ -7,7 +8,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  /** Accessible name for the navigation landmark. */
+  /** Accessible name for the navigation landmark (defaults to a generic one). */
   label?: string;
   className?: string;
 }
@@ -16,25 +17,26 @@ export function Pagination({
   currentPage,
   totalPages,
   onPageChange,
-  label = 'Pagination',
+  label,
   className,
 }: PaginationProps) {
+  const { t } = useTranslation();
   if (totalPages <= 1) return null;
 
   const isFirstPage = currentPage <= 1;
   const isLastPage = currentPage >= totalPages;
 
   return (
-    <nav aria-label={label} className={cx(styles.pagination, className)}>
+    <nav aria-label={label ?? t('pagination.label')} className={cx(styles.pagination, className)}>
       <button
         type="button"
         className={cx(styles.control, styles.step)}
         onClick={() => onPageChange(currentPage - 1)}
         disabled={isFirstPage}
-        aria-label="Previous page"
+        aria-label={t('pagination.previous')}
       >
         <ChevronLeftIcon size={18} />
-        <span className={styles.stepLabel}>Prev</span>
+        <span className={styles.stepLabel}>{t('pagination.previousShort')}</span>
       </button>
 
       <ol className={styles.pages}>
@@ -45,7 +47,7 @@ export function Pagination({
                 type="button"
                 className={cx(styles.control, item === currentPage && styles.current)}
                 onClick={() => onPageChange(item)}
-                aria-label={`Page ${item}`}
+                aria-label={t('pagination.page', { page: item })}
                 aria-current={item === currentPage ? 'page' : undefined}
               >
                 {item}
@@ -61,8 +63,12 @@ export function Pagination({
 
       {/* Compact indicator replacing the page list on small screens */}
       <p className={styles.compactStatus}>
-        Page {currentPage} <span aria-hidden="true">/</span>
-        <span className="visually-hidden">of</span> {totalPages}
+        <span aria-hidden="true">
+          {t('pagination.compact', { page: currentPage, total: totalPages })}
+        </span>
+        <span className="visually-hidden">
+          {t('pagination.status', { page: currentPage, total: totalPages })}
+        </span>
       </p>
 
       <button
@@ -70,9 +76,9 @@ export function Pagination({
         className={cx(styles.control, styles.step)}
         onClick={() => onPageChange(currentPage + 1)}
         disabled={isLastPage}
-        aria-label="Next page"
+        aria-label={t('pagination.next')}
       >
-        <span className={styles.stepLabel}>Next</span>
+        <span className={styles.stepLabel}>{t('pagination.nextShort')}</span>
         <ChevronRightIcon size={18} />
       </button>
     </nav>

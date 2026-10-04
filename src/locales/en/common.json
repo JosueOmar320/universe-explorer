@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "Universe Explorer",
+    "skipToContent": "Skip to content",
+    "home": "Universe Explorer home",
+    "footer": "Fan-made portfolio project. Characters and trademarks belong to their respective owners.",
+    "loading": "Loading…"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "nav": {
+    "universes": "Universes",
+    "soon": "Soon",
+    "comingSoon": "(coming soon)"
+  },
+  "home": {
+    "online": "{{available}} of {{total}} universes online",
+    "titleLine1": "One shell.",
+    "titleLine2": "Many universes.",
+    "lead": "Pick a universe to explore. Each one is powered by a different public API and has its own interface, typography and personality.",
+    "universesHeading": "Universes",
+    "enterUniverse": "Enter universe",
+    "comingSoon": "Coming soon"
+  },
+  "universes": {
+    "rick-and-morty": { "tagline": "Browse every character across infinite dimensions." },
+    "pokemon": { "tagline": "Catch, compare and inspect creatures and their stats." },
+    "star-wars": { "tagline": "Explore people, planets and starships of the galaxy." },
+    "marvel": { "tagline": "Search heroes, villains and the comics they appear in." }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "These coordinates don't match any known universe.",
+    "action": "Back to universes"
+  },
+  "routeError": {
+    "title": "Something went wrong",
+    "description": "An unexpected error broke this view. Reloading usually fixes it.",
+    "reload": "Reload page",
+    "home": "Back to universes"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "previousShort": "Prev",
+    "next": "Next page",
+    "nextShort": "Next",
+    "page": "Page {{page}}",
+    "compact": "Page {{page}} / {{total}}",
+    "status": "Page {{page}} of {{total}}"
+  },
+  "search": {
+    "clear": "Clear search"
+  },
+  "filters": {
+    "all": "All"
+  },
+  "actions": {
+    "retry": "Try again",
+    "retrying": "Retrying…"
+  }
+}

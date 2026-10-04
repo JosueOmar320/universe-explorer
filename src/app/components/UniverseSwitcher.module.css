@@ -72,6 +72,8 @@ a.item:hover {
 /* Mobile/tablet: full-width, horizontally scrollable row below the brand */
 @media (max-width: 47.99rem) {
   .switcher {
+    /* Own row below the brand and language switcher */
+    order: 1;
     /* Bleed to the viewport edges so the row can scroll edge-to-edge */
     flex: 0 0 calc(100% + var(--page-gutter) * 2);
     margin: 0 calc(var(--page-gutter) * -1);

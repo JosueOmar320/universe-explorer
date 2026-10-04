@@ -2,6 +2,7 @@ import { apiConfig } from '@/config/apis';
 import { screen, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
+import { i18n } from '@/i18n/i18n';
 import { renderRoutes } from '@/test/render';
 import { server } from '@/test/server';
 import { testRoutes } from '../test/routes';
@@ -104,5 +105,17 @@ describe('CharactersPage', () => {
 
     expect(await screen.findByRole('link', { name: 'Birdperson' })).toBeInTheDocument();
     expect(router.state.location.search).toBe('?name=bird');
+  });
+
+  it('renders its own copy in Spanish while keeping API data as is', async () => {
+    await i18n.changeLanguage('es');
+    renderPage('/rick-and-morty?status=alive');
+
+    expect(await screen.findByText('Mostrando 1–3 de 3 resultados')).toBeInTheDocument();
+    expect(screen.getByRole('searchbox', { name: 'Buscar por nombre' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Todos' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Personajes' })).toBeInTheDocument();
+    // Values coming from the API are not translated.
+    expect(screen.getAllByText('Alive').length).toBeGreaterThan(0);
   });
 });

@@ -1,4 +1,5 @@
 import type { MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { ArrowLeftIcon } from '@/shared/icons/icons';
 import { isFromListState, rickAndMortyPaths } from '../paths';
@@ -9,6 +10,7 @@ import styles from './BackToCharactersLink.module.css';
  * position are restored. Otherwise (direct link, new tab) it's a regular link.
  */
 export function BackToCharactersLink() {
+  const { t } = useTranslation('rickAndMorty');
   const location = useLocation();
   const navigate = useNavigate();
   const cameFromList = isFromListState(location.state);
@@ -25,7 +27,7 @@ export function BackToCharactersLink() {
   return (
     <Link to={rickAndMortyPaths.characters} className={styles.link} onClick={handleClick}>
       <ArrowLeftIcon size={18} />
-      All characters
+      {t('detail.back')}
     </Link>
   );
 }

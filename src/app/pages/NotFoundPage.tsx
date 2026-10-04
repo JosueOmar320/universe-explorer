@@ -1,17 +1,21 @@
+import { useTranslation } from 'react-i18next';
 import { ButtonLink } from '@/shared/components/Button';
+import { PageTitle } from '@/shared/components/PageTitle';
 import { StatusPanel } from '@/shared/components/StatusPanel';
 import { CompassIcon } from '@/shared/icons/icons';
 
 export function NotFoundPage() {
+  const { t } = useTranslation();
+
   return (
     <>
-      <title>Page not found · Universe Explorer</title>
+      <PageTitle parts={[t('notFound.title')]} />
       <StatusPanel
         headingLevel="h1"
         icon={<CompassIcon size={24} />}
-        title="Page not found"
-        description="These coordinates don't match any known universe."
-        actions={<ButtonLink to="/">Back to universes</ButtonLink>}
+        title={t('notFound.title')}
+        description={t('notFound.description')}
+        actions={<ButtonLink to="/">{t('notFound.action')}</ButtonLink>}
       />
     </>
   );

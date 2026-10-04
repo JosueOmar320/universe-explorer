@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CloseIcon, SearchIcon } from '@/shared/icons/icons';
 import { cx } from '@/shared/utils/cx';
 import fieldStyles from './Field.module.css';
@@ -27,6 +28,7 @@ export function SearchField({
   debounceMs = 400,
   className,
 }: SearchFieldProps) {
+  const { t } = useTranslation();
   const id = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [draft, setDraft] = useState(value);
@@ -94,7 +96,7 @@ export function SearchField({
             type="button"
             className={styles.clear}
             onClick={handleClear}
-            aria-label="Clear search"
+            aria-label={t('search.clear')}
           >
             <CloseIcon size={16} />
           </button>

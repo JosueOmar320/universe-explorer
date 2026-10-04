@@ -1,0 +1,71 @@
+{
+  "hero": {
+    "eyebrow": "Censo interdimensional · Archivo 01",
+    "titleLine1": "Cada ser.",
+    "titleLine2": "Cada dimensión.",
+    "lead": "Explora los humanos, alienígenas, robots y abominaciones varias catalogados a lo largo del multiverso.",
+    "records": "Registros",
+    "source": "Fuente"
+  },
+  "fields": {
+    "species": "Especie",
+    "gender": "Género",
+    "status": "Estado",
+    "origin": "Origen",
+    "lastSeen": "Visto en",
+    "lastLocation": "Última ubicación conocida",
+    "firstSeen": "Primera aparición",
+    "appearances": "Apariciones"
+  },
+  "characters": {
+    "title": "Personajes",
+    "loading": "Cargando personajes…",
+    "paginationLabel": "Paginación de personajes",
+    "summary": "Mostrando {{from}}–{{to}} de {{total}}",
+    "summaryFiltered_one": "Mostrando {{from}}–{{to}} de {{total}} resultado",
+    "summaryFiltered_other": "Mostrando {{from}}–{{to}} de {{total}} resultados",
+    "noMatches": "Sin resultados",
+    "updating": "Actualizando resultados…"
+  },
+  "filters": {
+    "search": "Buscar por nombre",
+    "searchPlaceholder": "Rick, Morty, Birdperson…",
+    "clear": "Limpiar ({{count}})",
+    "clearLabel_one": "Limpiar {{count}} filtro activo",
+    "clearLabel_other": "Limpiar {{count}} filtros activos"
+  },
+  "empty": {
+    "filteredTitle": "Sin coincidencias en esta dimensión",
+    "filteredDescription": "Ningún personaje coincide con tu búsqueda y filtros. Prueba algo más amplio.",
+    "pageTitle": "Nada en esta dimensión",
+    "pageDescription": "La página {{page}} no contiene personajes.",
+    "clearFilters": "Limpiar filtros",
+    "firstPage": "Ir a la primera página"
+  },
+  "errors": {
+    "title": "Falla en el portal",
+    "listDescription": "No pudimos conectar con la API de Rick and Morty. Revisa tu conexión e inténtalo de nuevo.",
+    "detailDescription": "No pudimos cargar este personaje. Revisa tu conexión e inténtalo de nuevo.",
+    "episodesTitle": "Episodios no disponibles",
+    "episodesDescription": "El archivo de episodios no respondió."
+  },
+  "detail": {
+    "back": "Todos los personajes",
+    "record": "Registro {{id}}",
+    "portraitAlt": "Retrato de {{name}}",
+    "loading": "Cargando personaje…",
+    "episodeCount_one": "{{count}} episodio",
+    "episodeCount_other": "{{count}} episodios",
+    "notFoundTitle": "Personaje no encontrado",
+    "notFoundDescription": "No existe ningún registro con este id en ninguna dimensión conocida.",
+    "browse": "Ver personajes"
+  },
+  "episodes": {
+    "title": "Registro de episodios",
+    "loading": "Cargando episodios…",
+    "season": "Temporada {{number}}",
+    "other": "Otros",
+    "count_one": "{{count}} episodio",
+    "count_other": "{{count}} episodios"
+  }
+}

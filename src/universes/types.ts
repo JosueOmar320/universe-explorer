@@ -10,8 +10,8 @@ export type UniverseStatus = 'available' | 'coming-soon';
  */
 export interface Universe {
   id: UniverseId;
+  /** Proper noun, not translated. Taglines live in the `common` translations. */
   name: string;
-  tagline: string;
   status: UniverseStatus;
   /** Signature colour used by the shell to preview the universe before entering it. */
   accentColor: string;

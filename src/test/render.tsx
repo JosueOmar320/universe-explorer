@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, type RouteObject } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
+import { TestProviders } from './TestProviders';
 
 interface RenderRoutesOptions {
   initialEntry?: string;
@@ -29,6 +30,7 @@ export function renderRoutes(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>,
+    { wrapper: TestProviders },
   );
 
   return { router, user, queryClient };

@@ -1,5 +1,7 @@
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components/Button';
+import { PageTitle } from '@/shared/components/PageTitle';
 import { Pagination } from '@/shared/components/Pagination';
 import { StatusPanel } from '@/shared/components/StatusPanel';
 import { usePageParam } from '@/shared/hooks/usePageParam';
@@ -13,9 +15,11 @@ import { PortalHero } from '../components/PortalHero';
 import { useCharacterFilters } from '../hooks/useCharacterFilters';
 import { useCharacters } from '../hooks/useCharacters';
 import { useCharacterTotal } from '../hooks/useCharacterTotal';
+import { UNIVERSE_NAME } from '../paths';
 import styles from './CharactersPage.module.css';
 
 export function CharactersPage() {
+  const { t } = useTranslation(['rickAndMorty', 'common']);
   const { page, setPage } = usePageParam();
   const { filters, activeFilterCount, setFilter, clearFilters } = useCharacterFilters();
   const hasFilters = activeFilterCount > 0;
@@ -42,12 +46,12 @@ export function CharactersPage() {
         <StatusPanel
           tone="danger"
           icon={<AlertIcon size={24} />}
-          title="Portal malfunction"
-          description="We couldn't reach the Rick and Morty API. Check your connection and try again."
+          title={t('errors.title')}
+          description={t('errors.listDescription')}
           actions={
             <Button onClick={() => void refetch()} disabled={isFetching}>
               <RefreshIcon size={18} />
-              {isFetching ? 'Retrying…' : 'Try again'}
+              {isFetching ? t('common:actions.retrying') : t('common:actions.retry')}
             </Button>
           }
         />
@@ -58,21 +62,19 @@ export function CharactersPage() {
       return (
         <StatusPanel
           icon={<SearchOffIcon size={24} />}
-          title={hasFilters ? 'No matches in this dimension' : 'Nothing in this dimension'}
+          title={hasFilters ? t('empty.filteredTitle') : t('empty.pageTitle')}
           description={
-            hasFilters
-              ? 'No characters match your search and filters. Try something broader.'
-              : `Page ${page} doesn't contain any characters.`
+            hasFilters ? t('empty.filteredDescription') : t('empty.pageDescription', { page })
           }
           actions={
             <>
-              {hasFilters && <Button onClick={clearFilters}>Clear filters</Button>}
+              {hasFilters && <Button onClick={clearFilters}>{t('empty.clearFilters')}</Button>}
               {page > 1 && (
                 <Button
                   variant={hasFilters ? 'secondary' : 'primary'}
                   onClick={() => handlePageChange(1)}
                 >
-                  Go to first page
+                  {t('empty.firstPage')}
                 </Button>
               )}
             </>
@@ -89,7 +91,7 @@ export function CharactersPage() {
           currentPage={page}
           totalPages={data.totalPages}
           onPageChange={handlePageChange}
-          label="Characters pagination"
+          label={t('characters.paginationLabel')}
         />
       </>
     );
@@ -97,11 +99,13 @@ export function CharactersPage() {
 
   return (
     <>
-      <title>
-        {page > 1
-          ? `Characters · Page ${page} · Rick and Morty · Universe Explorer`
-          : 'Characters · Rick and Morty · Universe Explorer'}
-      </title>
+      <PageTitle
+        parts={[
+          t('characters.title'),
+          ...(page > 1 ? [t('common:pagination.page', { page })] : []),
+          UNIVERSE_NAME,
+        ]}
+      />
 
       <PortalHero totalCharacters={totalCharacters} />
 
@@ -113,11 +117,14 @@ export function CharactersPage() {
             tabIndex={-1}
             className={styles.resultsTitle}
           >
-            Characters
+            {t('characters.title')}
           </h2>
-          <p className={styles.summary} aria-live="polite">
-            {getSummary({ page, hasFilters, isPlaceholderData, data })}
-          </p>
+          <ResultsSummary
+            page={page}
+            hasFilters={hasFilters}
+            isUpdating={isPlaceholderData}
+            data={data}
+          />
         </header>
 
         <CharacterFilters
@@ -133,24 +140,33 @@ export function CharactersPage() {
   );
 }
 
-function getSummary({
-  page,
-  hasFilters,
-  isPlaceholderData,
-  data,
-}: {
+interface ResultsSummaryProps {
   page: number;
   hasFilters: boolean;
-  isPlaceholderData: boolean;
+  isUpdating: boolean;
   data: CharacterPage | undefined;
-}): string {
-  if (isPlaceholderData) return 'Updating results…';
-  if (!data) return '';
-  if (data.characters.length === 0) return hasFilters ? 'No matches' : '';
+}
 
-  const first = (page - 1) * CHARACTERS_PAGE_SIZE + 1;
-  const last = first + data.characters.length - 1;
-  const total = data.totalCount.toLocaleString('en-US');
-  if (!hasFilters) return `Showing ${first}–${last} of ${total}`;
-  return `Showing ${first}–${last} of ${total} ${data.totalCount === 1 ? 'match' : 'matches'}`;
+/** Live region: screen readers hear the new range after paging or filtering. */
+function ResultsSummary({ page, hasFilters, isUpdating, data }: ResultsSummaryProps) {
+  const { t, i18n } = useTranslation('rickAndMorty');
+
+  const getText = (): string => {
+    if (isUpdating) return t('characters.updating');
+    if (!data) return '';
+    if (data.characters.length === 0) return hasFilters ? t('characters.noMatches') : '';
+
+    const from = (page - 1) * CHARACTERS_PAGE_SIZE + 1;
+    const to = from + data.characters.length - 1;
+    const total = data.totalCount.toLocaleString(i18n.resolvedLanguage);
+    return hasFilters
+      ? t('characters.summaryFiltered', { from, to, total, count: data.totalCount })
+      : t('characters.summary', { from, to, total });
+  };
+
+  return (
+    <p className={styles.summary} aria-live="polite">
+      {getText()}
+    </p>
+  );
 }

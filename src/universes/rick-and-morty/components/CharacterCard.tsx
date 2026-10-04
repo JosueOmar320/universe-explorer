@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import type { Character } from '../api/types';
 import { FROM_LIST_STATE, rickAndMortyPaths } from '../paths';
@@ -13,6 +14,7 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ character, priority = false }: CharacterCardProps) {
+  const { t } = useTranslation('rickAndMorty');
   const { id, name, image, status, species, gender, origin, location } = character;
 
   return (
@@ -49,10 +51,10 @@ export function CharacterCard({ character, priority = false }: CharacterCardProp
           </Link>
         </h3>
         <dl className={styles.facts}>
-          <Fact label="Species" value={species} />
-          <Fact label="Gender" value={gender} />
-          <Fact label="Origin" value={origin.name} />
-          <Fact label="Last seen" value={location.name} />
+          <Fact label={t('fields.species')} value={species} />
+          <Fact label={t('fields.gender')} value={gender} />
+          <Fact label={t('fields.origin')} value={origin.name} />
+          <Fact label={t('fields.lastSeen')} value={location.name} />
         </dl>
       </div>
     </article>

@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon } from '@/shared/icons/icons';
 import { cx } from '@/shared/utils/cx';
 import type { FieldOption } from './fieldOption';
@@ -10,7 +11,7 @@ interface SelectFieldProps<T extends string> {
   value: T | undefined;
   options: readonly FieldOption<T>[];
   onChange: (value: T | undefined) => void;
-  /** Label of the empty option that clears the selection. */
+  /** Label of the empty option that clears the selection (defaults to "All"). */
   emptyLabel?: string;
   className?: string;
 }
@@ -21,9 +22,10 @@ export function SelectField<T extends string>({
   value,
   options,
   onChange,
-  emptyLabel = 'All',
+  emptyLabel,
   className,
 }: SelectFieldProps<T>) {
+  const { t } = useTranslation();
   const id = useId();
 
   return (
@@ -40,7 +42,7 @@ export function SelectField<T extends string>({
             onChange(options.find((option) => option.value === event.target.value)?.value)
           }
         >
-          <option value="">{emptyLabel}</option>
+          <option value="">{emptyLabel ?? t('filters.all')}</option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

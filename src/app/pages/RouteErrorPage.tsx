@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 import { Button, ButtonLink } from '@/shared/components/Button';
+import { PageTitle } from '@/shared/components/PageTitle';
 import { StatusPanel } from '@/shared/components/StatusPanel';
 import { AlertIcon } from '@/shared/icons/icons';
 
+/** Developer-facing detail, only rendered in development builds (not translated). */
 function getErrorMessage(error: unknown): string {
   if (isRouteErrorResponse(error)) return `${error.status} ${error.statusText}`;
   if (error instanceof Error) return error.message;
@@ -11,27 +14,28 @@ function getErrorMessage(error: unknown): string {
 
 /** Router error boundary: catches render errors and failed lazy route imports. */
 export function RouteErrorPage() {
+  const { t } = useTranslation();
   const error = useRouteError();
 
   return (
     <>
-      <title>Something went wrong · Universe Explorer</title>
+      <PageTitle parts={[t('routeError.title')]} />
       <StatusPanel
         tone="danger"
         headingLevel="h1"
         icon={<AlertIcon size={24} />}
-        title="Something went wrong"
+        title={t('routeError.title')}
         description={
           <>
-            <p>An unexpected error broke this view. Reloading usually fixes it.</p>
+            <p>{t('routeError.description')}</p>
             {import.meta.env.DEV && <pre>{getErrorMessage(error)}</pre>}
           </>
         }
         actions={
           <>
-            <Button onClick={() => window.location.reload()}>Reload page</Button>
+            <Button onClick={() => window.location.reload()}>{t('routeError.reload')}</Button>
             <ButtonLink to="/" variant="secondary">
-              Back to universes
+              {t('routeError.home')}
             </ButtonLink>
           </>
         }

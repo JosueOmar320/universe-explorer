@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components/Button';
 import { SearchField } from '@/shared/components/SearchField';
 import { SegmentedControl } from '@/shared/components/SegmentedControl';
@@ -21,32 +22,34 @@ export function CharacterFilters({
   onFilterChange,
   onClear,
 }: CharacterFiltersProps) {
+  const { t } = useTranslation('rickAndMorty');
+
   return (
     <div className={styles.panel}>
       <SearchField
         className={styles.search}
-        label="Search by name"
-        placeholder="Rick, Morty, Birdperson…"
+        label={t('filters.search')}
+        placeholder={t('filters.searchPlaceholder')}
         value={filters.name ?? ''}
         onValueChange={(name) => onFilterChange('name', name, { replace: true })}
       />
       <SegmentedControl
         className={styles.status}
-        label="Status"
+        label={t('fields.status')}
         value={filters.status}
         options={STATUS_OPTIONS}
         onChange={(status) => onFilterChange('status', status)}
       />
       <SelectField
         className={styles.gender}
-        label="Gender"
+        label={t('fields.gender')}
         value={filters.gender}
         options={GENDER_OPTIONS}
         onChange={(gender) => onFilterChange('gender', gender)}
       />
       <SelectField
         className={styles.species}
-        label="Species"
+        label={t('fields.species')}
         value={filters.species}
         options={SPECIES_OPTIONS}
         onChange={(species) => onFilterChange('species', species)}
@@ -56,10 +59,10 @@ export function CharacterFilters({
           variant="ghost"
           className={styles.clear}
           onClick={onClear}
-          aria-label={`Clear ${activeFilterCount} active ${activeFilterCount === 1 ? 'filter' : 'filters'}`}
+          aria-label={t('filters.clearLabel', { count: activeFilterCount })}
         >
           <CloseIcon size={16} />
-          Clear ({activeFilterCount})
+          {t('filters.clear', { count: activeFilterCount })}
         </Button>
       )}
     </div>

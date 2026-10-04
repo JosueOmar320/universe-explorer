@@ -1,0 +1,71 @@
+{
+  "hero": {
+    "eyebrow": "Interdimensional census · Archive 01",
+    "titleLine1": "Every being.",
+    "titleLine2": "Every dimension.",
+    "lead": "Browse the humans, aliens, robots and assorted abominations catalogued across the multiverse.",
+    "records": "Records",
+    "source": "Source"
+  },
+  "fields": {
+    "species": "Species",
+    "gender": "Gender",
+    "status": "Status",
+    "origin": "Origin",
+    "lastSeen": "Last seen",
+    "lastLocation": "Last known location",
+    "firstSeen": "First seen in",
+    "appearances": "Appearances"
+  },
+  "characters": {
+    "title": "Characters",
+    "loading": "Loading characters…",
+    "paginationLabel": "Characters pagination",
+    "summary": "Showing {{from}}–{{to}} of {{total}}",
+    "summaryFiltered_one": "Showing {{from}}–{{to}} of {{total}} match",
+    "summaryFiltered_other": "Showing {{from}}–{{to}} of {{total}} matches",
+    "noMatches": "No matches",
+    "updating": "Updating results…"
+  },
+  "filters": {
+    "search": "Search by name",
+    "searchPlaceholder": "Rick, Morty, Birdperson…",
+    "clear": "Clear ({{count}})",
+    "clearLabel_one": "Clear {{count}} active filter",
+    "clearLabel_other": "Clear {{count}} active filters"
+  },
+  "empty": {
+    "filteredTitle": "No matches in this dimension",
+    "filteredDescription": "No characters match your search and filters. Try something broader.",
+    "pageTitle": "Nothing in this dimension",
+    "pageDescription": "Page {{page}} doesn't contain any characters.",
+    "clearFilters": "Clear filters",
+    "firstPage": "Go to first page"
+  },
+  "errors": {
+    "title": "Portal malfunction",
+    "listDescription": "We couldn't reach the Rick and Morty API. Check your connection and try again.",
+    "detailDescription": "We couldn't load this character. Check your connection and try again.",
+    "episodesTitle": "Episodes unavailable",
+    "episodesDescription": "The episode archive didn't respond."
+  },
+  "detail": {
+    "back": "All characters",
+    "record": "Record {{id}}",
+    "portraitAlt": "Portrait of {{name}}",
+    "loading": "Loading character…",
+    "episodeCount_one": "{{count}} episode",
+    "episodeCount_other": "{{count}} episodes",
+    "notFoundTitle": "Character not found",
+    "notFoundDescription": "No record with this id exists in any known dimension.",
+    "browse": "Browse characters"
+  },
+  "episodes": {
+    "title": "Episode log",
+    "loading": "Loading episodes…",
+    "season": "Season {{number}}",
+    "other": "Other",
+    "count_one": "{{count}} episode",
+    "count_other": "{{count}} episodes"
+  }
+}

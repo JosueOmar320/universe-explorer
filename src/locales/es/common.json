@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "Universe Explorer",
+    "skipToContent": "Saltar al contenido",
+    "home": "Inicio de Universe Explorer",
+    "footer": "Proyecto de portafolio hecho por fans. Los personajes y marcas pertenecen a sus respectivos dueños.",
+    "loading": "Cargando…"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "nav": {
+    "universes": "Universos",
+    "soon": "Pronto",
+    "comingSoon": "(próximamente)"
+  },
+  "home": {
+    "online": "{{available}} de {{total}} universos en línea",
+    "titleLine1": "Un shell.",
+    "titleLine2": "Muchos universos.",
+    "lead": "Elige un universo para explorar. Cada uno usa una API pública distinta y tiene su propia interfaz, tipografía y personalidad.",
+    "universesHeading": "Universos",
+    "enterUniverse": "Entrar al universo",
+    "comingSoon": "Próximamente"
+  },
+  "universes": {
+    "rick-and-morty": { "tagline": "Explora cada personaje a través de infinitas dimensiones." },
+    "pokemon": { "tagline": "Atrapa, compara e inspecciona criaturas y sus estadísticas." },
+    "star-wars": { "tagline": "Explora personajes, planetas y naves de la galaxia." },
+    "marvel": { "tagline": "Busca héroes, villanos y los cómics en los que aparecen." }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "Estas coordenadas no corresponden a ningún universo conocido.",
+    "action": "Volver a los universos"
+  },
+  "routeError": {
+    "title": "Algo salió mal",
+    "description": "Un error inesperado rompió esta vista. Recargar la página suele solucionarlo.",
+    "reload": "Recargar página",
+    "home": "Volver a los universos"
+  },
+  "pagination": {
+    "label": "Paginación",
+    "previous": "Página anterior",
+    "previousShort": "Anterior",
+    "next": "Página siguiente",
+    "nextShort": "Siguiente",
+    "page": "Página {{page}}",
+    "compact": "Página {{page}} / {{total}}",
+    "status": "Página {{page}} de {{total}}"
+  },
+  "search": {
+    "clear": "Borrar búsqueda"
+  },
+  "filters": {
+    "all": "Todos"
+  },
+  "actions": {
+    "retry": "Reintentar",
+    "retrying": "Reintentando…"
+  }
+}
