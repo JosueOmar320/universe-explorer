@@ -2,19 +2,43 @@
 
 [![CI/CD](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/JosueOmar320/universe-explorer/actions/workflows/ci.yml)
 
-**Live demo:** https://josueomar320.github.io/universe-explorer/
+**[Live demo →](https://josueomar320.github.io/universe-explorer/)**
+
+[![Universe Explorer: one shell, many universes](public/og-image.png)](https://josueomar320.github.io/universe-explorer/)
 
 A multi-universe frontend playground. Each "universe" consumes a different public API and ships
-its own visual identity, while sharing a common shell, data layer and component foundation.
+its own visual identity — typography, palette, layout and copy — while sharing a common shell,
+data layer and component foundation. Built incrementally, one reviewable commit at a time.
 
-> Work in progress — built incrementally, one reviewable commit at a time.
+| Rick and Morty                                                           | Pokémon                                                      |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![Rick and Morty: character census](docs/screenshots/rick-and-morty.png) | ![Pokémon: field guide](docs/screenshots/pokemon.png)        |
+| **Star Wars**                                                            | **Harry Potter**                                             |
+| ![Star Wars: personnel archive](docs/screenshots/star-wars.png)          | ![Harry Potter: registry](docs/screenshots/harry-potter.png) |
 
-| Universe       | API                                                 | Status    |
-| -------------- | --------------------------------------------------- | --------- |
-| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Available |
-| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Planned   |
-| Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | Available |
-| Harry Potter   | [PotterDB](https://potterdb.com/) (replaces Marvel) | Available |
+## Highlights
+
+- **Four APIs, four data strategies.** Server-side search and pagination (Rick and Morty), a
+  cached index searched locally (Pokémon), whole collections filtered in memory (Star Wars) and
+  JSON:API filters with next-page prefetching (Harry Potter) — each chosen for its API.
+- **One architecture, enforced by types.** A universe registry drives navigation, routing and
+  the home page; marking a universe as available without registering its routes doesn't compile.
+- **Every state is designed.** Loading skeletons, empty results, classified errors (network,
+  timeout, rate limit, not found) with retry, and an offline state that resumes on reconnect.
+- **Accessible and bilingual.** Keyboard and screen-reader friendly (focus management, live
+  regions, WCAG AA contrast), English and Spanish with type-checked translation keys.
+- **Shipped like production code.** Lint, format, type-check, ~200 tests and the build run on
+  every pull request; `main` deploys to GitHub Pages only after they pass.
+
+| Universe       | API                                                 | Data strategy                              |
+| -------------- | --------------------------------------------------- | ------------------------------------------ |
+| Rick and Morty | [rickandmortyapi.com](https://rickandmortyapi.com/) | Server-side search, filters and pagination |
+| Pokémon        | [pokeapi.co](https://pokeapi.co/)                   | Cached index, local search, per-card data  |
+| Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | Whole collections, filtered in memory      |
+| Harry Potter   | [PotterDB](https://potterdb.com/) (replaces Marvel) | JSON:API filters, prefetched next page     |
+
+Lighthouse on the deployed home page: **99** performance · **100** accessibility · **100** best
+practices · **100** SEO.
 
 ## Tech stack
 
@@ -66,6 +90,7 @@ src/
 ├── universes/
 │   ├── registry.ts           # Every universe: name, status, accent colour
 │   ├── routes.ts             # Route tree of each *available* universe (type-checked)
+│   ├── pokemon/, star-wars/, harry-potter/   # Same layout as the folder below
 │   └── rick-and-morty/       # Everything specific to one universe
 │       ├── api/              # DTO types, service, query keys/options
 │       ├── hooks/            # useCharacters, useCharacter, useEpisodes, useCharacterFilters
@@ -79,6 +104,8 @@ src/
 │       └── theme.css         # Token overrides under [data-universe='rick-and-morty']
 ├── test/                     # Test setup, MSW server, render helpers
 └── types/                    # Global type augmentations (env, i18next, CSS custom props)
+
+build/                        # Vite plugins (static-hosting entry points), tested in Node
 ```
 
 **Dependency rule:** `app` → `universes` → `shared`. Shared code never imports from a
@@ -203,9 +230,10 @@ npm ci → lint → format check → type-check → tests → build → deploy (
 
 - Project sites are served under `/<repo>/`, so CI builds with `BASE_PATH=/<repo>/`
   (Vite's `base`); the router picks it up from `import.meta.env.BASE_URL`.
-- Pages has no SPA rewrites: `index.html` is copied to `404.html`, so deep links such as
-  `/rick-and-morty/characters/1` boot the app (served with a 404 status, which is fine for
-  this app but worth knowing for SEO).
+- Pages has no SPA rewrites, so a build plugin ([`build/spaEntryPoints.ts`](build/spaEntryPoints.ts))
+  writes one `index.html` per universe — `/pokemon/` and friends answer with HTTP 200 for
+  crawlers, link previews and Lighthouse — plus a `404.html` copy that boots the app for deeper
+  links such as `/rick-and-morty/characters/1` (served with a 404 status).
 - One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
   Pages on a private repository requires a paid GitHub plan; on Free, make the repo public.
 
@@ -214,15 +242,17 @@ npm ci → lint → format check → type-check → tests → build → deploy (
 Tests live next to the code they cover (`*.test.ts(x)`) and query the DOM by role and
 accessible name, so they also guard accessibility.
 
-- **Unit:** pagination range, filter parsing, language detection, error classification,
-  retry policy, episode grouping.
-- **API layer:** the HTTP client (params, timeouts, cancellation) and the Rick and Morty service
-  against [MSW](https://mswjs.io) handlers that reproduce the real API's quirks.
+- **Unit:** pagination range, filter parsing per universe, local search, language detection,
+  error classification, retry policy and each API's data formatting (episode grouping, SWAPI
+  "unknown" values, PokéAPI translations).
+- **API layer:** the HTTP client (params, timeouts, cancellation) and every universe's service
+  against [MSW](https://mswjs.io) handlers that reproduce the real APIs' quirks.
 - **Components/hooks:** the debounced `SearchField` (including a keystroke race),
-  `Pagination`, `useUrlFilters`.
-- **Integration:** real pages in a memory router with a fresh QueryClient — pagination,
-  filters and URL state, empty/error/offline states, list → detail → back, language switching
-  and focus management.
+  `Pagination`, `useUrlFilters`, the app shell and language switcher.
+- **Integration:** the list and detail pages of all four universes in a memory router with a
+  fresh QueryClient — pagination, filters and URL state, empty/error/offline states,
+  list → detail → back, cache seeding, language switching and focus management.
+- **Build tooling:** the static-hosting plugin, in a separate Node test project.
 
 ## Roadmap
 
@@ -237,8 +267,14 @@ accessible name, so they also guard accessibility.
 - [x] Star Wars: personnel archive with search, film/species filters and detail page
 - [x] Harry Potter: registry with server-side search, house scope and detail page (replaces
       Marvel, whose public API was retired in late 2025)
+- [x] Cross-universe review: HTTP 200 entry points on Pages, contrast and header fixes
+- [x] Brand icons and link previews (favicon, apple-touch-icon, Open Graph image)
+- [ ] End-to-end tests with Playwright, with automated accessibility checks (axe)
+- [ ] Lighthouse CI with score budgets in the pipeline
+- [ ] Global search across universes (⌘K command palette)
 
 ## Disclaimer
 
 Fan-made portfolio project. Characters, names and trademarks belong to their respective owners.
 No official artwork or fonts are bundled; visuals are original CSS inspired by each universe.
+Character pictures and sprites are loaded at runtime from the APIs that provide them.
