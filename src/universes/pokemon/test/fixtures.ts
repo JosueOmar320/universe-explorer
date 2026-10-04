@@ -118,7 +118,10 @@ export const typeDtos: Partial<Record<PokemonType, PokemonTypeDto>> = Object.fro
           ...(spanishName ? [{ name: spanishName, language: language('es') }] : []),
         ],
         pokemon: [
-          ...members.map((dto) => ({ slot: 1, pokemon: resource(`pokemon/${dto.id}`, dto.name) })),
+          ...members.map((dto) => ({
+            slot: dto.types.find((slot) => slot.type.name === type)?.slot ?? 1,
+            pokemon: resource(`pokemon/${dto.id}`, dto.name),
+          })),
           // Alternate form: must not be listed as a separate species.
           ...(type === 'electric'
             ? [{ slot: 1, pokemon: resource('pokemon/10080', 'pikachu-rock-star') }]

@@ -36,6 +36,30 @@ describe('PokedexPage', () => {
     expect(within(bulbasaurTypes).getAllByRole('listitem')).toHaveLength(2);
   });
 
+  it('takes the card types from the type lists, primary type first', async () => {
+    // A Pokémon's own record is ~300 kB of JSON: 24 of them per page blocked the main thread.
+    const pokemonRequests: string[] = [];
+    const recordPokemonRequests = ({ request }: { request: Request }) => {
+      if (/\/pokemon\/\d+$/.test(new URL(request.url).pathname)) pokemonRequests.push(request.url);
+    };
+    server.events.on('request:start', recordPokemonRequests);
+    try {
+      renderPage();
+      await screen.findByRole('heading', { level: 3, name: 'Bulbasaur' });
+
+      const types = await within(cardFor('Bulbasaur')).findByRole('list', { name: 'Types' });
+
+      expect(
+        within(types)
+          .getAllByRole('listitem')
+          .map((item) => item.textContent),
+      ).toEqual(['Grass', 'Poison']);
+      expect(pokemonRequests).toEqual([]);
+    } finally {
+      server.events.removeListener('request:start', recordPokemonRequests);
+    }
+  });
+
   it('paginates locally, without downloading the index again', async () => {
     let indexRequests = 0;
     server.events.on('request:start', ({ request }) => {
@@ -63,8 +87,8 @@ describe('PokedexPage', () => {
     expect(screen.getByText('Mostrando 25–30 de 30')).toBeInTheDocument();
   });
 
-  it('still lists a Pokémon whose details fail to load', async () => {
-    server.use(http.get(`${API}/pokemon/4`, () => new HttpResponse(null, { status: 500 })));
+  it('still lists a Pokémon whose types fail to load', async () => {
+    server.use(http.get(`${API}/type/fire`, () => new HttpResponse(null, { status: 500 })));
     renderPage();
 
     await screen.findByRole('heading', { level: 3, name: 'Charmander' });

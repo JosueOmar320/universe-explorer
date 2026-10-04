@@ -2,9 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { Skeleton } from '@/shared/components/Skeleton';
 import { FROM_LIST_STATE } from '@/shared/utils/listNavigation';
-import type { PokedexEntry } from '../api/models';
+import type { PokedexEntry, PokemonType } from '../api/models';
 import { getSpriteUrl } from '../api/pokeApi';
-import { usePokemon } from '../hooks/usePokemon';
 import { pokemonPaths } from '../paths';
 import { formatDexNumber, formatPokemonName } from '../utils/format';
 import { TypeBadge } from './TypeBadge';
@@ -12,18 +11,16 @@ import styles from './PokemonCard.module.css';
 
 interface PokemonCardProps {
   entry: PokedexEntry;
+  /** `undefined` while the type lists load (see usePokedexTypes). */
+  types: PokemonType[] | undefined;
   /** Loads the sprite eagerly for cards likely to be visible on first paint. */
   priority?: boolean;
 }
 
-/**
- * The index only has number + name, so each card loads its own types. Those queries are
- * cached forever and deduplicated, so revisiting a page costs nothing.
- */
-export function PokemonCard({ entry, priority = false }: PokemonCardProps) {
+/** One species of the Pokédex: sprite, number, name and types. */
+export function PokemonCard({ entry, types, priority = false }: PokemonCardProps) {
   const { t } = useTranslation('pokemon');
-  const { data: pokemon, isPending } = usePokemon(entry.id);
-  const primaryType = pokemon?.types[0];
+  const primaryType = types?.[0];
 
   return (
     <article
@@ -51,14 +48,14 @@ export function PokemonCard({ entry, priority = false }: PokemonCardProps) {
             {formatPokemonName(entry.name)}
           </Link>
         </h3>
-        {isPending ? (
+        {types === undefined ? (
           <div className={styles.types} aria-hidden="true">
             <Skeleton width="3.75rem" height="1.5rem" />
           </div>
         ) : (
-          pokemon && (
+          types.length > 0 && (
             <ul className={styles.types} aria-label={t('card.types')}>
-              {pokemon.types.map((type) => (
+              {types.map((type) => (
                 <li key={type}>
                   <TypeBadge type={type} />
                 </li>

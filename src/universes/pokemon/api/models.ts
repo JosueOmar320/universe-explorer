@@ -74,4 +74,6 @@ export interface PokemonTypeDetails {
   names: LocalizedText;
   /** Pokédex numbers of the species with this type (alternate forms excluded). */
   pokedexIds: number[];
+  /** For each of those species, whether this is its first or second type (1 or 2). */
+  slots: Partial<Record<number, number>>;
 }

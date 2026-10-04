@@ -118,21 +118,28 @@ export async function getPokemonSpecies(id: number, signal?: AbortSignal): Promi
   };
 }
 
-/** Localized type name and the species that have it (used by the type filter). */
+/**
+ * Localized type name and the species that have it: used by the type filter, and (all 18
+ * together) for the types on the Pokédex cards.
+ */
 export async function getPokemonType(
   type: PokemonType,
   signal?: AbortSignal,
 ): Promise<PokemonTypeDetails> {
   const dto = await client.get<PokemonTypeDto>(`type/${type}`, { signal });
 
-  const pokedexIds = dto.pokemon
-    .map(({ pokemon }) => getIdFromResourceUrl(pokemon.url))
-    .filter((id): id is number => id !== undefined && id < FIRST_ALTERNATE_FORM_ID)
-    .sort((a, b) => a - b);
+  const slots: Partial<Record<number, number>> = {};
+  for (const { pokemon, slot } of dto.pokemon) {
+    const id = getIdFromResourceUrl(pokemon.url);
+    if (id !== undefined && id < FIRST_ALTERNATE_FORM_ID) slots[id] = slot;
+  }
 
   return {
     name: type,
     names: toLocalizedText(dto.names, (entry) => entry.name),
-    pokedexIds,
+    pokedexIds: Object.keys(slots)
+      .map(Number)
+      .sort((a, b) => a - b),
+    slots,
   };
 }

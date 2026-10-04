@@ -160,8 +160,9 @@ even if two universes end up with similar components. Duplicating a card is chea
   LCP on slow 4G went from 2.6–2.9 s to 2.4 s.
 - **Each API gets the fetching strategy it needs.** PokéAPI has no search and its list only
   returns names, so the app downloads the whole Pokédex index once (~9 kB gzipped) and
-  searches/paginates it locally; each card then loads its own types through a cached,
-  deduplicated query. Cards use 96px pixel sprites (~1–7 kB) instead of the official artwork
+  searches/paginates it locally. Card types come from the 18 type lists (~20 kB of JSON each,
+  already needed by the type filter), not from each Pokémon's own record: that one is ~300 kB
+  of JSON, and parsing 24 of them per page blocked the main thread on slower devices. Cards use 96px pixel sprites (~1–7 kB) instead of the official artwork
   (100–200 kB each), which would add several megabytes per page.
 - **Server-side data when the dataset is big.** PotterDB has ~5,400 characters, so its
   JSON:API filters, sorting and pagination run on the server (repeated `filter[house_in][]`
