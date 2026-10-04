@@ -27,8 +27,9 @@ data layer and component foundation. Built incrementally, one reviewable commit 
   timeout, rate limit, not found) with retry, and an offline state that resumes on reconnect.
 - **Accessible and bilingual.** Keyboard and screen-reader friendly (focus management, live
   regions, WCAG AA contrast), English and Spanish with type-checked translation keys.
-- **Shipped like production code.** Lint, format, type-check, ~200 tests and the build run on
-  every pull request; `main` deploys to GitHub Pages only after they pass.
+- **Shipped like production code.** Lint, format, type-check, ~200 unit and integration tests,
+  the build, and end-to-end plus axe accessibility tests on desktop and mobile run on every pull
+  request; `main` deploys to GitHub Pages only after they all pass.
 
 | Universe       | API                                                 | Data strategy                              |
 | -------------- | --------------------------------------------------- | ------------------------------------------ |
@@ -102,10 +103,11 @@ src/
 │       ├── paths.ts          # Typed route builders
 │       ├── routes.ts         # Lazy route tree
 │       └── theme.css         # Token overrides under [data-universe='rick-and-morty']
-├── test/                     # Test setup, MSW server, render helpers
+├── test/                     # Test setup, shared MSW handlers (Node server + browser worker)
 └── types/                    # Global type augmentations (env, i18next, CSS custom props)
 
-build/                        # Vite plugins (static-hosting entry points), tested in Node
+build/                        # Vite plugins (static-hosting entry points, MSW worker)
+e2e/                          # Playwright specs + axe fixture, run against the mocked build
 ```
 
 **Dependency rule:** `app` → `universes` → `shared`. Shared code never imports from a
@@ -194,21 +196,30 @@ npm run dev
 
 Optional environment variables are documented in `.env.example`.
 
+To work offline or without hitting the public APIs, `npm run dev:mock` serves every API from
+the test fixtures through a [MSW](https://mswjs.io) service worker. This mode only exists in
+development and end-to-end runs: production builds don't include the mocks.
+
 ## Scripts
 
-| Script                 | Purpose                                                   |
-| ---------------------- | --------------------------------------------------------- |
-| `npm run dev`          | Start the Vite dev server                                 |
-| `npm run build`        | Type-check and build for production                       |
-| `npm run preview`      | Serve the production build locally                        |
-| `npm run typecheck`    | Run the TypeScript compiler (no emit)                     |
-| `npm run lint`         | Lint with Oxlint (warnings fail the run)                  |
-| `npm run format:check` | Verify formatting with Prettier                           |
-| `npm test`             | Run the test suite once                                   |
-| `npm run test:watch`   | Run tests in watch mode                                   |
-| `npm run validate`     | Everything CI will run: lint, format, types, tests, build |
+| Script                 | Purpose                                                        |
+| ---------------------- | -------------------------------------------------------------- |
+| `npm run dev`          | Start the Vite dev server                                      |
+| `npm run dev:mock`     | Dev server with every API mocked from fixtures (works offline) |
+| `npm run build`        | Type-check and build for production                            |
+| `npm run preview`      | Serve the production build locally                             |
+| `npm run build:mock`   | Production build in mock mode, into `dist-mock/` (used by E2E) |
+| `npm run preview:mock` | Serve the mocked build                                         |
+| `npm run typecheck`    | Run the TypeScript compiler (no emit)                          |
+| `npm run lint`         | Lint with Oxlint (warnings fail the run)                       |
+| `npm run format:check` | Verify formatting with Prettier                                |
+| `npm test`             | Run the unit and integration tests once                        |
+| `npm run test:watch`   | Run tests in watch mode                                        |
+| `npm run test:e2e`     | Build in mock mode and run the Playwright + axe suite          |
+| `npm run validate`     | The `validate` CI job: lint, format, types, tests, build       |
 
-Each script is a separate step so the CI pipeline can run (and report) them individually.
+Each script is a separate step so the CI pipeline can run (and report) them individually. The
+first `test:e2e` run needs a browser: `npx playwright install chromium`.
 
 ## CI/CD
 
@@ -216,12 +227,15 @@ Each script is a separate step so the CI pipeline can run (and report) them indi
 pull request:
 
 ```
-npm ci → lint → format check → type-check → tests → build → deploy (main only)
+validate: npm ci → lint → format check → type-check → tests → build ─┐
+e2e:      npm ci → Playwright + axe, desktop and mobile              ─┴→ deploy (main only)
 ```
 
 - **Validate** (every run): Node.js from `.nvmrc`, cached npm downloads, one step per check.
   Lint and test failures show up as inline annotations on the pull request diff.
-- **Deploy** (pushes to `main` only): runs only if validation passed and publishes _the same
+- **E2E** (every run, in parallel): end-to-end and accessibility tests against a mocked
+  build; the HTML report is uploaded as an artifact when something fails.
+- **Deploy** (pushes to `main` only): runs only if both jobs passed and publishes _the same
   build_ that was validated to GitHub Pages — there is no second, unverified build.
 - Read-only permissions by default; only the deploy job gets `pages: write` / `id-token: write`.
 - Outdated pull request runs are cancelled; deployments from `main` are never interrupted.
@@ -253,6 +267,16 @@ accessible name, so they also guard accessibility.
   fresh QueryClient — pagination, filters and URL state, empty/error/offline states,
   list → detail → back, cache seeding, language switching and focus management.
 - **Build tooling:** the static-hosting plugin, in a separate Node test project.
+- **End-to-end ([`e2e/`](e2e)):** [Playwright](https://playwright.dev) drives the real
+  production bundle in Chromium, on a desktop and a mobile viewport. The APIs are served by a
+  service worker running _the same MSW handlers_ as the unit tests, so runs are fast, offline
+  and deterministic. Specs cover search → detail → back in every universe, direct links,
+  universe switching and theming, the persisted language, the skip link and the 404 page.
+- **Accessibility:** [axe](https://github.com/dequelabs/axe-core) checks every page type
+  (home, the four listings and detail pages, 404, Spanish) against WCAG 2.2 A/AA. Text that axe
+  measures below the AA ratio but files as "needs review" (very short labels) fails too, as it
+  does in Lighthouse. Every E2E test also fails on uncaught errors, console errors and requests
+  to unmocked hosts.
 
 ## Roadmap
 
@@ -269,7 +293,7 @@ accessible name, so they also guard accessibility.
       Marvel, whose public API was retired in late 2025)
 - [x] Cross-universe review: HTTP 200 entry points on Pages, contrast and header fixes
 - [x] Brand icons and link previews (favicon, apple-touch-icon, Open Graph image)
-- [ ] End-to-end tests with Playwright, with automated accessibility checks (axe)
+- [x] End-to-end tests with Playwright, with automated accessibility checks (axe)
 - [ ] Lighthouse CI with score budgets in the pipeline
 - [ ] Global search across universes (⌘K command palette)
 
