@@ -28,8 +28,9 @@ data layer and component foundation. Built incrementally, one reviewable commit 
 - **Accessible and bilingual.** Keyboard and screen-reader friendly (focus management, live
   regions, WCAG AA contrast), English and Spanish with type-checked translation keys.
 - **Shipped like production code.** Lint, format, type-check, ~200 unit and integration tests,
-  the build, and end-to-end plus axe accessibility tests on desktop and mobile run on every pull
-  request; `main` deploys to GitHub Pages only after they all pass.
+  the build, end-to-end plus axe accessibility tests on desktop and mobile, and Lighthouse
+  score and size budgets run on every pull request; `main` deploys to GitHub Pages only after
+  they all pass.
 
 | Universe       | API                                                 | Data strategy                              |
 | -------------- | --------------------------------------------------- | ------------------------------------------ |
@@ -38,8 +39,15 @@ data layer and component foundation. Built incrementally, one reviewable commit 
 | Star Wars      | [swapi.info](https://swapi.info/) (SWAPI mirror)    | Whole collections, filtered in memory      |
 | Harry Potter   | [PotterDB](https://potterdb.com/) (replaces Marvel) | JSON:API filters, prefetched next page     |
 
-Lighthouse on the deployed home page: **99** performance · **100** accessibility · **100** best
-practices · **100** SEO.
+Lighthouse on the production build (mobile, simulated slow 4G), checked on every pull request:
+
+| Page           | Performance | Accessibility | Best practices | SEO |
+| -------------- | ----------: | ------------: | -------------: | --: |
+| Home           |          98 |           100 |            100 | 100 |
+| Rick and Morty |          94 |           100 |            100 | 100 |
+| Pokémon        |          93 |           100 |            100 | 100 |
+| Star Wars      |          94 |           100 |            100 | 100 |
+| Harry Potter   |          91 |           100 |            100 | 100 |
 
 ## Tech stack
 
@@ -216,6 +224,7 @@ development and end-to-end runs: production builds don't include the mocks.
 | `npm test`             | Run the unit and integration tests once                        |
 | `npm run test:watch`   | Run tests in watch mode                                        |
 | `npm run test:e2e`     | Build in mock mode and run the Playwright + axe suite          |
+| `npm run lighthouse`   | Lighthouse CI on `dist/` (run `npm run build` first)           |
 | `npm run validate`     | The `validate` CI job: lint, format, types, tests, build       |
 
 Each script is a separate step so the CI pipeline can run (and report) them individually. The
@@ -227,15 +236,21 @@ first `test:e2e` run needs a browser: `npx playwright install chromium`.
 pull request:
 
 ```
-validate: npm ci → lint → format check → type-check → tests → build ─┐
-e2e:      npm ci → Playwright + axe, desktop and mobile              ─┴→ deploy (main only)
+validate:   npm ci → lint → format check → type-check → tests → build ─┐
+e2e:        npm ci → Playwright + axe, desktop and mobile              ─┼→ deploy (main only)
+lighthouse: npm ci → build → Lighthouse CI (scores + budgets)          ─┘
 ```
 
 - **Validate** (every run): Node.js from `.nvmrc`, cached npm downloads, one step per check.
   Lint and test failures show up as inline annotations on the pull request diff.
 - **E2E** (every run, in parallel): end-to-end and accessibility tests against a mocked
   build; the HTML report is uploaded as an artifact when something fails.
-- **Deploy** (pushes to `main` only): runs only if both jobs passed and publishes _the same
+- **Lighthouse** (every run, in parallel): audits the five entry points of the production build
+  three times each, with the real APIs, against [`lighthouserc.yml`](lighthouserc.yml):
+  accessibility, best practices and SEO must score 100, performance at least 85, and each page
+  stays within its JS (170 kB), CSS (20 kB) and font (110 kB) budgets, plus CLS and TBT limits.
+  The scores land in the job summary and the full reports are uploaded as an artifact.
+- **Deploy** (pushes to `main` only): runs only if all three jobs passed and publishes _the same
   build_ that was validated to GitHub Pages — there is no second, unverified build.
 - Read-only permissions by default; only the deploy job gets `pages: write` / `id-token: write`.
 - Outdated pull request runs are cancelled; deployments from `main` are never interrupted.
@@ -294,7 +309,8 @@ accessible name, so they also guard accessibility.
 - [x] Cross-universe review: HTTP 200 entry points on Pages, contrast and header fixes
 - [x] Brand icons and link previews (favicon, apple-touch-icon, Open Graph image)
 - [x] End-to-end tests with Playwright, with automated accessibility checks (axe)
-- [ ] Lighthouse CI with score budgets in the pipeline
+- [x] Lighthouse CI with score budgets in the pipeline
+- [ ] Preload each universe's route chunk, theme CSS and fonts (LCP under 2.5 s everywhere)
 - [ ] Global search across universes (⌘K command palette)
 
 ## Disclaimer
