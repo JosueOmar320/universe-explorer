@@ -8,5 +8,5 @@ export function parseLegacyPayload(payload: unknown) {
 // Type error: a string where a number is expected.
 export const pageSize: number = '20';
 
-// Formatting error: not formatted with Prettier on purpose.
-export const   badlyFormatted = { a:1,b:2 }
+// Fixed formatting: run through Prettier.
+export const badlyFormatted = { a: 1, b: 2 };
