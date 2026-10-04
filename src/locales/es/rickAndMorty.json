@@ -44,10 +44,7 @@
   },
   "errors": {
     "title": "Falla en el portal",
-    "listDescription": "No pudimos conectar con la API de Rick and Morty. Revisa tu conexión e inténtalo de nuevo.",
-    "detailDescription": "No pudimos cargar este personaje. Revisa tu conexión e inténtalo de nuevo.",
-    "episodesTitle": "Episodios no disponibles",
-    "episodesDescription": "El archivo de episodios no respondió."
+    "episodesTitle": "Episodios no disponibles"
   },
   "detail": {
     "back": "Todos los personajes",

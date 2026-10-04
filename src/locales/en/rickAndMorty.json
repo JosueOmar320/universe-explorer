@@ -44,10 +44,7 @@
   },
   "errors": {
     "title": "Portal malfunction",
-    "listDescription": "We couldn't reach the Rick and Morty API. Check your connection and try again.",
-    "detailDescription": "We couldn't load this character. Check your connection and try again.",
-    "episodesTitle": "Episodes unavailable",
-    "episodesDescription": "The episode archive didn't respond."
+    "episodesTitle": "Episodes unavailable"
   },
   "detail": {
     "back": "All characters",

@@ -1,5 +1,6 @@
 import { apiConfig } from '@/config/apis';
-import { screen, within } from '@testing-library/react';
+import { onlineManager } from '@tanstack/react-query';
+import { act, screen, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 import { i18n } from '@/i18n/i18n';
@@ -88,6 +89,35 @@ describe('CharactersPage', () => {
     expect(alert).toHaveTextContent('Portal malfunction');
 
     await user.click(within(alert).getByRole('button', { name: 'Try again' }));
+
+    expect(await screen.findByRole('link', { name: 'Rick Sanchez' })).toBeInTheDocument();
+  });
+
+  it('explains network failures instead of showing a generic error', async () => {
+    server.use(http.get(`${API_URL}/character`, () => HttpResponse.error(), { once: true }));
+    renderPage();
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/couldn't reach the server/);
+  });
+
+  it('tells the user when the API is rate limiting', async () => {
+    server.use(
+      http.get(`${API_URL}/character`, () => new HttpResponse(null, { status: 429 }), {
+        once: true,
+      }),
+    );
+    renderPage();
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/limiting requests/);
+  });
+
+  it('shows an offline notice instead of an endless skeleton, then recovers', async () => {
+    onlineManager.setOnline(false);
+    renderPage();
+
+    expect(await screen.findByRole('heading', { name: "You're offline" })).toBeInTheDocument();
+
+    act(() => onlineManager.setOnline(true));
 
     expect(await screen.findByRole('link', { name: 'Rick Sanchez' })).toBeInTheDocument();
   });

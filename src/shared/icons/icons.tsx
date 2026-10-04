@@ -125,3 +125,11 @@ export function ArrowLeftIcon(props: IconProps) {
     </Icon>
   );
 }
+
+export function WifiOffIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M2 8.5a15 15 0 0 1 4.2-2.6M9.5 5.1A15 15 0 0 1 22 8.5M5 12a10 10 0 0 1 3-1.9M13.5 10.2A10 10 0 0 1 19 12M8.5 15.5a5 5 0 0 1 7 0M12 19h.01M3 3l18 18" />
+    </Icon>
+  );
+}

@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/vitest';
+import { onlineManager } from '@tanstack/react-query';
 import { cleanup } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
 import { i18n } from '@/i18n/i18n';
@@ -16,6 +17,7 @@ afterEach(() => {
   cleanup();
   server.resetHandlers();
   localStorage.clear();
+  onlineManager.setOnline(true);
 });
 
 afterAll(() => server.close());

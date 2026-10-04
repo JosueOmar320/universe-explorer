@@ -24,10 +24,18 @@
     "comingSoon": "Próximamente"
   },
   "universes": {
-    "rick-and-morty": { "tagline": "Explora cada personaje a través de infinitas dimensiones." },
-    "pokemon": { "tagline": "Atrapa, compara e inspecciona criaturas y sus estadísticas." },
-    "star-wars": { "tagline": "Explora personajes, planetas y naves de la galaxia." },
-    "marvel": { "tagline": "Busca héroes, villanos y los cómics en los que aparecen." }
+    "rick-and-morty": {
+      "tagline": "Explora cada personaje a través de infinitas dimensiones."
+    },
+    "pokemon": {
+      "tagline": "Atrapa, compara e inspecciona criaturas y sus estadísticas."
+    },
+    "star-wars": {
+      "tagline": "Explora personajes, planetas y naves de la galaxia."
+    },
+    "marvel": {
+      "tagline": "Busca héroes, villanos y los cómics en los que aparecen."
+    }
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -59,5 +67,31 @@
   "actions": {
     "retry": "Reintentar",
     "retrying": "Reintentando…"
+  },
+  "errors": {
+    "network": {
+      "title": "Problema de conexión",
+      "description": "No pudimos conectar con el servidor. Revisa tu conexión a internet e inténtalo de nuevo."
+    },
+    "timeout": {
+      "title": "Está tardando demasiado",
+      "description": "El servidor no respondió a tiempo. Inténtalo de nuevo en un momento."
+    },
+    "rateLimit": {
+      "title": "Demasiadas solicitudes",
+      "description": "La API está limitando las solicitudes en este momento. Espera unos segundos e inténtalo de nuevo."
+    },
+    "server": {
+      "title": "La API tiene problemas",
+      "description": "El servidor devolvió un error. Inténtalo de nuevo en un momento."
+    },
+    "unknown": {
+      "title": "Algo salió mal",
+      "description": "Ocurrió un error inesperado al cargar este contenido."
+    }
+  },
+  "offline": {
+    "title": "Estás sin conexión",
+    "description": "El contenido se cargará automáticamente en cuanto vuelvas a estar en línea."
   }
 }

@@ -7,9 +7,3 @@
   letter-spacing: var(--display-letter-spacing);
   text-transform: var(--display-text-transform);
 }
-
-.muted {
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}

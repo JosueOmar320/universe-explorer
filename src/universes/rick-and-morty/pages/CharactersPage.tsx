@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components/Button';
+import { OfflineState } from '@/shared/components/OfflineState';
 import { PageTitle } from '@/shared/components/PageTitle';
 import { Pagination } from '@/shared/components/Pagination';
+import { QueryErrorState } from '@/shared/components/QueryErrorState';
 import { StatusPanel } from '@/shared/components/StatusPanel';
 import { usePageParam } from '@/shared/hooks/usePageParam';
-import { AlertIcon, RefreshIcon, SearchOffIcon } from '@/shared/icons/icons';
+import { SearchOffIcon } from '@/shared/icons/icons';
 import { CHARACTERS_PAGE_SIZE } from '../api/rickAndMortyApi';
 import type { CharacterPage } from '../api/types';
 import { CharacterFilters } from '../components/CharacterFilters';
@@ -23,10 +25,11 @@ export function CharactersPage() {
   const { page, setPage } = usePageParam();
   const { filters, activeFilterCount, setFilter, clearFilters } = useCharacterFilters();
   const hasFilters = activeFilterCount > 0;
-  const { data, isPending, isError, isFetching, isPlaceholderData, refetch } = useCharacters({
-    page,
-    ...filters,
-  });
+  const { data, error, fetchStatus, isPending, isError, isFetching, isPlaceholderData, refetch } =
+    useCharacters({
+      page,
+      ...filters,
+    });
   const totalCharacters = useCharacterTotal();
   const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
 
@@ -39,21 +42,18 @@ export function CharactersPage() {
   };
 
   const renderResults = () => {
-    if (isPending) return <CharacterGridSkeleton />;
+    if (isPending) {
+      // Offline: the query is paused (not failed) and resumes on reconnect.
+      return fetchStatus === 'paused' ? <OfflineState /> : <CharacterGridSkeleton />;
+    }
 
     if (isError) {
       return (
-        <StatusPanel
-          tone="danger"
-          icon={<AlertIcon size={24} />}
+        <QueryErrorState
+          error={error}
+          onRetry={() => void refetch()}
+          isRetrying={isFetching}
           title={t('errors.title')}
-          description={t('errors.listDescription')}
-          actions={
-            <Button onClick={() => void refetch()} disabled={isFetching}>
-              <RefreshIcon size={18} />
-              {isFetching ? t('common:actions.retrying') : t('common:actions.retry')}
-            </Button>
-          }
         />
       );
     }
@@ -122,7 +122,8 @@ export function CharactersPage() {
           <ResultsSummary
             page={page}
             hasFilters={hasFilters}
-            isUpdating={isPlaceholderData}
+            // New page/filters loading, or a background refresh of cached data.
+            isUpdating={isFetching && !isPending}
             data={data}
           />
         </header>
