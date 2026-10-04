@@ -1,7 +1,7 @@
 // ⚠️ Deliberately broken file to exercise the CI pipeline. DO NOT MERGE.
 
-// Lint error: `any` is forbidden (typescript/no-explicit-any).
-export function parseLegacyPayload(payload: any) {
+// Fixed lint: `unknown` instead of `any`.
+export function parseLegacyPayload(payload: unknown) {
   return payload;
 }
 
