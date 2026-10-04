@@ -1,4 +1,5 @@
-import { fetchJson, isHttpError } from '@/shared/api/httpClient';
+import { apiConfig } from '@/config/apis';
+import { createApiClient, isHttpError } from '@/shared/api/httpClient';
 import type {
   ApiPaginatedResponse,
   Character,
@@ -7,7 +8,7 @@ import type {
   Episode,
 } from './types';
 
-export const API_BASE_URL = 'https://rickandmortyapi.com/api';
+const client = createApiClient(apiConfig.rickAndMorty);
 
 /** Fixed by the API; used to compute "Showing 21–40" ranges. */
 export const CHARACTERS_PAGE_SIZE = 20;
@@ -18,14 +19,11 @@ export async function getCharacters(
   { page, ...filters }: CharacterListParams,
   signal?: AbortSignal,
 ): Promise<CharacterPage> {
-  const url = new URL(`${API_BASE_URL}/character`);
-  url.searchParams.set('page', String(page));
-  for (const [key, value] of Object.entries(filters)) {
-    if (value) url.searchParams.set(key, value);
-  }
-
   try {
-    const response = await fetchJson<ApiPaginatedResponse<Character>>(url, { signal });
+    const response = await client.get<ApiPaginatedResponse<Character>>('character', {
+      params: { page, ...filters },
+      signal,
+    });
     return {
       characters: response.results,
       totalCount: response.info.count,
@@ -40,7 +38,7 @@ export async function getCharacters(
 
 /** Throws `HttpError` 404 when the character doesn't exist. */
 export function getCharacter(id: number, signal?: AbortSignal): Promise<Character> {
-  return fetchJson<Character>(`${API_BASE_URL}/character/${id}`, { signal });
+  return client.get<Character>(`character/${id}`, { signal });
 }
 
 /** Fetches several episodes in a single request (`/episode/1,2,3`). */
@@ -51,12 +49,7 @@ export async function getEpisodes(
   if (ids.length === 0) return [];
 
   // The API returns a bare object (not an array) when asked for a single id.
-  const response = await fetchJson<Episode | Episode[]>(
-    `${API_BASE_URL}/episode/${ids.join(',')}`,
-    {
-      signal,
-    },
-  );
+  const response = await client.get<Episode | Episode[]>(`episode/${ids.join(',')}`, { signal });
   return Array.isArray(response) ? response : [response];
 }
 

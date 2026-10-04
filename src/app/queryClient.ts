@@ -1,14 +1,16 @@
 import { QueryClient } from '@tanstack/react-query';
-import { isHttpError } from '@/shared/api/httpClient';
+import { type ApiErrorKind, getApiErrorKind } from '@/shared/api/errors';
 
 const MAX_RETRIES = 2;
 
-/** Client errors (4xx) won't succeed on retry — except rate limiting (429). */
+/**
+ * Only transient failures are worth retrying. Not found/client errors won't change, and a
+ * timed-out request already made the user wait for the whole timeout.
+ */
+const RETRYABLE_ERRORS: readonly ApiErrorKind[] = ['network', 'server', 'rate-limit'];
+
 export function shouldRetry(failureCount: number, error: unknown): boolean {
-  if (isHttpError(error) && error.status >= 400 && error.status < 500 && error.status !== 429) {
-    return false;
-  }
-  return failureCount < MAX_RETRIES;
+  return failureCount < MAX_RETRIES && RETRYABLE_ERRORS.includes(getApiErrorKind(error));
 }
 
 export const queryClient = new QueryClient({

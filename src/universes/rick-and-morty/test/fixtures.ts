@@ -1,6 +1,7 @@
+import { apiConfig } from '@/config/apis';
 import type { Character, Episode } from '../api/types';
 
-const API = 'https://rickandmortyapi.com/api';
+const API = apiConfig.rickAndMorty.baseUrl;
 
 export function createCharacter(
   overrides: Partial<Character> & Pick<Character, 'id' | 'name'>,

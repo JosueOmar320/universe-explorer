@@ -1,10 +1,12 @@
+import { apiConfig } from '@/config/apis';
 import { screen, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 import { renderRoutes } from '@/test/render';
 import { server } from '@/test/server';
-import { API_BASE_URL } from '../api/rickAndMortyApi';
 import { testRoutes } from '../test/routes';
+
+const API_URL = apiConfig.rickAndMorty.baseUrl;
 
 const renderPage = (initialEntry = '/rick-and-morty') => renderRoutes(testRoutes, { initialEntry });
 
@@ -75,7 +77,7 @@ describe('CharactersPage', () => {
 
   it('shows an error state and recovers on retry', async () => {
     server.use(
-      http.get(`${API_BASE_URL}/character`, () => new HttpResponse(null, { status: 500 }), {
+      http.get(`${API_URL}/character`, () => new HttpResponse(null, { status: 500 }), {
         once: true,
       }),
     );

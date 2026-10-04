@@ -1,7 +1,10 @@
+import { apiConfig } from '@/config/apis';
 import { http, HttpResponse } from 'msw';
-import { API_BASE_URL, CHARACTERS_PAGE_SIZE } from '../api/rickAndMortyApi';
+import { CHARACTERS_PAGE_SIZE } from '../api/rickAndMortyApi';
 import type { Character } from '../api/types';
 import { characters, episodes } from './fixtures';
+
+const API_URL = apiConfig.rickAndMorty.baseUrl;
 
 const NOT_FOUND = { error: 'There is nothing here' };
 
@@ -22,7 +25,7 @@ function matches(character: Character, params: URLSearchParams): boolean {
 
 /** Behaves like the real Rick and Morty API, backed by fixtures. */
 export const rickAndMortyHandlers = [
-  http.get(`${API_BASE_URL}/character`, ({ request }) => {
+  http.get(`${API_URL}/character`, ({ request }) => {
     const params = new URL(request.url).searchParams;
     const page = Number(params.get('page') ?? 1);
     const filtered = characters.filter((character) => matches(character, params));
@@ -38,14 +41,14 @@ export const rickAndMortyHandlers = [
     });
   }),
 
-  http.get(`${API_BASE_URL}/character/:id`, ({ params }) => {
+  http.get(`${API_URL}/character/:id`, ({ params }) => {
     const character = characters.find(({ id }) => id === Number(params.id));
     return character
       ? HttpResponse.json(character)
       : HttpResponse.json({ error: 'Character not found' }, { status: 404 });
   }),
 
-  http.get(`${API_BASE_URL}/episode/:ids`, ({ params }) => {
+  http.get(`${API_URL}/episode/:ids`, ({ params }) => {
     const ids = String(params.ids).split(',').map(Number);
     const found = episodes.filter(({ id }) => ids.includes(id));
     // Like the real API: a single id returns a bare object.

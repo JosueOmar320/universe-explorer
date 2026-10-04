@@ -13,21 +13,58 @@ export function isHttpError(error: unknown, status?: number): error is HttpError
   return error instanceof HttpError && (status === undefined || error.status === status);
 }
 
+export interface ApiClientConfig {
+  /** Base URL without a trailing slash, e.g. `https://rickandmortyapi.com/api`. */
+  baseUrl: string;
+  /** Requests slower than this are aborted with a `TimeoutError`. */
+  timeoutMs: number;
+}
+
+export type QueryParams = Record<string, string | number | undefined>;
+
+interface RequestOptions {
+  /** Query string params; `undefined` and empty values are omitted. */
+  params?: QueryParams;
+  /** Cancellation signal (TanStack Query passes one to every query function). */
+  signal?: AbortSignal;
+}
+
+export function buildUrl(baseUrl: string, path: string, params: QueryParams = {}): URL {
+  const url = new URL(`${baseUrl}/${path.replace(/^\/+/, '')}`);
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== '') url.searchParams.set(key, String(value));
+  }
+  return url;
+}
+
+function withTimeout(signal: AbortSignal | undefined, timeoutMs: number): AbortSignal {
+  const timeout = AbortSignal.timeout(timeoutMs);
+  return signal ? AbortSignal.any([signal, timeout]) : timeout;
+}
+
 /**
- * Thin `fetch` wrapper for JSON APIs.
+ * Minimal JSON client bound to one API's configuration. Each universe creates its own,
+ * so services only deal with paths and params — never with hosts or fetch details.
  *
- * The response is cast to `T` without runtime validation: the APIs we consume are public
+ * Responses are cast to `T` without runtime validation: the APIs we consume are public
  * and stable, so a schema library (e.g. Zod) would add weight without much benefit yet.
  */
-export async function fetchJson<T>(url: string | URL, init?: RequestInit): Promise<T> {
-  const response = await fetch(url, {
-    ...init,
-    headers: { Accept: 'application/json', ...init?.headers },
-  });
+export function createApiClient({ baseUrl, timeoutMs }: ApiClientConfig) {
+  return {
+    async get<T>(path: string, { params, signal }: RequestOptions = {}): Promise<T> {
+      const url = buildUrl(baseUrl, path, params);
+      const response = await fetch(url, {
+        headers: { Accept: 'application/json' },
+        signal: withTimeout(signal, timeoutMs),
+      });
 
-  if (!response.ok) {
-    throw new HttpError(response.status, `Request to ${String(url)} failed (${response.status})`);
-  }
+      if (!response.ok) {
+        throw new HttpError(response.status, `GET ${url.pathname} failed (${response.status})`);
+      }
 
-  return (await response.json()) as T;
+      return (await response.json()) as T;
+    },
+  };
 }
+
+export type ApiClient = ReturnType<typeof createApiClient>;

@@ -1,20 +1,17 @@
+import { apiConfig } from '@/config/apis';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 import { HttpError } from '@/shared/api/httpClient';
 import { server } from '@/test/server';
-import {
-  API_BASE_URL,
-  getCharacter,
-  getCharacters,
-  getEpisodes,
-  getIdFromResourceUrl,
-} from './rickAndMortyApi';
+import { getCharacter, getCharacters, getEpisodes, getIdFromResourceUrl } from './rickAndMortyApi';
+
+const API_URL = apiConfig.rickAndMorty.baseUrl;
 
 describe('getCharacters', () => {
   it('sends the page and only the filters that are set', async () => {
     let requestedUrl: URL | undefined;
     server.use(
-      http.get(`${API_BASE_URL}/character`, ({ request }) => {
+      http.get(`${API_URL}/character`, ({ request }) => {
         requestedUrl = new URL(request.url);
         return HttpResponse.json({
           info: { count: 0, pages: 0, next: null, prev: null },
@@ -49,9 +46,7 @@ describe('getCharacters', () => {
   });
 
   it('rethrows other errors with their status', async () => {
-    server.use(
-      http.get(`${API_BASE_URL}/character`, () => new HttpResponse(null, { status: 500 })),
-    );
+    server.use(http.get(`${API_URL}/character`, () => new HttpResponse(null, { status: 500 })));
 
     await expect(getCharacters({ page: 1 })).rejects.toMatchObject({ status: 500 });
   });
@@ -80,18 +75,18 @@ describe('getEpisodes', () => {
 
   it('skips the request when there are no ids', async () => {
     // Any request would fail the test (unhandled requests are errors).
-    server.use(http.get(`${API_BASE_URL}/episode/:ids`, () => HttpResponse.error()));
+    server.use(http.get(`${API_URL}/episode/:ids`, () => HttpResponse.error()));
     await expect(getEpisodes([])).resolves.toEqual([]);
   });
 });
 
 describe('getIdFromResourceUrl', () => {
   it('extracts the trailing numeric id', () => {
-    expect(getIdFromResourceUrl(`${API_BASE_URL}/episode/28`)).toBe(28);
+    expect(getIdFromResourceUrl(`${API_URL}/episode/28`)).toBe(28);
   });
 
   it('returns undefined when there is no valid id', () => {
     expect(getIdFromResourceUrl('')).toBeUndefined();
-    expect(getIdFromResourceUrl(`${API_BASE_URL}/episode/abc`)).toBeUndefined();
+    expect(getIdFromResourceUrl(`${API_URL}/episode/abc`)).toBeUndefined();
   });
 });
