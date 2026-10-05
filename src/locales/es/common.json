@@ -109,5 +109,29 @@
   "offline": {
     "title": "Estás sin conexión",
     "description": "El contenido se cargará automáticamente en cuanto vuelvas a estar en línea."
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "lead": "Los personajes que guardaste de cualquier universo. Se conservan en este navegador.",
+    "link_zero": "Favoritos",
+    "link_one": "Favoritos, {{count}} guardado",
+    "link_other": "Favoritos, {{count}} guardados",
+    "toggle": "Guardar a {{name}} en favoritos",
+    "count_one": "{{count}} guardado",
+    "count_other": "{{count}} guardados",
+    "remove": "Quitar a {{name}} de favoritos",
+    "removeShort": "Quitar",
+    "removed": "{{name}} se quitó de favoritos.",
+    "clear": "Vaciar",
+    "clearConfirm_one": "¿Quitar tu favorito?",
+    "clearConfirm_other": "¿Quitar los {{count}} favoritos?",
+    "confirm": "Quitar todos",
+    "cancel": "Cancelar",
+    "cleared": "Se quitaron todos los favoritos.",
+    "empty": {
+      "title": "Aún no hay favoritos",
+      "description": "Abre cualquier personaje y usa la estrella junto a su nombre para guardarlo aquí.",
+      "action": "Explorar los universos"
+    }
   }
 }

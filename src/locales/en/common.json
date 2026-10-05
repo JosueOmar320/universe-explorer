@@ -109,5 +109,29 @@
   "offline": {
     "title": "You're offline",
     "description": "Content will load automatically as soon as you're back online."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "lead": "Characters you saved from any universe. They're kept in this browser.",
+    "link_zero": "Favorites",
+    "link_one": "Favorites, {{count}} saved",
+    "link_other": "Favorites, {{count}} saved",
+    "toggle": "Save {{name}} to favorites",
+    "count_one": "{{count}} saved",
+    "count_other": "{{count}} saved",
+    "remove": "Remove {{name}} from favorites",
+    "removeShort": "Remove",
+    "removed": "{{name}} removed from favorites.",
+    "clear": "Clear all",
+    "clearConfirm_one": "Remove your {{count}} favorite?",
+    "clearConfirm_other": "Remove all {{count}} favorites?",
+    "confirm": "Remove all",
+    "cancel": "Cancel",
+    "cleared": "All favorites removed.",
+    "empty": {
+      "title": "No favorites yet",
+      "description": "Open any character and use the star next to their name to save them here.",
+      "action": "Explore the universes"
+    }
   }
 }

@@ -1,0 +1,38 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.button {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.button:hover {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+/* The theme's focus colour can vanish on a coloured banner; the heading's colour can't */
+.button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.button svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.button[aria-pressed='true'] svg {
+  transform: scale(1.1);
+}

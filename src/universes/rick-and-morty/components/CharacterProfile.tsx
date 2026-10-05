@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HeadingWithFavorite } from '@/shared/components/FavoriteButton';
 import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Character, Episode } from '../api/types';
+import { rickAndMortyPaths } from '../paths';
 import { formatRecordId } from '../utils/format';
 import { ScannerFrame } from './ScannerFrame';
 import { StatusBadge } from './StatusBadge';
@@ -46,9 +48,19 @@ export function CharacterProfile({ character, episodes }: CharacterProfileProps)
 
       <div className={styles.info}>
         <p className={styles.recordId}>{t('detail.record', { id: formatRecordId(id) })}</p>
-        <h1 id="rm-character-name" className={styles.name} style={recordNameTransition}>
-          {name}
-        </h1>
+        <HeadingWithFavorite
+          favorite={{
+            universe: 'rick-and-morty',
+            id: String(id),
+            name,
+            detail: species,
+            href: rickAndMortyPaths.character(id),
+          }}
+        >
+          <h1 id="rm-character-name" className={styles.name} style={recordNameTransition}>
+            {name}
+          </h1>
+        </HeadingWithFavorite>
 
         <dl className={styles.facts}>
           <Fact label={t('fields.gender')}>{gender}</Fact>

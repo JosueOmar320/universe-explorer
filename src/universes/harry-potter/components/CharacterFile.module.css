@@ -20,6 +20,12 @@
   text-transform: uppercase;
 }
 
+/* Fills the banner, so the favorite toggle sits at its right edge */
+.heading {
+  flex: 1;
+  min-width: 0;
+}
+
 .name {
   margin-top: var(--space-1);
   font-family: var(--font-display);

@@ -133,3 +133,12 @@ export function WifiOffIcon(props: IconProps) {
     </Icon>
   );
 }
+
+/** Outline when off, filled when `filled` (e.g. a saved favorite). */
+export function StarIcon({ filled = false, ...props }: IconProps & { filled?: boolean }) {
+  return (
+    <Icon {...props} fill={filled ? 'currentColor' : 'none'}>
+      <path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9Z" />
+    </Icon>
+  );
+}

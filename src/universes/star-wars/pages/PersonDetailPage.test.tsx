@@ -29,6 +29,31 @@ describe('PersonDetailPage', () => {
     expect(document.title).toBe('Luke Skywalker · Star Wars · Universe Explorer');
   });
 
+  it('saves the record to the favorites and removes it again', async () => {
+    const { user } = renderDetail('1');
+    const star = await screen.findByRole('button', { name: 'Save Luke Skywalker to favorites' });
+    expect(star).toHaveAttribute('aria-pressed', 'false');
+
+    await user.click(star);
+
+    expect(star).toHaveAttribute('aria-pressed', 'true');
+    expect(JSON.parse(localStorage.getItem('universe-explorer:favorites') ?? '[]')).toEqual([
+      {
+        universe: 'star-wars',
+        id: '1',
+        name: 'Luke Skywalker',
+        detail: '19BBY',
+        href: '/star-wars/people/1',
+        savedAt: expect.any(Number),
+      },
+    ]);
+
+    await user.click(star);
+
+    expect(star).toHaveAttribute('aria-pressed', 'false');
+    expect(localStorage.getItem('universe-explorer:favorites')).toBe('[]');
+  });
+
   it('lists films in story order, and starships and vehicles by name', async () => {
     renderDetail('1');
 

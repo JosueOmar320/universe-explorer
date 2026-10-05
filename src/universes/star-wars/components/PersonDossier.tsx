@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HeadingWithFavorite } from '@/shared/components/FavoriteButton';
 import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Craft, Person } from '../api/models';
 import { useArchive } from '../hooks/useArchive';
 import { useCraft } from '../hooks/useCraft';
+import { starWarsPaths } from '../paths';
 import {
   formatCentimetres,
   formatEpisode,
@@ -30,9 +32,19 @@ export function PersonDossier({ person }: { person: Person }) {
     <article className={styles.dossier} aria-labelledby="sw-person-name">
       <header className={styles.header}>
         <p className={styles.record}>REC·{formatRecordNumber(person.id)}</p>
-        <h1 id="sw-person-name" className={styles.name} style={recordNameTransition}>
-          {person.name}
-        </h1>
+        <HeadingWithFavorite
+          favorite={{
+            universe: 'star-wars',
+            id: String(person.id),
+            name: person.name,
+            detail: person.birthYear ?? undefined,
+            href: starWarsPaths.person(person.id),
+          }}
+        >
+          <h1 id="sw-person-name" className={styles.name} style={recordNameTransition}>
+            {person.name}
+          </h1>
+        </HeadingWithFavorite>
         <p className={styles.origin}>
           {[species?.name, homeworld?.name].filter(Boolean).join(' · ')}
         </p>

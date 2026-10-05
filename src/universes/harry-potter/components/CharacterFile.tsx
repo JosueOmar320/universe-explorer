@@ -1,7 +1,9 @@
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HeadingWithFavorite } from '@/shared/components/FavoriteButton';
 import { recordNameTransition } from '@/shared/hooks/useRecordNameTransition';
 import type { Character } from '../api/models';
+import { harryPotterPaths } from '../paths';
 import { houseColorVars } from '../utils/houses';
 import { HouseCrest } from './HouseCrest';
 import styles from './CharacterFile.module.css';
@@ -49,11 +51,21 @@ export function CharacterFile({ character }: { character: Character }) {
     >
       <header className={styles.header}>
         <HouseCrest house={character.house} size={64} />
-        <div>
+        <div className={styles.heading}>
           <p className={styles.house}>{character.house ?? t('card.noHouse')}</p>
-          <h1 id="hp-character-name" className={styles.name} style={recordNameTransition}>
-            {character.name}
-          </h1>
+          <HeadingWithFavorite
+            favorite={{
+              universe: 'harry-potter',
+              id: character.id,
+              name: character.name,
+              detail: character.house ?? character.species ?? undefined,
+              href: harryPotterPaths.character(character.slug),
+            }}
+          >
+            <h1 id="hp-character-name" className={styles.name} style={recordNameTransition}>
+              {character.name}
+            </h1>
+          </HeadingWithFavorite>
         </div>
       </header>
 
