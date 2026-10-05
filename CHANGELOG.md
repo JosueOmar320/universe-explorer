@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-04
+
 ### Added
 
 - View transitions from a list to a detail page: the record's name morphs into the page heading
@@ -21,6 +23,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Tests run on jsdom 30.
 - Dependabot ignores major updates of `@types/node` (they follow `.nvmrc`) and, for now, of msw.
 - The Lighthouse job summary explains failed assertions, console errors and, for slow pages,
   the LCP element, its phases and the slowest requests.
@@ -55,5 +58,6 @@ First release: four universes, each on its own public API, inside one shell.
   and axe accessibility tests on desktop and mobile, Lighthouse CI score and size budgets, a
   mock mode for offline development, and Dependabot.
 
-[Unreleased]: https://github.com/JosueOmar320/universe-explorer/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/JosueOmar320/universe-explorer/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/JosueOmar320/universe-explorer/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/JosueOmar320/universe-explorer/releases/tag/v1.0.0
