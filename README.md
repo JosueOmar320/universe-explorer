@@ -25,6 +25,8 @@ data layer and component foundation. Built incrementally, one reviewable commit 
   the home page; marking a universe as available without registering its routes doesn't compile.
 - **One search for four APIs.** ⌘K / Ctrl+K searches every universe at once, each with its own
   strategy, in an accessible command palette that takes on the current universe's theme.
+- **Favorites across universes.** A star on any record saves it to a shared favorites page,
+  kept in the browser and synced across tabs.
 - **Every state is designed.** Loading skeletons, empty results, classified errors (network,
   timeout, rate limit, not found) with retry, and an offline state that resumes on reconnect.
 - **Accessible and bilingual.** Keyboard and screen-reader friendly (focus management, live
@@ -94,6 +96,7 @@ src/
 ├── shared/                   # Universe-agnostic building blocks
 │   ├── api/                  # createApiClient, HttpError, error classification
 │   ├── components/           # Button, BackLink, Pagination, form fields, QueryErrorState…
+│   ├── favorites/            # Favorites store (localStorage + useSyncExternalStore)
 │   ├── hooks/                # usePageParam, useUrlFilters, useResultsFocus, useFocusOnPathChange
 │   ├── icons/                # Inline SVG icons
 │   ├── styles/               # Design tokens + global styles
@@ -154,6 +157,11 @@ even if two universes end up with similar components. Duplicating a card is chea
   the same keys at compile time. Data coming from the APIs is never translated.
 - **Theming via design tokens.** Shared components only use CSS variables; each universe
   overrides them under `[data-universe]`.
+- **Favorites as snapshots, in a tiny external store.** The star next to a record's name saves
+  its name, short detail and link to localStorage, so `/favorites` lists records from every
+  universe without calling any API. Components read it through `useSyncExternalStore`, which
+  keeps tabs in sync (`storage` events); unreadable data is ignored and, without storage
+  (private mode, full quota), favorites still work for the session. No global state library.
 - **View transitions with one shared name.** Opening a record morphs its name on the card into
   the detail heading. Transition names must be unique, so a card only takes the name while the
   navigation to its own page runs (`useRecordNameTransition`); unsupported browsers just navigate.
@@ -194,6 +202,9 @@ even if two universes end up with similar components. Duplicating a card is chea
 
 - Semantic landmarks, a skip link, and focus moved to `<main>` after route changes.
 - Paging moves focus to the results heading; result counts are announced via a live region.
+- Favorite toggles are buttons with `aria-pressed` and the record's name in their label.
+  Removing a favorite moves focus to the next one (or the heading), announces it in a live
+  region, and clearing them all asks first, inline, with focus on "Cancel".
 - The global search is a native modal `<dialog>` with the ARIA combobox pattern: focus stays in
   the input, arrow keys move `aria-activedescendant`, Enter opens, Escape closes and gives focus
   back, and a live region announces the number of results.
@@ -345,6 +356,7 @@ wiring, covered end to end instead).
 - [x] Lighthouse CI with score budgets in the pipeline
 - [x] Preload each universe's route chunks, CSS and fonts (LCP under 2.5 s everywhere)
 - [x] Global search across universes (⌘K command palette)
+- [x] Favorites across universes, kept in the browser
 
 ## Changelog and license
 

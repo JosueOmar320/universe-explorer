@@ -6,6 +6,16 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Favorites: a star next to every record's name saves it (in this browser, synced across
+  tabs); `/favorites` lists them by universe, with a count in the header.
+
+### Changed
+
+- Below 1024px the header stacks its universe links on a second row (it now also holds the
+  favorites link); below 448px the brand shows only its mark.
+
 ## [1.1.0] - 2026-10-04
 
 ### Added
