@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => ({
     // preloads what its first view needs.
     spaEntryPoints({
       universesDir: fileURLToPath(new URL('./src/universes', import.meta.url)),
+      appRoutes: ['favorites'],
       criticalFonts: {
         home: ['space-grotesk-latin-wght-normal'],
         universes: {

@@ -110,6 +110,8 @@ const addToHead = (html: string, tags: string[]) =>
 
 export interface SpaEntryPointsOptions {
   universesDir: string;
+  /** Other top-level pages served as files too (e.g. `favorites`), with the home's preloads. */
+  appRoutes?: string[];
   /**
    * Fonts each landing page renders, as emitted file names without hash
    * (`<family>-latin-<weight>-normal`). Which faces a first view uses can't be read from the
@@ -121,8 +123,8 @@ export interface SpaEntryPointsOptions {
 
 /**
  * Static hosts without SPA rewrites (GitHub Pages) only serve files that exist. This writes:
- * - `<route>/index.html` for each universe, so those pages answer 200 (crawlers, link
- *   previews and audits treat 404s as broken pages);
+ * - `<route>/index.html` for each universe and app page (`appRoutes`), so those pages answer
+ *   200 (crawlers, link previews and audits treat 404s as broken pages);
  * - `404.html`, the fallback for every other path (e.g. dynamic detail pages), which still
  *   boots the app, just with a 404 status.
  *
@@ -130,7 +132,11 @@ export interface SpaEntryPointsOptions {
  * then (once the router matches the URL) the universe's chunks and CSS, then its fonts — and
  * on a slow connection each step costs a round trip before the first paint.
  */
-export function spaEntryPoints({ universesDir, criticalFonts }: SpaEntryPointsOptions): Plugin {
+export function spaEntryPoints({
+  universesDir,
+  appRoutes = [],
+  criticalFonts,
+}: SpaEntryPointsOptions): Plugin {
   let base = '/';
 
   return {
@@ -166,7 +172,12 @@ export function spaEntryPoints({ universesDir, criticalFonts }: SpaEntryPointsOp
       const indexHtml = join(dir, 'index.html');
       const html = await readFile(indexHtml, 'utf8');
       await writeFile(join(dir, '404.html'), html);
-      await writeFile(indexHtml, addToHead(html, fontTags(criticalFonts.home)));
+      const homeHtml = addToHead(html, fontTags(criticalFonts.home));
+      await writeFile(indexHtml, homeHtml);
+      for (const route of appRoutes) {
+        await mkdir(join(dir, route), { recursive: true });
+        await writeFile(join(dir, route, 'index.html'), homeHtml);
+      }
 
       for (const route of routes) {
         const routesFile = join(universesDir, route, 'routes.ts');

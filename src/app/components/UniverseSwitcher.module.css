@@ -70,8 +70,8 @@ a.item:hover {
 }
 
 /* Mobile/tablet: full-width, horizontally scrollable row below the brand */
-/* Below ~900px the brand, four universes and the language switcher don't fit in one row */
-@media (max-width: 55.99rem) {
+/* Below 1024px the brand, four universes, search, favorites and language don't fit in one row */
+@media (max-width: 63.99rem) {
   .switcher {
     /* Own row below the brand and language switcher */
     order: 1;

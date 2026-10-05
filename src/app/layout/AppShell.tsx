@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Outlet, ScrollRestoration, useNavigation } from 'react-router';
+import { FavoritesLink } from '@/app/components/FavoritesLink';
 import { LanguageSwitcher } from '@/app/components/LanguageSwitcher';
 import { SearchButton } from '@/app/components/SearchButton';
 import { UniverseSwitcher } from '@/app/components/UniverseSwitcher';
@@ -37,6 +38,7 @@ export function AppShell() {
           </Link>
           <UniverseSwitcher />
           <SearchButton />
+          <FavoritesLink />
           <LanguageSwitcher />
         </div>
       </header>

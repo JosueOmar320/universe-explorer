@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ComponentProps } from 'react';
 import { Link, type LinkProps } from 'react-router';
 import { cx } from '@/shared/utils/cx';
 import styles from './Button.module.css';
@@ -9,7 +9,8 @@ interface VariantProps {
   variant?: ButtonVariant;
 }
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & VariantProps;
+// ComponentProps includes `ref`, which React 19 passes as a regular prop.
+type ButtonProps = ComponentProps<'button'> & VariantProps;
 
 export function Button({ variant = 'primary', className, type = 'button', ...props }: ButtonProps) {
   return (

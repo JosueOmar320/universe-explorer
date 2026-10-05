@@ -20,6 +20,13 @@ export const router = createBrowserRouter(
           ErrorBoundary: RouteErrorPage,
           children: [
             { index: true, Component: HomePage },
+            {
+              path: 'favorites',
+              lazy: async () => {
+                const { FavoritesPage } = await import('@/app/pages/FavoritesPage');
+                return { Component: FavoritesPage };
+              },
+            },
             // One lazy-loaded route tree per available universe (see src/universes/routes.ts)
             ...universeRoutes,
             { path: '*', Component: NotFoundPage },
