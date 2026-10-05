@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-04
+
 ### Added
 
 - Favorites: a star next to every record's name saves it (in this browser, synced across
@@ -15,6 +17,7 @@ All notable changes to this project are documented here. The format follows
 
 - Below 1024px the header stacks its universe links on a second row (it now also holds the
   favorites link); below 448px the brand shows only its mark.
+- Type-checked with TypeScript 7.
 
 ## [1.1.0] - 2026-10-04
 
@@ -68,6 +71,7 @@ First release: four universes, each on its own public API, inside one shell.
   and axe accessibility tests on desktop and mobile, Lighthouse CI score and size budgets, a
   mock mode for offline development, and Dependabot.
 
-[Unreleased]: https://github.com/JosueOmar320/universe-explorer/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/JosueOmar320/universe-explorer/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/JosueOmar320/universe-explorer/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/JosueOmar320/universe-explorer/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/JosueOmar320/universe-explorer/releases/tag/v1.0.0
