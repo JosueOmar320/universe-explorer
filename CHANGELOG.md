@@ -22,7 +22,11 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 
 - Dependabot ignores major updates of `@types/node` (they follow `.nvmrc`) and, for now, of msw.
-- The Lighthouse job summary explains failed assertions and console errors.
+- The Lighthouse job summary explains failed assertions, console errors and, for slow pages,
+  the LCP element, its phases and the slowest requests.
+- The Lighthouse performance score warns instead of failing the deploy: against the public APIs
+  on shared runners it varied between runs of unchanged builds. CLS, TBT and byte budgets still
+  fail it.
 
 ## [1.0.0] - 2026-10-04
 

@@ -268,10 +268,12 @@ lighthouse: npm ci → build → Lighthouse CI (scores + budgets)               
 - **E2E** (every run, in parallel): end-to-end and accessibility tests against a mocked
   build; the HTML report is uploaded as an artifact when something fails.
 - **Lighthouse** (every run, in parallel): audits the five entry points of the production build
-  three times each, with the real APIs, against [`lighthouserc.yml`](lighthouserc.yml):
-  accessibility, best practices and SEO must score 100, performance at least 85 (shared runners score lower and vary between runs), and each page
-  stays within its JS (170 kB), CSS (20 kB) and font (90 kB) budgets, plus CLS and TBT limits.
-  The scores land in the job summary and the full reports are uploaded as an artifact.
+  three times each, with the real APIs, against [`lighthouserc.yml`](lighthouserc.yml).
+  Accessibility, best practices and SEO must score 100, and each page must stay within its JS
+  (170 kB), CSS (20 kB) and font (90 kB) budgets and the CLS and TBT limits: those fail the run.
+  The performance score is a warning only, since the public APIs and shared runners move it
+  from day to day without code changes. The job summary shows the scores, any assertion not met
+  and, for slow pages, the LCP element, its phases and the slowest requests.
 - **Deploy** (pushes to `main` only): runs only if all three jobs passed and publishes _the same
   build_ that was validated to GitHub Pages — there is no second, unverified build.
 - Read-only permissions by default; only the deploy job gets `pages: write` / `id-token: write`.
