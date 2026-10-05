@@ -98,4 +98,60 @@ if (consoleErrors.length > 0) {
   );
 }
 
+// For pages below the performance bar: what the LCP was, where its time went, and the slowest
+// requests (a slow API shows up here), from the representative run.
+interface TableDetails {
+  items?: { type?: string; items?: Record<string, unknown>[] }[] | Record<string, unknown>[];
+}
+interface NetworkRequest {
+  url: string;
+  statusCode?: number;
+  networkRequestTime: number;
+  networkEndTime: number;
+}
+
+const slowPages = new Set(
+  failed
+    .filter(
+      ({ auditId, auditProperty }) => auditId === 'categories' && auditProperty === 'performance',
+    )
+    .map(({ url }) => pathname(url)),
+);
+for (const entry of manifest.filter(
+  ({ url, isRepresentativeRun }) => isRepresentativeRun && slowPages.has(pathname(url)),
+)) {
+  const report = await readJson<{ audits: Record<string, { details?: TableDetails }> }>(
+    entry.jsonPath,
+  );
+  if (!report) continue;
+  const lcpTables = (report.audits['largest-contentful-paint-element']?.details?.items ?? []) as {
+    items?: Record<string, unknown>[];
+  }[];
+  const node = lcpTables[0]?.items?.[0]?.node as { snippet?: string } | undefined;
+  const phases = (lcpTables[1]?.items ?? []).map(
+    (row) => `${String(row.phase)} ${Math.round(Number(row.timing))} ms`,
+  );
+  const requests = ((report.audits['network-requests']?.details?.items ?? []) as unknown[])
+    .map((item) => item as NetworkRequest)
+    .filter(({ url }) => url.startsWith('http'))
+    .sort(
+      (a, b) => b.networkEndTime - b.networkRequestTime - (a.networkEndTime - a.networkRequestTime),
+    )
+    .slice(0, 3)
+    .map(
+      ({ url, statusCode, networkRequestTime, networkEndTime }) =>
+        `  - ${Math.round(networkEndTime - networkRequestTime)} ms, ${statusCode ?? '?'}: ${url}`,
+    );
+
+  lines.push(
+    '',
+    `#### Why \`${pathname(entry.url)}\` is slow`,
+    '',
+    `- LCP element: \`${node?.snippet ?? 'unknown'}\``,
+    `- LCP phases: ${phases.join(' · ') || 'unknown'}`,
+    '- Slowest requests:',
+    ...requests,
+  );
+}
+
 console.log(lines.join('\n'));
