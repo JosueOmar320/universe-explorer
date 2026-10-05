@@ -27,6 +27,35 @@ test.describe('axe finds no WCAG A/AA violations', () => {
     await expectAccessible();
   });
 
+  test('on the favorites page', async ({ page, expectAccessible }) => {
+    await page.addInitScript(() =>
+      localStorage.setItem(
+        'universe-explorer:favorites',
+        JSON.stringify([
+          {
+            universe: 'pokemon',
+            id: '25',
+            name: 'Pikachu',
+            detail: '#0025',
+            href: '/pokemon/25',
+            savedAt: 1,
+          },
+          {
+            universe: 'harry-potter',
+            id: 'x',
+            name: 'Luna Lovegood',
+            href: '/harry-potter/luna-lovegood',
+            savedAt: 2,
+          },
+        ]),
+      ),
+    );
+    await page.goto('/favorites');
+    await expect(page.getByRole('link', { name: 'Pikachu' })).toBeVisible();
+
+    await expectAccessible();
+  });
+
   test('on the not-found page', async ({ page, expectAccessible }) => {
     await page.goto('/nowhere');
     await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();

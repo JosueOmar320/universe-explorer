@@ -10,6 +10,7 @@ test.beforeEach(async ({ page, isMobile }) => {
 
 const pages = [
   '/',
+  '/favorites',
   '/nowhere',
   ...universes.flatMap(({ path, detail }) => [path, detail.path, `${path}?q=zzz`]),
 ];

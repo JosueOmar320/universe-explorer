@@ -98,3 +98,23 @@ test('the global search finds records in any universe', async ({ page, isMobile 
     page.getByRole('heading', { level: 1, name: 'Hermione Jean Granger' }),
   ).toBeVisible();
 });
+
+test('favorites are saved from a record, listed and kept after a reload', async ({ page }) => {
+  await page.goto('/star-wars/people/1');
+  const star = page.getByRole('button', { name: 'Save Luke Skywalker to favorites' });
+
+  await star.click();
+
+  await expect(star).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('link', { name: 'Favorites, 1 saved' }).click();
+  await expect(page).toHaveURL('/favorites');
+  const starWars = page.getByRole('region', { name: 'Star Wars' });
+  await expect(starWars.getByRole('link', { name: 'Luke Skywalker' })).toBeVisible();
+
+  await page.reload();
+  await expect(starWars.getByRole('link', { name: 'Luke Skywalker' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Remove Luke Skywalker from favorites' }).click();
+  await expect(page.getByRole('heading', { level: 2, name: 'No favorites yet' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Favorites', exact: true })).toBeVisible();
+});
